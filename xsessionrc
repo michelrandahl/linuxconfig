@@ -1,0 +1,35 @@
+xinput set-prop "TPPS/2 IBM TrackPoint" "Device Accel Constant Deceleration" 0.55
+xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation" 1
+xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Button" 2
+xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Timeout" 200
+
+# disable stupid unix paste feature
+xinput set-button-map 10 1 0 3
+# to find id of mouse do:
+# $ xinput list | grep 'id='
+
+
+if [ "$DESKTOP_SESSION" = "xmonad" ]
+then
+	xfce4-power-manager &
+
+	# making intellij render
+	export _JAVA_AWT_WM_NONREPARENTING=1
+
+	# Load resources
+	xrdb -merge .Xresources
+
+	# Set up an icon tray
+	stalonetray &
+
+	# Set background image with feh
+	feh --bg-scale /home/michel/Pictures/mountain.jpg
+
+	if [ -x /usr/bin/nm-applet ] ; then
+	   nm-applet --sm-disable &
+	fi
+
+	# transparency
+	compton -i 0.80 -f -e 0.65 -b
+fi
+
