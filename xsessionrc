@@ -13,7 +13,7 @@ if [ "$DESKTOP_SESSION" = "xmonad" ]
 then
 	xfce4-power-manager &
 
-	# making intellij render
+	# making intellij render properly
 	export _JAVA_AWT_WM_NONREPARENTING=1
 
 	# Load resources
