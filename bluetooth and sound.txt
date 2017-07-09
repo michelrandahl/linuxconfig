@@ -1,0 +1,15 @@
+use...
+$ bluetoothctl 
+...to discover, 'trust' and 'connect' to bluetooth device
+
+if sound in bluetooth device sounds like a crappy telephone:
+$ sudo service bluetooth restart
+
+..if it still sounds like a crappy telephone, then try:
+$ sudo vim /etc/bluetooth/audio.conf
+..and add the following under [General]:
+Disable=Headset
+
+if pulseaudio doesn't show bluetooth device try:
+$ pulseaudio -k
+
