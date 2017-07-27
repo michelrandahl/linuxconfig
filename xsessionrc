@@ -1,13 +1,17 @@
+# -- configure mouse stuff --
 xinput set-prop "TPPS/2 IBM TrackPoint" "Device Accel Constant Deceleration" 0.55
 xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation" 1
 xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Button" 2
 xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Timeout" 200
-
 # disable stupid unix middle mouse click paste feature
 xinput set-button-map 10 1 0 3
 # to find id of mouse do:
 # $ xinput list | grep 'id='
 
+# -- network manager applet --
+if [ -x /usr/bin/nm-applet ] ; then
+	nm-applet --sm-disable &
+fi
 
 if [ "$DESKTOP_SESSION" = "xmonad" ]
 then
@@ -24,10 +28,6 @@ then
 
 	# Set background image with feh
 	feh --bg-scale /home/michel/Pictures/mountain.jpg
-
-	if [ -x /usr/bin/nm-applet ] ; then
-	   nm-applet --sm-disable &
-	fi
 
 	# transparency
 	compton -i 0.80 -f -e 0.65 -b
