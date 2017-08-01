@@ -13,7 +13,7 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:Source Code Pro 8
+font pango:Source Code Pro 14
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -30,13 +30,14 @@ font pango:Source Code Pro 8
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec /run/current-system/sw/bin/gnome-terminal # i3-sensible-terminal
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run
+# bindsym $mod+d exec dmenu_run
+bindsym $mod+d exec /nix/store/8b5dchb7x2a0b4y3q75xf3jssmjvlhxa-dmenu-4.6/bin/dmenu_run
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -168,14 +169,14 @@ client.urgent            $urgent-bg-color    $urgent-bg-color    $text-color    
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
+	# /nix/store/zcbx5ypjkw14bhfjaavi9v1dfysw2a47-user-environment/bin/i3blocks
         position top
-        status_command i3blocks -c ~/.config/i3/i3blocks.conf
-        font pango:Source Code Pro 10
+        status_command i3blocks -c /home/michel/.config/i3/i3blocks.conf
+        font pango:Source Code Pro 14
 }
 
-bindsym $mod+shift+x exec i3lock --image=/home/michel/Pictures/Pillars_of_creation_2014_HST_WFC3-UVIS_full-res_denoised_cropped.png -f
+# bindsym $mod+shift+x exec i3lock --image=/home/michel/Pictures/Pillars_of_creation_2014_HST_WFC3-UVIS_full-res_denoised_cropped.png -f
 bindsym $mod+shift+u exec setxkbmap us
 bindsym $mod+shift+i exec setxkbmap dk
 
-exec_always feh --bg-scale /home/michel/Pictures/PIA08093-1920x1200.jpg
-
+exec_always feh --bg-scale /home/michel/Pictures/PIA16604-1920x1200.jpg
