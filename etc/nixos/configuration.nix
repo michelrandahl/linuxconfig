@@ -5,12 +5,6 @@
 { config, pkgs, ... }:
 
 let
-  hsPackages = with pkgs.haskellPackages; [
-    cabal2nix
-    cabal-install
-    ghc
-    idris
-  ];
   fix_lenovo_trackpoint = ''
     xinput set-prop "TPPS/2 IBM TrackPoint" "Device Accel Constant Deceleration" 0.55 &
     xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation" 1 &
@@ -21,6 +15,58 @@ let
     # to find id of mouse do:
     # $ xinput list | grep 'id='<Paste>
   '';
+  essentialPackages = with pkgs; [
+    git
+    wget
+    networkmanager
+    gnome3.gnome_terminal
+    gnome3.dconf
+    openssh
+    openvpn
+    xterm
+    htop
+    acpi
+    sysstat
+    nix-repl
+    nix-prefetch-git
+    gcc
+    baobab
+  ];
+  visualPackages = with pkgs; [
+    feh
+    i3blocks
+    i3lock
+    xorg.xbacklight
+  ];
+  audioPackages = with pkgs; [
+    pulseaudioFull
+    pavucontrol
+  ];
+  editorPackages = with pkgs; [
+    neovim
+    emacs
+    xclip
+    ctags
+  ];
+  hsPackages = with pkgs.haskellPackages; [
+    cabal2nix
+    cabal-install
+    ghc
+    idris
+  ];
+  developerPackages = with pkgs; [
+    leiningen
+    lua
+    jq
+    mono
+    fsharp
+    elixir
+    elmPackages.elm
+  ];
+  miscPackages = with pkgs; [
+    libreoffice
+    evince
+  ];
 in {
   imports =
     [ # Include the results of the hardware scan.
@@ -57,19 +103,13 @@ in {
 
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
-  environment.systemPackages = with pkgs; [
-    wget
-    neovim
-    emacs
-    networkmanager
-    gnome3.gnome_terminal
-    gnome3.dconf
-    openssh
-    xterm
-    htop
-    acpi
-    sysstat
-  ] ++ hsPackages;
+  environment.systemPackages =
+    essentialPackages ++
+    visualPackages ++
+    audioPackages ++
+    editorPackages ++
+    hsPackages ++
+    developerPackages;
   
 
   fonts = {
