@@ -60,6 +60,12 @@
     printing.enable = true;
 
     acpid.enable = true;
+    
+    compton = {
+      enable = true;
+      activeOpacity = "0.9";
+      inactiveOpacity = "0.7";
+    };
 
     xserver = {
       autorun = true;
