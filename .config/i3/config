@@ -180,3 +180,6 @@ bindsym $mod+shift+u exec setxkbmap us
 bindsym $mod+shift+i exec setxkbmap dk
 
 exec_always feh --bg-scale /home/michel/Pictures/PIA16604-1920x1200.jpg
+
+bindsym XF86MonBrightnessUp exec xbacklight -inc 10
+bindsym XF86MonBrightnessDown exec xbacklight -dec 10
