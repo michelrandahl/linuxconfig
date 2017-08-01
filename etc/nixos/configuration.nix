@@ -4,7 +4,24 @@
 
 { config, pkgs, ... }:
 
-{
+let
+  hsPackages = with pkgs.haskellPackages; [
+    cabal2nix
+    cabal-install
+    ghc
+    idris
+  ];
+  fix_lenovo_trackpoint = ''
+    xinput set-prop "TPPS/2 IBM TrackPoint" "Device Accel Constant Deceleration" 0.55 &
+    xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation" 1 &
+    xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Button" 2 &
+    xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Timeout" 200 &
+    # disable stupid unix middle mouse click paste feature
+    xinput set-button-map 10 1 0 3 &
+    # to find id of mouse do:
+    # $ xinput list | grep 'id='<Paste>
+  '';
+in {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
@@ -23,6 +40,9 @@
     hostId = "DE4B8678";
     enableIPv6 = true;
     networkmanager.enable = true;
+  };
+  environment.variables = {
+    EDITOR = "nvim";
   };
 
   # Select internationalisation properties.
@@ -49,9 +69,16 @@
     htop
     acpi
     sysstat
-  ];
-  environment.variables = {
-    EDITOR = "nvim";
+  ] ++ hsPackages;
+  
+
+  fonts = {
+    enableCoreFonts = true;
+    enableFontDir = true;
+    enableGhostscriptFonts = true;
+    fonts = with pkgs; [
+      source-code-pro
+    ];
   };
 
   services = {
@@ -60,24 +87,27 @@
     printing.enable = true;
 
     acpid.enable = true;
-    
+
     compton = {
       enable = true;
-      activeOpacity = "0.9";
-      inactiveOpacity = "0.7";
+      activeOpacity = "0.93";
+      inactiveOpacity = "0.75";
     };
 
     xserver = {
       autorun = true;
       enable = true;
       layout = "us";
-      displayManager.lightdm.enable = true;
+      displayManager = {
+        lightdm.enable = true;
+	sessionCommands = fix_lenovo_trackpoint;
+      };
       windowManager.i3.enable = true;
       videoDrivers = ["intel" ];
 
       synaptics = {
         enable = true;
-        buttonsMap = [ 1 2 3 ];
+        buttonsMap = [ 10 1 0 3 ];
         fingersMap = [ 1 2 3 ];
         palmDetect = false;
         tapButtons = true;
