@@ -67,6 +67,19 @@ let
     libreoffice
     evince
   ];
+  # add unstable channel first
+  # $ nix-channel --add https://nixos.org/channels/nixos-unstable nixos-unstable
+  # $ nix-channel --update
+  unstable = import "/nix/var/nix/profiles/per-user/root/channels/nixos-unstable" {
+    config = {
+      allowUnfree = true;
+    };
+  };
+  unfreePackages = with pkgs; [
+    # unfree packages
+    unstable.google-chrome
+    unstable.spotify
+  ];
 in {
   imports =
     [ # Include the results of the hardware scan.
@@ -101,6 +114,9 @@ in {
   # Set your time zone.
   time.timeZone = "Europe/Copenhagen";
 
+  nixpkgs.config = {
+    allowUnfree = true;
+  };
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages =
@@ -109,8 +125,9 @@ in {
     audioPackages ++
     editorPackages ++
     hsPackages ++
-    developerPackages;
-  
+    developerPackages ++
+    miscPackages ++
+    unfreePackages;
 
   fonts = {
     enableCoreFonts = true;
@@ -164,10 +181,6 @@ in {
       root ALL = (ALL:ALL) ALL
       %wheel ALL = (ALL) SETENV: NOPASSWD: ALL
     '';
-  };
-
-  nixpkgs.config = {
-    allowUnfree = true;
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
