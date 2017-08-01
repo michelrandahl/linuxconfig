@@ -43,10 +43,12 @@
     emacs
     networkmanager
     gnome3.gnome_terminal
+    gnome3.dconf
     openssh
     xterm
     htop
     acpi
+    sysstat
   ];
 
   services = {
