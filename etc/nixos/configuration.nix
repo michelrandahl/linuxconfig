@@ -57,6 +57,8 @@ let
     leiningen
     sbt
     lua
+    python3
+    sqlite
     jq
     mono
     fsharp
