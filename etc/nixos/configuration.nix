@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, stdenv, ... }:
 
 let
   fix_lenovo_trackpoint = ''
@@ -39,7 +39,6 @@ let
     xorg.xbacklight
   ];
   audioPackages = with pkgs; [
-    pulseaudioFull
     pavucontrol
   ];
   editorPackages = with pkgs; [
@@ -56,6 +55,7 @@ let
   ];
   developerPackages = with pkgs; [
     leiningen
+    sbt
     lua
     jq
     mono
@@ -67,18 +67,19 @@ let
     libreoffice
     evince
   ];
-  # add unstable channel first
-  # $ nix-channel --add https://nixos.org/channels/nixos-unstable nixos-unstable
-  # $ nix-channel --update
-  unstable = import "/nix/var/nix/profiles/per-user/root/channels/nixos-unstable" {
+  unfree = import "/nix/var/nix/profiles/per-user/root/channels/nixos" {
+    config = {
+      allowUnfree = true;
+    };
+  };
+  unstable_unfree = import "/nix/var/nix/profiles/per-user/root/channels/nixos-unstable" {
     config = {
       allowUnfree = true;
     };
   };
   unfreePackages = with pkgs; [
-    # unfree packages
-    unstable.google-chrome
-    unstable.spotify
+    unstable_unfree.google-chrome
+    unfree.spotify
   ];
 in {
   imports =
@@ -86,7 +87,13 @@ in {
       ./hardware-configuration.nix
     ];
 
-  hardware.pulseaudio.enable = true;
+  hardware = {
+    pulseaudio = {
+      enable = true;
+      package = pkgs.pulseaudioFull;
+    };
+    bluetooth.enable = true;
+  };
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -100,16 +107,18 @@ in {
     enableIPv6 = true;
     networkmanager.enable = true;
   };
-  environment.variables = {
-    EDITOR = "nvim";
-  };
 
-  # Select internationalisation properties.
-  # i18n = {
-  #   consoleFont = "Lat2-Terminus16";
-  #   consoleKeyMap = "us";
-  #   defaultLocale = "en_US.UTF-8";
-  # };
+  environment = {
+    variables = {
+      EDITOR = "nvim";
+    };
+    # enableBashCompletion = true;
+    extraInit = fix_lenovo_trackpoint;
+  };
+  programs = {
+    bash.enableCompletion = true;
+    java.enable = true;
+  };
 
   # Set your time zone.
   time.timeZone = "Europe/Copenhagen";
@@ -157,7 +166,7 @@ in {
       layout = "us";
       displayManager = {
         lightdm.enable = true;
-	sessionCommands = fix_lenovo_trackpoint;
+	# sessionCommands = fix_lenovo_trackpoint;
       };
       windowManager.i3.enable = true;
       videoDrivers = ["intel" ];
@@ -191,10 +200,8 @@ in {
       uid = 1000;
       extraGroups = [ "wheel" "networkmanager" "docker" "cassandra" ];
     };
-    # defaultUserShell = "/run/current-system/sw/bin/xterm";
   };
 
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "17.03";
-
 }
