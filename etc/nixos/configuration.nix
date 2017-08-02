@@ -11,7 +11,7 @@ let
     xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Button" 2 &
     xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Timeout" 200 &
     # disable stupid unix middle mouse click paste feature
-    xinput set-button-map 10 1 0 3 &
+    xinput set-button-map 12 1 0 3 & # for lenovo x250
     # to find id of mouse do:
     # $ xinput list | grep 'id='<Paste>
   '';
