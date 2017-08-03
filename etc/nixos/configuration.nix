@@ -13,7 +13,7 @@ let
     # disable stupid unix middle mouse click paste feature
     xinput set-button-map 12 1 0 3 & # for lenovo x250
     # to find id of mouse do:
-    # $ xinput list | grep 'id='<Paste>
+    # $ xinput list | grep 'id='
   '';
   essentialPackages = with pkgs; [
     git
@@ -37,6 +37,7 @@ let
     i3blocks
     i3lock
     xorg.xbacklight
+    arandr
   ];
   audioPackages = with pkgs; [
     pavucontrol
@@ -53,6 +54,7 @@ let
     ghc
     idris
   ];
+  unstable = import "/nix/var/nix/profiles/per-user/root/channels/nixos-unstable" {};
   developerPackages = with pkgs; [
     leiningen
     sbt
@@ -61,13 +63,16 @@ let
     sqlite
     jq
     mono
-    fsharp
+    unstable.fsharp41
     elixir
     elmPackages.elm
   ];
   miscPackages = with pkgs; [
     libreoffice
     evince
+    gimp
+    gnome3.eog
+    scrot
   ];
   unfree = import "/nix/var/nix/profiles/per-user/root/channels/nixos" {
     config = {
@@ -95,6 +100,7 @@ in {
       package = pkgs.pulseaudioFull;
     };
     bluetooth.enable = true;
+    enableAllFirmware = true;
   };
 
   # Use the systemd-boot EFI boot loader.
@@ -102,7 +108,7 @@ in {
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking = {
-    hostName = "michelnixos";
+    hostName = "x250";
     # get hostId with following command
     # $ cksum /etc/machine-id | while read c rest; do printf "%x" $c; done
     hostId = "DE4B8678";
@@ -156,12 +162,6 @@ in {
 
     acpid.enable = true;
 
-    compton = {
-      enable = true;
-      activeOpacity = "0.93";
-      inactiveOpacity = "0.75";
-    };
-
     xserver = {
       autorun = true;
       enable = true;
@@ -172,6 +172,7 @@ in {
       };
       windowManager.i3.enable = true;
       videoDrivers = ["intel" ];
+      xrandrHeads = [ "eDP1" "DP1" ];
 
       synaptics = {
         enable = true;
