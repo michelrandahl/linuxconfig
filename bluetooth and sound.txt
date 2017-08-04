@@ -6,6 +6,7 @@ if sound in bluetooth device sounds like a crappy telephone:
 $ sudo service bluetooth restart
 .. or perform following command to enable "High Fidelity Playback" (A2DP Sink)
 $ pacmd set-card-profile 2 a2dp_sink
+.. or set it to a2dp_sink in the pavucontrol gui
 
 ..if it still sounds like a crappy telephone, then try:
 $ sudo vim /etc/bluetooth/audio.conf
