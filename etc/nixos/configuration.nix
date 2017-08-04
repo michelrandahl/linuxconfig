@@ -36,14 +36,16 @@ let
     feh
     i3blocks
     i3lock
+    dmenu
     xorg.xbacklight
     arandr
   ];
   audioPackages = with pkgs; [
     pavucontrol
   ];
+  unstable = import "/nix/var/nix/profiles/per-user/root/channels/nixos-unstable" {};
   editorPackages = with pkgs; [
-    neovim
+    unstable.neovim
     emacs
     xclip
     ctags
@@ -54,7 +56,6 @@ let
     ghc
     idris
   ];
-  unstable = import "/nix/var/nix/profiles/per-user/root/channels/nixos-unstable" {};
   developerPackages = with pkgs; [
     leiningen
     sbt
@@ -64,6 +65,7 @@ let
     jq
     mono
     unstable.fsharp41
+    dotnetPackages.FSharpAutoComplete
     elixir
     elmPackages.elm
   ];
@@ -73,6 +75,7 @@ let
     gimp
     gnome3.eog
     scrot
+    unzip
   ];
   unfree = import "/nix/var/nix/profiles/per-user/root/channels/nixos" {
     config = {
@@ -85,6 +88,7 @@ let
     };
   };
   unfreePackages = with pkgs; [
+    unstable_unfree.vscode
     unstable_unfree.google-chrome
     unfree.spotify
   ];
@@ -120,7 +124,6 @@ in {
     variables = {
       EDITOR = "nvim";
     };
-    # enableBashCompletion = true;
     extraInit = fix_lenovo_trackpoint;
   };
   programs = {
@@ -128,7 +131,6 @@ in {
     java.enable = true;
   };
 
-  # Set your time zone.
   time.timeZone = "Europe/Copenhagen";
 
   nixpkgs.config = {
@@ -168,7 +170,6 @@ in {
       layout = "us";
       displayManager = {
         lightdm.enable = true;
-	# sessionCommands = fix_lenovo_trackpoint;
       };
       windowManager.i3.enable = true;
       videoDrivers = ["intel" ];
