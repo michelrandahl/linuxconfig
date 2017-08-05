@@ -9,9 +9,9 @@ ovpnfiles = filter(lambda f: isfile(join(mypath, f)) and f.endswith(".ovpn"), li
 
 random_file = random.choice(list(ovpnfiles))
 
-command = "openvpn --config " +\
+command = "openvpn --config '" +\
           join(mypath, random_file) +\
-          " --writepid /run/openvpn/home.pid"
+          "' --writepid /run/openvpn/home.pid"
 
 print(" --- connecting to " + random_file + " ---")
 system(command)
