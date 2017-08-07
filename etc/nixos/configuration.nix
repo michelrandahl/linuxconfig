@@ -39,6 +39,7 @@ let
     dmenu
     xorg.xbacklight
     arandr
+    xcalib
   ];
   audioPackages = with pkgs; [
     pavucontrol
@@ -60,12 +61,10 @@ let
     leiningen
     sbt
     lua
-    python3
     sqlite
     jq
     mono
     unstable.fsharp41
-    dotnetPackages.FSharpAutoComplete
     elixir
     elmPackages.elm
   ];
