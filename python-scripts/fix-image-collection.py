@@ -67,8 +67,6 @@ if __name__ == "__main__":
             {'exif_date': exif_date(**x) if x['file_type'] else None,
              'hash_value': md5sum(**x)})),
         map(lambda x: assoc(x, 'new_file_name', new_file_name(**x))),
-        #filter(lambda x: x['file_type'] == 'JPG'),
-        #map(compose(print, get('new_file_name'))),
         map(lambda x: copy_file(to_path, **x)),
         list,
     )
