@@ -9,16 +9,13 @@ with p.sync_imports():
     from toolz import pipe, identity, compose, first, second, juxt, curry, merge
     from toolz.curried import map, filter, get, assoc, mapcat
 
-# from ipyparallel.client.remotefunction import remote
 from shutil import copy2
 import os
+import sys
 
 @curry
 def pmap(fn, xs):
     return p.map_sync(fn, xs)
-
-from_path = './hello'
-to_path = './results'
 
 def md5sum(file_path, **rest):
     with open(file_path, "rb") as file_reader:
@@ -55,19 +52,25 @@ def copy_file(to_path, file_path, new_file_name, **rest):
     print(f"{file_path} -> {to_path}/{new_file_name}")
     return copy2(file_path, f"{to_path}/{new_file_name}")
 
-pipe(
-    os.walk(from_path),
-    map(get([0,2])),
-    filter(second),
-    mapcat(lambda x: map(file_info(first(x)), second(x))),
-    pmap(lambda x: merge(x,
-        {'exif_date': exif_date(**x) if x['file_type'] else None,
-         'hash_value': md5sum(**x)})),
-    map(lambda x: assoc(x, 'new_file_name', new_file_name(**x))),
-    #filter(lambda x: x['file_type'] == 'JPG'),
-    #map(compose(print, get('new_file_name'))),
-    map(lambda x: copy_file(to_path, **x)),
-    list,
-)
+if __name__ == "__main__":
+    # from_path = './hello'
+    # to_path = './results'
+    _, from_path, to_path = sys.argv
+    print(from_path)
+    print(to_path)
+    pipe(
+        os.walk(from_path),
+        map(get([0,2])),
+        filter(second),
+        mapcat(lambda x: map(file_info(first(x)), second(x))),
+        pmap(lambda x: merge(x,
+            {'exif_date': exif_date(**x) if x['file_type'] else None,
+             'hash_value': md5sum(**x)})),
+        map(lambda x: assoc(x, 'new_file_name', new_file_name(**x))),
+        #filter(lambda x: x['file_type'] == 'JPG'),
+        #map(compose(print, get('new_file_name'))),
+        map(lambda x: copy_file(to_path, **x)),
+        list,
+    )
 
 
