@@ -1,0 +1,8 @@
+# start emacs server
+emacs --daemon
+
+# start emacs-client
+$ emacsclient
+
+# kill emacs server
+$ emacsclient -e "(kill-emacs)"

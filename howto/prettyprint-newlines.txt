@@ -1,0 +1,1 @@
+cat <somefile-with-long-lines-and-annoying-\n-symbols> | while read -r line; do printf "$line"; done

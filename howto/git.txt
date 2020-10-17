@@ -1,0 +1,45 @@
+# Pull master into local branch
+$ git fetch origin            # Updates origin/master
+$ git rebase origin/master    # Rebases current branch onto origin/master
+
+# list non merged branches
+$ git branch --no-merged
+
+# filter commit logs by author
+$ git log -p --author="michel nielsen"
+
+# list untracked files to remove
+$ git clean -n
+
+# remove untracked files and directories
+$ git clean -f -d
+
+# hard reset to head of branch
+$ git reset --hard ORIG_HEAD
+
+# find first commit on branch (based on master)
+$ git log master..
+# go to the bottom of the list...
+
+# squash commits
+$ git rebase -i origin/master
+...
+$ git push --force-with-lease
+
+# squash commits
+$ git rebase -i HEAD~5
+
+# view commits only on branch which was based on master
+$ git log --no-merges master..
+
+# git blame with no filename
+$ git blame -c <filename>
+
+# list all branches with author name (in json so it can be parsed by jq)
+$ git for-each-ref --format='{"author_name": "%(authorname)", "authordate": "%(authordate)", "refname": "%(refname)"}' --sort=authordate
+
+# save password
+$ git config credential.helper store
+
+# diff between current branch and master
+$ git diff master --

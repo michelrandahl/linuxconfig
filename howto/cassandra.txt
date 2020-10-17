@@ -1,0 +1,8 @@
+# log into cassandra from console
+$ cqlsh 172.23.14.104 9042 -u dse -p 12341234
+
+# console awesomeness
+$ cqlsh 10.221.68.232 9042 -u dev_app_role -p 12341234 -e "select json * from dev1.vurderingsejendom where vurderingsejendom_id_ice = 17136545 and time >= '2003-01-28'" --cqlversion="3.4.4" | tail -n +4 | head -n -1 | jq . | less
+
+# taming data with weird escaped stuff eg. \\"
+$ cqlsh 10.221.68.232 9042 -u dev_app_role -p 12341234 -e "select json * from dev1.vurderingsejendom where vurderingsejendom_id_ice = 17136545 and time >= '2003-01-28'" --cqlversion="3.4.4" | tail -n +4 | head -n -1 | sed -e 's/\\\\/\\/g' | jq . | less

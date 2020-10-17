@@ -1,0 +1,23 @@
+# read terminal command into buffer
+:read !date
+
+# diff open buffers
+:windo diffthis
+
+# turn diff off
+:diffoff!
+
+# turn line-wrap off
+:set wrap!
+
+# start (n)vim without configuration
+$ nvim --clean
+
+# goto definition of function (works in Elm, and with SpaceVim)
+]f
+
+# close all other windows
+CTRL-W o
+
+# start fresh nveovim without any plugins loaded
+$ nvim --clean

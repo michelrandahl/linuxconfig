@@ -1,0 +1,2 @@
+# order jq output
+$ cat vurderingsforslag_samsoe.ndjson | jq -c '{"id":.vurderingsejendom_id_ice, "size": . | tostring | length}' | jq -s -c 'sort_by(.size)[]'

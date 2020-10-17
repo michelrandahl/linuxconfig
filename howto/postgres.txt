@@ -1,0 +1,8 @@
+# start local postgres server
+$ pg_ctl start -D postgresql-data/
+
+# start postgres client
+$ psql -d postgres
+
+# query fra repl
+> (clojure.java.jdbc/query {:server-name "localhost" :username "postgres" :dbname "postgres" :port-number 5432 :dbtype "postgresql"} "select * from event")

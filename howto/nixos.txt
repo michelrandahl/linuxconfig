@@ -1,0 +1,43 @@
+# test before upgrading
+`$ sudo nixos-rebuild test --upgrade`
+
+# upgrade
+`$ sudo nixos-rebuild switch --upgrade`
+
+# rollback
+`$ sudo nixos-rebuild switch --rollback`
+
+# list available generations
+`$ sudo nix-env -p /nix/var/nix/profiles/system --list-generations`
+
+# garbage collect
+`$ nix-collect-garbage -d`
+
+# optimise store
+`$ nix-store --optimise`
+
+# install package from git packages (or manually build and install package)
+```
+$ cd ~/nixpkgs
+$ nix-build -A libfoo
+$ nix-env -f . -iA libfoo
+```
+
+# search for packages
+`$ nix search <something>`
+# .. detailed output
+`$ nix search <something> --json | jq .`
+# it can be useful to pipe output to vim...
+`$ nix search <something> --json | jq . | nvim`
+
+# install package without giving full path
+`$ nix-env -i <somepackage-name>`
+# install package with full path
+`$ nix-env -iA <somepackage-path>`
+
+# view installed packages
+`$ nix-env -q`
+# .. verbose output in json
+`$ nix-env -q --json`
+
+

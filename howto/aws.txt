@@ -1,0 +1,15 @@
+# login to aws console
+https://adfs.ccta.dk/adfs/ls/IdpInitiatedSignOn.aspx?loginToRp=urn:amazon:webservices
+
+# get docker repo login
+( $ aws ecr get-login --registry-ids 608844984558 --profile dev-user --region eu-west-1 --no-include-email )
+$ aws ecr get-login  --no-include-email --region eu-west-1 --registry-ids 608844984558 --profile mnie-skat-adfs
+
+# aws s3 ls
+$ aws s3 ls s3://dk.vurderingsstyrelsen.eog.euw1.dev.int.model-export/2017-11-30 --profile ice-dev --human-readable --recursive
+
+# list parameter store var names
+$ aws ssm describe-parameters --profile mnie-skat-adfs
+
+# get specific parameter value
+$ aws ssm get-parameter --name "/dev/environment/region" --profile mnie-skat-adfs

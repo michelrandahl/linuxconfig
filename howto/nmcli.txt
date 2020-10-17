@@ -1,0 +1,18 @@
+# list available wifi networks
+$ nmcli d wifi
+
+# take connection down:
+$ nmcli con down ICE_project
+
+# take connection up:
+$ nmcli con up ICE_project
+
+# add hidden wifi:
+# https://stackoverflow.com/questions/35476428/how-to-connect-to-hidden-wifi-network-using-nmcli
+$ nmcli c add type wifi con-name <connect name> ifname wlan0 ssid <ssid>
+$ nmcli con modify <connect name> wifi-sec.key-mgmt wpa-psk
+$ nmcli con modify <connect name> wifi-sec.psk <password>
+$ nmcli con up <connect name>
+
+# delete connection:
+$ nmcli c delete <connect name>

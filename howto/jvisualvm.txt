@@ -1,0 +1,3 @@
+# how to find pid of relevant java process when using leiningen
+$ jcmd
+

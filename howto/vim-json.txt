@@ -1,0 +1,11 @@
+:set filetype=json
+:syntax on
+:set fdm=syntax
+
+:h fold-commands
+
+zo ;; unfold node
+zO ;; unfold recursively
+zc ;; fold node
+zC ;; fold recursively
+zm ;; fold everything back and erase state

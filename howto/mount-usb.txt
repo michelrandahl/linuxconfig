@@ -1,0 +1,11 @@
+# to list drives
+$ lsblk
+
+# mount
+$ sudo mount /dev/sdc1 ~/USB
+
+# unmount
+$ sudo umount ~/USB
+
+# format usb stick
+$ sudo mkfs.vfat /dev/sdc1

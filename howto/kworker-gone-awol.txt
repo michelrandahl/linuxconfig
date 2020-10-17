@@ -1,0 +1,9 @@
+On a MacBook with linux installed, I have often experienced a cpu core constantly going full throttle for semingly no reason and the system behaving weird.
+It has something to do with a 'kworker' that is going crazy... Following procedure will take care of it...
+
+
+# Identify the sucker with
+`$ grep . -r /sys/firmware/acpi/interrupts/`
+# This will yield a list of interupts... the ones with high numbers are probably the AWOL ones... lets kill them!
+`$ echo disable > /sys/firmware/acpi/interrupts/gpe16`
+# where gpe1B is the offender
