@@ -23,7 +23,7 @@ let
     openvpn
     patchelf # useful tool patching binaries in NixOs when they don't point to correct libraries
     pwgen # password generator tool
-    termite
+    termite # terminal with vim bindings
     tree # view directory and file strucutes as tree in terminal
     unzip
     vnstat # track internet data usage
@@ -37,7 +37,7 @@ let
     spotify
   ];
   audioTools = with pkgs; [
-    audacity
+    audacity # advanced audio editor
     baudline # spectogram viewer
     bitwig-studio
   ];
@@ -63,7 +63,7 @@ let
     graphviz
     groff # used by awscli man pages
     idris
-    jq
+    jq # query and pretty print json files
     leiningen
     lua
     nodejs
@@ -71,10 +71,10 @@ let
     plantuml # tool for 'writing' software diagrams
     python3
     python37Packages.virtualenv
-    silver-searcher
+    silver-searcher # search in code with 'ag'
     sqlite
     stack # haskell package tool
-    tig
+    tig # view graphs of a git repository
   ];
   miscPackages = with pkgs; [
     gimp
@@ -83,7 +83,7 @@ let
     libreoffice
     pciutils
     perl530Packages.ImageExifTool # 'exiftool' image metadata extraction cli tool
-    qiv
+    qiv # simple image viewer
     qutebrowser # browser with vim bindings
     scrot # screenshot program
     virtualbox
@@ -103,6 +103,7 @@ in {
       <musnix>
     ];
 
+  # ensure correct system configuration to be able to use audio tools with low latency (QJackCTL doesn't work without this)
   musnix.enable = true;
 
   nixpkgs.config = {
@@ -135,7 +136,6 @@ in {
   networking.interfaces.enp0s31f6.useDHCP = true;
   networking.interfaces.wlp2s0.useDHCP = true;
 
-  # TODO: do we need this?
   networking = {
     hostName = "michel-x1";
     enableIPv6 = true;
@@ -160,7 +160,7 @@ in {
       variables = {
         EDITOR = "nvim";
       };
-      homeBinInPath = true;
+      homeBinInPath = true; # make scripts in ~/bin accessible
       pathsToLink = [ "/libexec" ];
   };
 
