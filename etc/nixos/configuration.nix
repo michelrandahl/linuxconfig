@@ -2,100 +2,225 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, stdenv, ... }:
+{ config, pkgs, ... }:
 
 let
-  fix_lenovo_trackpoint = ''
-    xinput set-prop "TPPS/2 IBM TrackPoint" "Device Accel Constant Deceleration" 0.55 &
-    xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation" 1 &
-    xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Button" 2 &
-    xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Timeout" 200 &
-    # disable stupid unix middle mouse click paste feature
-    xinput set-button-map 12 1 0 3 & # for lenovo x250
-    # to find id of mouse do:
-    # $ xinput list | grep 'id='
-  '';
   essentialPackages = with pkgs; [
+    _1password # cli tool for password manager
+    acpilight
+    baobab # tool for visualizing disk usage
+    brightnessctl
+    curl
+    entr # program that can perform actions on file changes
+    file # cli tool for reading file metadata
+    gcc
     git
-    wget
-    networkmanager
-    gnome3.gnome_terminal
-    gnome3.dconf
+    gnumake # default linux 'make' program
+    htop
+    man-pages
+    openconnect # required to use vpn at work
     openssh
     openvpn
+    patchelf # useful tool patching binaries in NixOs when they don't point to correct libraries
+    pwgen # password generator tool
+    termite
+    tree # view directory and file strucutes as tree in terminal
+    unzip
+    vnstat # track internet data usage
+    wget
     xterm
-    htop
-    acpi
-    sysstat
-    nix-repl
-    nix-prefetch-git
-    gcc
-    baobab
-  ];
-  visualPackages = with pkgs; [
-    feh
-    i3blocks
-    i3lock
-    dmenu
-    xorg.xbacklight
-    arandr
-    xcalib
   ];
   audioPackages = with pkgs; [
+    jack2
     pavucontrol
+    qjackctl
+    spotify
   ];
-  unstable = import "/nix/var/nix/profiles/per-user/root/channels/nixos-unstable" {};
+  audioTools = with pkgs; [
+    audacity
+    baudline # spectogram viewer
+    bitwig-studio
+  ];
+  # unstable = import "/nix/var/nix/profiles/per-user/root/channels/nixos-unstable" {};
   editorPackages = with pkgs; [
-    unstable.neovim
     emacs
-    xclip
-    ctags
-  ];
-  hsPackages = with pkgs.haskellPackages; [
-    cabal2nix
-    cabal-install
-    ghc
-    idris
+    neovim
   ];
   developerPackages = with pkgs; [
-    leiningen
-    sbt
-    lua
-    sqlite
-    jq
-    mono
-    unstable.fsharp41
+    awscli
+    cabal-install # haskell package tool
+    clojure
+    clojure-lsp
+    direnv # tool for automatically sourcing '.envrc' in directories
+    dotnet-sdk
     elixir
     elmPackages.elm
+    elmPackages.elm-analyse
+    elmPackages.elm-format
+    elmPackages.elm-language-server
+    elmPackages.elm-test
+    ghc # haskell compiler
+    graphviz
+    groff # used by awscli man pages
+    idris
+    jq
+    leiningen
+    lua
+    nodejs
+    perl
+    plantuml # tool for 'writing' software diagrams
+    python3
+    python37Packages.virtualenv
+    silver-searcher
+    sqlite
+    stack # haskell package tool
+    tig
   ];
   miscPackages = with pkgs; [
-    libreoffice
-    evince
     gimp
-    gnome3.eog
-    scrot
-    unzip
-  ];
-  unfree = import "/nix/var/nix/profiles/per-user/root/channels/nixos" {
-    config = {
-      allowUnfree = true;
-    };
-  };
-  unstable_unfree = import "/nix/var/nix/profiles/per-user/root/channels/nixos-unstable" {
-    config = {
-      allowUnfree = true;
-    };
-  };
-  unfreePackages = with pkgs; [
-    unstable_unfree.vscode
-    unstable_unfree.google-chrome
-    unfree.spotify
+    google-chrome
+    inkscape
+    libreoffice
+    pciutils
+    perl530Packages.ImageExifTool # 'exiftool' image metadata extraction cli tool
+    qiv
+    qutebrowser # browser with vim bindings
+    scrot # screenshot program
+    virtualbox
+    virtualboxWithExtpack
+    vlc
+    xcalib
+    xz # file compression tool
+    zathura # pdf reader
   ];
 in {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+
+      # sudo -i nix-channel --add https://github.com/musnix/musnix/archive/master.tar.gz musnix
+      # sudo -i nix-channel --update musnix
+      <musnix>
     ];
+
+  musnix.enable = true;
+
+  nixpkgs.config = {
+    allowUnfree = true;
+  };
+
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 90d";
+  };
+
+  # backup configuration file upon rebuild
+  system.copySystemConfiguration = true;
+
+  # Use the systemd-boot EFI boot loader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+  # handle encrypted root partition
+  boot.initrd.luks.devices.root = {
+    device = "/dev/disk/by-uuid/f01a6887-4dcd-4b62-b1bd-04229c189415";
+    preLVM = true;
+    allowDiscards = true;
+  };
+
+  # The global useDHCP flag is deprecated, therefore explicitly set to false here.
+  # Per-interface useDHCP will be mandatory in the future, so this generated config
+  # replicates the default behaviour.
+  networking.useDHCP = false;
+  networking.interfaces.enp0s31f6.useDHCP = true;
+  networking.interfaces.wlp2s0.useDHCP = true;
+
+  # TODO: do we need this?
+  networking = {
+    hostName = "michel-x1";
+    enableIPv6 = true;
+    networkmanager.enable = true;
+  };
+
+  time.timeZone = "Europe/Copenhagen";
+
+  programs.java.enable = true;
+
+  virtualisation.virtualbox.host.enable = true;
+  virtualisation.virtualbox.host.enableExtensionPack = true;
+
+  environment = {
+    systemPackages =
+      essentialPackages ++
+      editorPackages ++
+      developerPackages ++
+      audioPackages ++
+      audioTools ++
+      miscPackages;
+      variables = {
+        EDITOR = "nvim";
+      };
+      homeBinInPath = true;
+      pathsToLink = [ "/libexec" ];
+  };
+
+  fonts = {
+    enableFontDir = true;
+    enableGhostscriptFonts = true;
+    fonts = with pkgs; [
+      source-code-pro
+      dejavu_fonts
+      ipafont
+      corefonts
+    ];
+    fontconfig.defaultFonts = {
+      monospace = [
+        "DejaVu Sans Mono"
+        "IPAGothic"
+      ];
+      sansSerif = [
+        "DejaVu Sans"
+        "IPAPGothic"
+      ];
+      serif = [
+        "DejaVu Serif"
+        "IPAPMincho"
+      ];
+    };
+  };
+
+  # TODO: support japanese input method
+  # i18n.consoleKeyMap = "us";
+  # i18n.defaultLocale = "en_US.UTF-8";
+  # i18n.inputMethod.enabled = "fcitx";
+  # i18n.inputMethod.fcitx.engines = with pkgs.fcitx-engines; [ mozc ];
+
+  services = {
+    # anti sleep?
+    # logind.lidSwitch = "ignore";
+    openssh.enable = true;
+    acpid.enable = true; # power management utility
+    vnstat.enable = true; # track datausage
+
+    xserver = {
+      autorun = true;
+      enable = true;
+      layout = "us";
+      displayManager.lightdm.enable = true;
+      windowManager.i3 = {
+        enable = true;
+        extraPackages = with pkgs; [
+          dmenu
+          i3blocks
+          i3lock
+          i3status
+          acpi
+          sysstat
+        ];
+      };
+      libinput.enable = true; # touchpad
+    };
+  };
 
   hardware = {
     pulseaudio = {
@@ -104,86 +229,7 @@ in {
     };
     bluetooth.enable = true;
     enableAllFirmware = true;
-  };
-
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  networking = {
-    hostName = "x250";
-    # get hostId with following command
-    # $ cksum /etc/machine-id | while read c rest; do printf "%x" $c; done
-    hostId = "DE4B8678";
-    enableIPv6 = true;
-    networkmanager.enable = true;
-  };
-
-  environment = {
-    variables = {
-      EDITOR = "nvim";
-    };
-    extraInit = fix_lenovo_trackpoint;
-  };
-  programs = {
-    bash.enableCompletion = true;
-    java.enable = true;
-  };
-
-  time.timeZone = "Europe/Copenhagen";
-
-  nixpkgs.config = {
-    allowUnfree = true;
-  };
-  # List packages installed in system profile. To search by name, run:
-  # $ nix-env -qaP | grep wget
-  environment.systemPackages =
-    essentialPackages ++
-    visualPackages ++
-    audioPackages ++
-    editorPackages ++
-    hsPackages ++
-    developerPackages ++
-    miscPackages ++
-    unfreePackages;
-
-  fonts = {
-    enableCoreFonts = true;
-    enableFontDir = true;
-    enableGhostscriptFonts = true;
-    fonts = with pkgs; [
-      source-code-pro
-    ];
-  };
-
-  services = {
-    openssh.enable = true;
-
-    printing.enable = true;
-
-    acpid.enable = true;
-
-    xserver = {
-      autorun = true;
-      enable = true;
-      layout = "us";
-      displayManager = {
-        lightdm.enable = true;
-      };
-      windowManager.i3.enable = true;
-      videoDrivers = ["intel" ];
-      xrandrHeads = [ "eDP1" "DP1" ];
-
-      synaptics = {
-        enable = true;
-        buttonsMap = [ 10 1 0 3 ];
-        fingersMap = [ 1 2 3 ];
-        palmDetect = false;
-        tapButtons = true;
-        twoFingerScroll = true;
-        vertEdgeScroll = false;
-      };
-    };
+    opengl.enable = true;
   };
 
   security.sudo = {
@@ -195,16 +241,24 @@ in {
     '';
   };
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users = {
-    extraUsers.michel = {
-      home = "/home/michel";
-      isNormalUser = true;
-      uid = 1000;
-      extraGroups = [ "wheel" "networkmanager" "docker" "cassandra" ];
-    };
+  users.users.michel = {
+    home = "/home/michel";
+    isNormalUser = true;
+    extraGroups = [ "wheel" "networkmanager" "audio" "realtime" "video" "docker" "vboxusers" ];
   };
 
-  # The NixOS release to be compatible with for stateful data such as databases.
-  system.stateVersion = "17.03";
+  # Open ports in the firewall.
+  # networking.firewall.allowedTCPPorts = [ ... ];
+  # networking.firewall.allowedUDPPorts = [ ... ];
+  # Or disable the firewall altogether.
+  # networking.firewall.enable = false;
+
+  # This value determines the NixOS release from which the default
+  # settings for stateful data, like file locations and database versions
+  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # this value at the release version of the first install of this system.
+  # Before changing this value read the documentation for this option
+  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+  system.stateVersion = "20.03"; # Did you read the comment?
+
 }
