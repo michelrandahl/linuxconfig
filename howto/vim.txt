@@ -21,3 +21,6 @@ CTRL-W o
 
 # start fresh nveovim without any plugins loaded
 $ nvim --clean
+
+# start vim and immediatly execute a command
+`$ nvim -c 'setf json | set foldmethod=syntax'`

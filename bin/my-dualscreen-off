@@ -1,0 +1,3 @@
+#! /bin/sh
+
+xandr --output DP-1 --off

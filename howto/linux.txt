@@ -1,0 +1,2 @@
+# write out all logs in linux systemd (useful for troubleshooting)
+`$ journalctl`

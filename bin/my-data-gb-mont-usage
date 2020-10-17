@@ -1,0 +1,3 @@
+#! /bin/sh
+
+vnstat -m -i wlp2s0 --config /home/michel/.config/vnstat.conf --json | jq '.interfaces[] | select(.name == "wlp2s0") | .traffic.total | (.rx + .tx) / (1024*1024) | round'

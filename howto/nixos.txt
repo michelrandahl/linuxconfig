@@ -25,10 +25,14 @@ $ nix-env -f . -iA libfoo
 
 # search for packages
 `$ nix search <something>`
+# search conjunction
+`$ nix search <something> <something-else>`
+# search disjunction
+`$ nix search "<something>|<something-else>"`
 # .. detailed output
 `$ nix search <something> --json | jq .`
 # it can be useful to pipe output to vim...
-`$ nix search <something> --json | jq . | nvim`
+`$ nix search <something> --json | jq . | nvim -c 'setf json | set foldmethod=syntax'`
 
 # install package without giving full path
 `$ nix-env -i <somepackage-name>`

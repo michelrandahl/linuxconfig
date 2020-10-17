@@ -1,4 +1,0 @@
-#!/bin/bash
-
-xcalib -green .1 0 1 -alter
-xcalib -blue .1 0 1 -alter

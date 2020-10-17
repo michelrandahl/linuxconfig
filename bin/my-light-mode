@@ -1,0 +1,3 @@
+#! /bin/sh
+
+cp /home/michel/.config/termite/config.white /home/michel/.config/termite/config
