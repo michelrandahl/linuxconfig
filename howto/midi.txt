@@ -1,0 +1,31 @@
+# ---------- List MIDI ports with ----------
+$ aplaymidi -l
+ Port    Client name                      Port name
+ 14:0    Midi Through                     Midi Through Port-0
+ 20:0    nanoKONTROL2                     nanoKONTROL2 MIDI 1
+ 24:0    NTS-1 digital kit                NTS-1 digital kit MIDI 1
+ 28:0    nanoKEY2                         nanoKEY2 MIDI 1
+
+# ... Or
+$ arecordmidi -l
+ Port    Client name                      Port name
+ 14:0    Midi Through                     Midi Through Port-0
+ 20:0    nanoKONTROL2                     nanoKONTROL2 MIDI 1
+ 24:0    NTS-1 digital kit                NTS-1 digital kit MIDI 1
+ 28:0    nanoKEY2                         nanoKEY2 MIDI 1
+
+# ... Or
+$ aconnect -o
+client 14: 'Midi Through' [type=kernel]
+    0 'Midi Through Port-0'
+client 20: 'nanoKONTROL2' [type=kernel,card=1]
+    0 'nanoKONTROL2 MIDI 1'
+client 24: 'NTS-1 digital kit' [type=kernel,card=2]
+    0 'NTS-1 digital kit MIDI 1'
+client 28: 'nanoKEY2' [type=kernel,card=3]
+    0 'nanoKEY2 MIDI 1 '
+
+# ----------------------------------------
+
+# ----- Listen to MIDI events on device with -----
+$ aseqdump -p 20

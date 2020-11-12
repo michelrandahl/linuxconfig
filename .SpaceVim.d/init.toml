@@ -41,6 +41,10 @@
     repo = "michelrandahl/simple-vim-surround"
     merged = false
 
+[[custom_plugins]]
+    repo = "mtikekar/nvim-send-to-term"
+    merged = false
+
 #[[custom_plugins]]
 #    repo = "elmcast/elm-vim"
 #    merged = false
