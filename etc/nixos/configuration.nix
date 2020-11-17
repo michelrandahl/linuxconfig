@@ -17,18 +17,21 @@ let
     git
     gnumake # default linux 'make' program
     htop
+    killall
     man-pages
     openconnect # required to use vpn at work
     openssh
     openvpn
     patchelf # useful tool patching binaries in NixOs when they don't point to correct libraries
     pwgen # password generator tool
-    termite # terminal with vim bindings
+    termite
     tree # view directory and file strucutes as tree in terminal
     unzip
+    usbutils
     vnstat # track internet data usage
     wget
     xterm
+    zip
   ];
   audioPackages = with pkgs; [
     jack2
@@ -37,7 +40,7 @@ let
     spotify
   ];
   audioTools = with pkgs; [
-    audacity # advanced audio editor
+    audacity
     baudline # spectogram viewer
     bitwig-studio
   ];
@@ -62,8 +65,9 @@ let
     ghc # haskell compiler
     graphviz
     groff # used by awscli man pages
+    hy
     idris
-    jq # query and pretty print json files
+    jq
     leiningen
     lua
     nodejs
@@ -71,23 +75,29 @@ let
     plantuml # tool for 'writing' software diagrams
     python3
     python37Packages.virtualenv
-    silver-searcher # search in code with 'ag'
+    silver-searcher
     sqlite
     stack # haskell package tool
-    tig # view graphs of a git repository
+    tig
   ];
   miscPackages = with pkgs; [
+    # virtualbox
+    # virtualboxGuestAdditions
+    # virtualboxWithExtpack
     gimp
     google-chrome
     inkscape
     libreoffice
+    linuxPackages_5_4.virtualbox
+    linuxPackages_5_4.virtualboxGuestAdditions
+    nethogs
     pciutils
     perl530Packages.ImageExifTool # 'exiftool' image metadata extraction cli tool
-    qiv # simple image viewer
+    picocom
+    qiv
     qutebrowser # browser with vim bindings
     scrot # screenshot program
-    virtualbox
-    virtualboxWithExtpack
+    simplescreenrecorder
     vlc
     xcalib
     xz # file compression tool
@@ -103,8 +113,15 @@ in {
       <musnix>
     ];
 
-  # ensure correct system configuration to be able to use audio tools with low latency (QJackCTL doesn't work without this)
-  musnix.enable = true;
+  musnix = {
+    enable = true;
+#kernel.realtime = true;
+#rtirq = {
+#enable = true;
+#nameList = "snd_usb_audio snd usb  i8042";
+#highList = "snd-hrtimer rtc timer snd_usb_audio snd usb  i8042";
+#};
+  };
 
   nixpkgs.config = {
     allowUnfree = true;
@@ -136,6 +153,7 @@ in {
   networking.interfaces.enp0s31f6.useDHCP = true;
   networking.interfaces.wlp2s0.useDHCP = true;
 
+  # TODO: do we need this?
   networking = {
     hostName = "michel-x1";
     enableIPv6 = true;
@@ -160,7 +178,7 @@ in {
       variables = {
         EDITOR = "nvim";
       };
-      homeBinInPath = true; # make scripts in ~/bin accessible
+      homeBinInPath = true;
       pathsToLink = [ "/libexec" ];
   };
 
@@ -244,7 +262,7 @@ in {
   users.users.michel = {
     home = "/home/michel";
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "audio" "realtime" "video" "docker" "vboxusers" ];
+    extraGroups = [ "wheel" "networkmanager" "audio" "realtime" "video" "docker" "vboxusers" "dialup" ];
   };
 
   # Open ports in the firewall.
@@ -262,3 +280,4 @@ in {
   system.stateVersion = "20.03"; # Did you read the comment?
 
 }
+
