@@ -1,0 +1,3 @@
+# use picocom
+output will come after pressing C-a C-g
+# not sure if we need to configure with stty...?

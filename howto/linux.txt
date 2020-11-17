@@ -3,3 +3,15 @@
 
 # sleep
 `$ systemctl hibernate`
+
+# list harddrives
+$ lsblk
+
+# list USB devices
+$ lsusb
+
+# list USB devices tree
+$ lsusb -t
+
+# install iso to USB
+$ dd if=/path/to/isofile of=/dev/sdX
