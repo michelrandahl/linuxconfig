@@ -1,0 +1,48 @@
+# Create new project
+$ mkdir my-app
+$ cd my-app
+$ elm init
+
+
+# Minimal example with hole src/App.elm
+```
+module App exposing (main)
+import Html exposing (text)
+myfun : Int
+myfun = Debug.todo "implement me!"
+main = text "hello world"
+```
+
+
+# Compile project
+$ elm make src/MyApp.elm --output app.js
+
+
+# Minimal index.html
+```
+<html>
+  <body>
+    <div id="app"></div>
+    <script src="app.js"></script>
+    <script>
+      Elm.Block.init({node: document.getElementById("app")});
+    </script>
+  </body>
+</html>
+```
+
+
+# Add package to elm.json (example)
+$ elm install timjs/elm-collage
+
+
+# Serve html and javascript using python
+$ python -m "http.server" 8000
+
+
+# Compile with debug
+$ elm make src/MyApp.elm --debug --output app.js
+
+
+# Continous compile, typecheck, lint and write a report file
+$ find src/ | entr -cps 'elm make --output=app.js --debug src/Quiz.elm && elm-analyse' 2>&1 | tee analyse.report

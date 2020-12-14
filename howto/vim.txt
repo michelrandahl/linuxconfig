@@ -24,3 +24,6 @@ $ nvim --clean
 
 # start vim and immediatly execute a command
 `$ nvim -c 'setf json | set foldmethod=syntax'`
+
+# start vim and debug-log to a file where [n] is the level of debug
+$ nvim -V[n]<my-log-file> foobar.txt

@@ -1,2 +1,2 @@
 " colorscheme morning
-colorscheme torte
+"colorscheme torte

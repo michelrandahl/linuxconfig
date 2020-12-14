@@ -1,0 +1,7 @@
+# following packages are required
+xbindkeys
+xdotool
+xsel
+
+# run following command to disable middle-click paste
+`$ echo -n | xsel -n -i; pkill xbindkeys; xdotool click 2; xbindkeys`

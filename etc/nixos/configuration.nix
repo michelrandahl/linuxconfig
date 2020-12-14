@@ -6,6 +6,7 @@
 
 let
   essentialPackages = with pkgs; [
+    # vnstat # track internet data usage
     _1password # cli tool for password manager
     acpilight
     baobab # tool for visualizing disk usage
@@ -22,14 +23,18 @@ let
     openconnect # required to use vpn at work
     openssh
     openvpn
+    p7zip
     patchelf # useful tool patching binaries in NixOs when they don't point to correct libraries
+    procps # pkill and kill command
     pwgen # password generator tool
     termite
     tree # view directory and file strucutes as tree in terminal
     unzip
     usbutils
-    vnstat # track internet data usage
     wget
+    xbindkeys # required to disable middle-click paste
+    xdotool # required to disable middle-click paste
+    xsel # required to disable middle-click paste 
     xterm
     zip
   ];
@@ -48,12 +53,14 @@ let
   editorPackages = with pkgs; [
     emacs
     neovim
+    vimPlugins.vimproc # used by spacevim
   ];
   developerPackages = with pkgs; [
     awscli
     cabal-install # haskell package tool
     clojure
     clojure-lsp
+    clojure-lsp 
     direnv # tool for automatically sourcing '.envrc' in directories
     dotnet-sdk
     elixir
@@ -81,15 +88,13 @@ let
     tig
   ];
   miscPackages = with pkgs; [
-    # virtualbox
-    # virtualboxGuestAdditions
     # virtualboxWithExtpack
     gimp
     google-chrome
     inkscape
     libreoffice
-    linuxPackages_5_4.virtualbox
-    linuxPackages_5_4.virtualboxGuestAdditions
+#virtualbox
+#virtualboxGuestAdditions
     nethogs
     pciutils
     perl530Packages.ImageExifTool # 'exiftool' image metadata extraction cli tool
@@ -115,12 +120,12 @@ in {
 
   musnix = {
     enable = true;
-#kernel.realtime = true;
-#rtirq = {
-#enable = true;
-#nameList = "snd_usb_audio snd usb  i8042";
-#highList = "snd-hrtimer rtc timer snd_usb_audio snd usb  i8042";
-#};
+    # kernel.realtime = true;
+    # rtirq = {
+    # enable = true;
+    # nameList = "snd_usb_audio snd usb  i8042";
+    # highList = "snd-hrtimer rtc timer snd_usb_audio snd usb  i8042";
+    # };
   };
 
   nixpkgs.config = {
@@ -137,14 +142,28 @@ in {
   system.copySystemConfiguration = true;
 
   # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  # handle encrypted root partition
+  # boot.loader.systemd-boot.enable = true;
+  boot.loader = {
+    grub = {
+      enable = true;
+      useOSProber = true;
+      efiSupport = true;
+      device = "nodev";
+    };
+    efi = {
+      canTouchEfiVariables = true;
+      efiSysMountPoint = "/boot";
+    };
+  };
+
   boot.initrd.luks.devices.root = {
-    device = "/dev/disk/by-uuid/f01a6887-4dcd-4b62-b1bd-04229c189415";
+    device = "/dev/disk/by-uuid/c382c103-6eaa-4c68-9740-9129bb7f0068";
     preLVM = true;
     allowDiscards = true;
   };
+
+  # networking.hostName = "nixos"; # Define your hostname.
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
@@ -153,7 +172,6 @@ in {
   networking.interfaces.enp0s31f6.useDHCP = true;
   networking.interfaces.wlp2s0.useDHCP = true;
 
-  # TODO: do we need this?
   networking = {
     hostName = "michel-x1";
     enableIPv6 = true;
@@ -218,13 +236,19 @@ in {
     # logind.lidSwitch = "ignore";
     openssh.enable = true;
     acpid.enable = true; # power management utility
-    vnstat.enable = true; # track datausage
+    # vnstat.enable = true; # track datausage
 
     xserver = {
       autorun = true;
       enable = true;
       layout = "us";
-      displayManager.lightdm.enable = true;
+      displayManager = {
+        lightdm.enable = true;
+        # disable pesky middle-click paste
+        # setupCommands = ''
+        #   echo -n | xsel -n -i; pkill xbindkeys; xdotool click 2; xbindkeys
+        # '';
+      };
       windowManager.i3 = {
         enable = true;
         extraPackages = with pkgs; [
@@ -277,7 +301,7 @@ in {
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "20.03"; # Did you read the comment?
+  system.stateVersion = "20.09"; # Did you read the comment?
 
 }
 

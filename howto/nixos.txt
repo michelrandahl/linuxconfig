@@ -44,4 +44,5 @@ $ nix-env -f . -iA libfoo
 # .. verbose output in json
 `$ nix-env -q --json`
 
-
+# describe options for a nixos configuration entry
+`$ nixos-option services.xserver.autorun`

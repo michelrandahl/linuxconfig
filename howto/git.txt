@@ -43,3 +43,9 @@ $ git config credential.helper store
 
 # diff between current branch and master
 $ git diff master --
+
+# Update downloaded repository to use ssh.
+# First check what urls currently are used
+$ git remote -v
+# Next change the origin to the ssh url
+$ git remote set-url origin git@github.com:michelrandahl/linuxconfig.git
