@@ -84,10 +84,14 @@ inoremap ` ``<esc>i
 
 "" plugin mappings
 map <C-n> :NERDTreeToggle<CR>
-map <leader>ft :NERDTreeToggle<CR>
+map <leader>n :NERDTreeToggle<CR>
 
-" Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+map <leader>f :Clap blines<CR>
+map <leader>g :Clap grep<CR>
+map <leader>b :Clap buffers<CR>
+" NOTE: the commits list might be a bit buggy at the moment, but arrow keys seems to work most of the time
+map <leader>s :Clap commits<CR>
+
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -98,6 +102,9 @@ function! s:show_documentation()
     execute '!' . &keywordprg . " " . expand('<cword>')
   endif
 endfunction
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)

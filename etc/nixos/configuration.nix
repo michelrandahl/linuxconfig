@@ -56,10 +56,9 @@ let
     vimPlugins.vimproc # used by spacevim
   ];
   developerPackages = with pkgs; [
-    # cargo # Rust tool, used by vim plugin vim-clap
-    # ripgrep # grep tool used by vim plugin vim-clap
     awscli
     cabal-install # haskell package tool
+    cargo # Rust tool, used by vim plugin vim-clap
     clojure
     clojure-lsp
     clojure-lsp 
@@ -84,11 +83,11 @@ let
     plantuml # tool for 'writing' software diagrams
     python3
     python37Packages.virtualenv
+    ripgrep # grep tool used by vim plugin vim-clap
     silver-searcher
     sqlite
     stack # haskell package tool
     tig
-    vimPlugins.vim-clap
   ];
   miscPackages = with pkgs; [
     gimp
