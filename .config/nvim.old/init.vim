@@ -10,15 +10,33 @@ endif
 "" plugins
 call plug#begin()
 
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'preservim/nerdtree'
+" vim-plug uses: Rust tool 'cargo' and grep tool called ripgrep
+Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
+
+
 "Plug 'kien/rainbow_parentheses.vim' " better one might exists
 Plug 'rafi/awesome-vim-colorschemes'
+
+
 Plug 'michelrandahl/simple-vim-surround'
+
+
 Plug 'mtikekar/nvim-send-to-term'
+
+
 Plug 'elmcast/elm-vim'
+
+
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+
 Plug 'nightsense/night-and-day'
+
+
 Plug 'LnL7/vim-nix'
+
+
 
 call plug#end()
 
@@ -90,3 +108,35 @@ if has('nvim')
 else
   inoremap <silent><expr> <c-@> coc#refresh()
 endif
+
+" keep terminals open in background
+augroup custom_term
+	autocmd!
+	autocmd TermOpen * setlocal nonumber norelativenumber bufhidden=hide
+augroup END
+
+function! s:switch_colorscheme()
+  if g:colors_name ==# 'gruvbox'
+    set background=light
+    execute 'colorscheme github'
+  else
+    set background=dark
+    execute 'colorscheme gruvbox'
+  endif
+endfunction
+
+nnoremap <leader>c :call <SID>switch_colorscheme()<CR>
+
+" change split position defaults
+set splitbelow
+set splitright
+
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+" remap selection to not include leading whitespace when selecting strings...
+nnoremap va' v2i'
+nnoremap va" v2i"
+nnoremap va` v2i`

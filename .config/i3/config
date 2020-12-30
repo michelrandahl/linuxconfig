@@ -207,3 +207,4 @@ bindsym $mod+shift+i exec setxkbmap dk
 
 bindsym XF86MonBrightnessUp exec brightnessctl set +10%
 bindsym XF86MonBrightnessDown exec brightnessctl set 10%-
+

@@ -56,6 +56,8 @@ let
     vimPlugins.vimproc # used by spacevim
   ];
   developerPackages = with pkgs; [
+    # cargo # Rust tool, used by vim plugin vim-clap
+    # ripgrep # grep tool used by vim plugin vim-clap
     awscli
     cabal-install # haskell package tool
     clojure
@@ -86,16 +88,14 @@ let
     sqlite
     stack # haskell package tool
     tig
+    vimPlugins.vim-clap
   ];
   miscPackages = with pkgs; [
-    # virtualboxWithExtpack
     gimp
     google-chrome
     inkscape
     libreoffice
-#virtualbox
-#virtualboxGuestAdditions
-    nethogs
+    feh # set background wallpaper
     pciutils
     perl530Packages.ImageExifTool # 'exiftool' image metadata extraction cli tool
     picocom
@@ -137,6 +137,14 @@ in {
     dates = "weekly";
     options = "--delete-older-than 90d";
   };
+
+  # optimise reduces Nix store disk space usage by finding identical files
+  #        in the store and hard-linking them to each other. It typically reduces the size of the
+  #        store by something like 25-35%. Only regular files and symlinks are hard-linked in this
+  #        manner. Files are considered identical when they have the same NAR archive
+  #        serialisation: that is, regular files must have the same contents and permission
+  #        (executable or non-executable), and symlinks must have the same contents.
+  nix.autoOptimiseStore = true;
 
   # backup configuration file upon rebuild
   system.copySystemConfiguration = true;

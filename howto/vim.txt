@@ -27,3 +27,15 @@ $ nvim --clean
 
 # start vim and debug-log to a file where [n] is the level of debug
 $ nvim -V[n]<my-log-file> foobar.txt
+
+# increment numbers in visual selection block
+`g ctrl+a`
+# decrement numbers in visual selection block
+`g ctrl+x`
+
+# save window layout session in current directory as 'Session.vim'
+`:mksession`
+# start the session with
+$ nvim -S Session.vim
+# source session from within vim
+`:source Session.vim`
