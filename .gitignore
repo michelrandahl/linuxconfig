@@ -1,1 +1,4 @@
 *.secret
+.lsp/*
+.clj-kondo/*
+.config/nvim.old/plugged/*

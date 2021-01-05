@@ -1,0 +1,21 @@
+# create new project
+$ npx create-cljs-project my-project
+
+# compile project
+$ npx shadow-cljs release code
+
+# sample shadow-cljs.edn
+```
+{:source-paths ["src/dev" "src/main" "src/test"]
+
+ :dependencies []
+
+ :builds {:code {:target :browser
+                 :output-dir "out"
+                 :modules {:shared {:entries []}
+                           :main {:init-fn midi-mediator.main/init
+                                  :depends-on #{:shared}}
+                           :worker {:init-fn midi-mediator.lfo-worker/init
+                                    :web-worker true
+                                    :depends-on #{:shared}}}}}}
+```

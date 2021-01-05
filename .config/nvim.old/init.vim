@@ -12,7 +12,8 @@ call plug#begin()
 
 Plug 'preservim/nerdtree'
 " vim-plug uses: Rust tool 'cargo' and grep tool called ripgrep
-Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
+"" Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' } " TODO: install stuff doesnt seem to work with nixos
+Plug 'liuchengxu/vim-clap'
 
 
 "Plug 'kien/rainbow_parentheses.vim' " better one might exists
@@ -36,6 +37,8 @@ Plug 'nightsense/night-and-day'
 
 Plug 'LnL7/vim-nix'
 
+
+Plug 'purescript-contrib/purescript-vim'
 
 
 call plug#end()
@@ -62,9 +65,13 @@ let g:nd_themes = [
 let g:nd_latitude = '55'
 
 
-let g:clj_fmt_autosave = 0
+" Clojure
+"let g:clj_fmt_autosave = 0
+let g:clojure_align_multiline_strings = 1
+let g:clojure_align_subforms = 0
 
 syntax on
+""filetype plugin indent on
 set number
 set tabstop=2 shiftwidth=2 expandtab
 set nocindent
@@ -86,11 +93,12 @@ inoremap ` ``<esc>i
 map <C-n> :NERDTreeToggle<CR>
 map <leader>n :NERDTreeToggle<CR>
 
-map <leader>f :Clap blines<CR>
+map <leader>s :Clap blines<CR>
 map <leader>g :Clap grep<CR>
-map <leader>b :Clap buffers<CR>
 " NOTE: the commits list might be a bit buggy at the moment, but arrow keys seems to work most of the time
-map <leader>s :Clap commits<CR>
+map <leader>co :Clap commits<CR>
+map <leader>b :Clap buffers<CR>
+map <leader>f :Clap files<CR>
 
 
 function! s:show_documentation()
@@ -115,6 +123,10 @@ if has('nvim')
 else
   inoremap <silent><expr> <c-@> coc#refresh()
 endif
+
+xmap <localleader>f <Plug>(coc-format-selected)
+nmap <localleader>f <Plug>(coc-format-selected)<CR>
+nmap <localleader>r <Plug>(coc-rename)
 
 " keep terminals open in background
 augroup custom_term
@@ -147,3 +159,4 @@ nnoremap <C-H> <C-W><C-H>
 nnoremap va' v2i'
 nnoremap va" v2i"
 nnoremap va` v2i`
+
