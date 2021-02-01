@@ -39,3 +39,6 @@ $ nvim -V[n]<my-log-file> foobar.txt
 $ nvim -S Session.vim
 # source session from within vim
 `:source Session.vim`
+
+# delete all lines that do not contain word
+`:v/price/d`

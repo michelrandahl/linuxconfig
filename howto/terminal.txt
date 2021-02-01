@@ -1,0 +1,11 @@
+# remove first line of file
+$ tail -n +2 my-file
+
+# create unique list
+$ cat myfile | sort | uniq
+
+# compare two sorted files
+$ comm file1 file2
+
+# extract column 1,2,3 data from csv file
+$ tail -n +2 my-file | cut -d ',' -f 1,2,3

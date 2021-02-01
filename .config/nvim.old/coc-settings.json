@@ -26,5 +26,6 @@
       "rootPatterns": ["bower.json", "psc-package.json", "spago.dhall"]
     }
   },
-  "html.autoClosingTags": true
+  "html.autoClosingTags": true,
+  "coc.preferences.formatOnSaveFiletypes": ["clojure"]
 }

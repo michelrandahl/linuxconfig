@@ -44,8 +44,20 @@ $ git config credential.helper store
 # diff between current branch and master
 $ git diff master --
 
+# diff specific file between branches
+$ git diff mybranch..master -- myfile.cs
+
 # Update downloaded repository to use ssh.
 # First check what urls currently are used
 $ git remote -v
 # Next change the origin to the ssh url
 $ git remote set-url origin git@github.com:michelrandahl/linuxconfig.git
+
+# view staged diff
+$ git diff --staged
+
+# list commits on which have not yet been merged to another branch
+$ git log --no-merges release/5.0.0 ^develop
+
+# check if commit X is in the history log of commit Y
+$ git log Y --pretty=format:"%H" | grep X

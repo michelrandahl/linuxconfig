@@ -1,6 +1,9 @@
 let mapleader=' '
 let maplocalleader='\'
 
+" make it possible to load huge json files and still get folding...
+set maxmempattern=2000000
+
 "" enable global copy/paste/cut
 if has('unnamedplus')
 	set clipboard=unnamed,unnamedplus
@@ -41,6 +44,14 @@ Plug 'LnL7/vim-nix'
 Plug 'purescript-contrib/purescript-vim'
 
 
+Plug 'mogelbrod/vim-jsonpath'
+
+
+" database IDE in vim
+Plug 'tpope/vim-dadbod'
+Plug 'kristijanhusak/vim-dadbod-ui'
+
+
 call plug#end()
 
 let g:coc_global_extensions = ['coc-json', 'coc-vimlsp', 'coc-css', 'coc-html', 'coc-git']
@@ -66,9 +77,9 @@ let g:nd_latitude = '55'
 
 
 " Clojure
-"let g:clj_fmt_autosave = 0
+""let g:clj_fmt_autosave = 1
 let g:clojure_align_multiline_strings = 1
-let g:clojure_align_subforms = 0
+let g:clojure_align_subforms = 1
 
 syntax on
 ""filetype plugin indent on
@@ -95,7 +106,8 @@ map <leader>n :NERDTreeToggle<CR>
 
 map <leader>s :Clap blines<CR>
 map <leader>g :Clap grep<CR>
-" NOTE: the commits list might be a bit buggy at the moment, but arrow keys seems to work most of the time
+" NOTE: if the commits list navigation is buggy, then install plugin through nix, and symlink the plugin....
+map <leader>cb :Clap bcommits<CR>
 map <leader>co :Clap commits<CR>
 map <leader>b :Clap buffers<CR>
 map <leader>f :Clap files<CR>
@@ -116,6 +128,7 @@ nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gr <Plug>(coc-references)
 
 " Use <c-space> to trigger completion.
 if has('nvim')
@@ -127,6 +140,11 @@ endif
 xmap <localleader>f <Plug>(coc-format-selected)
 nmap <localleader>f <Plug>(coc-format-selected)<CR>
 nmap <localleader>r <Plug>(coc-rename)
+
+" json path plugin
+let g:jsonpath_register = '*'
+au FileType json noremap <buffer> <silent> <leader>d :call jsonpath#echo()<CR>
+au FileType json noremap <buffer> <silent> <leader>g :call jsonpath#goto()<CR>
 
 " keep terminals open in background
 augroup custom_term

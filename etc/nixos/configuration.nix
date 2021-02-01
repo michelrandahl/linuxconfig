@@ -90,14 +90,15 @@ let
     tig
   ];
   miscPackages = with pkgs; [
+    feh # set background wallpaper
     gimp
     google-chrome
     inkscape
     libreoffice
-    feh # set background wallpaper
     pciutils
     perl530Packages.ImageExifTool # 'exiftool' image metadata extraction cli tool
     picocom
+    poppler-utils # contains the tool pdfunite for appending pdf documents
     qiv
     qutebrowser # browser with vim bindings
     scrot # screenshot program

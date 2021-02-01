@@ -1,0 +1,3 @@
+# easy reload of current namespace in a simple lein repl
+=> (use '[clojure.tools.namespace.repl :only (refresh)])
+=> (refresh)
