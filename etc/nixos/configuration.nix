@@ -53,24 +53,23 @@ let
   editorPackages = with pkgs; [
     emacs
     neovim
-    vimPlugins.vimproc # used by spacevim
+    ripgrep # grep tool used by vim plugin vim-clap
+    vimPlugins.vim-clap
   ];
   developerPackages = with pkgs; [
     awscli
-    cabal-install # haskell package tool
-    cargo # Rust tool, used by vim plugin vim-clap
     clojure
     clojure-lsp
     clojure-lsp 
     direnv # tool for automatically sourcing '.envrc' in directories
-    dotnet-sdk
+    #dotnet-sdk
+    dotnet-sdk_3 
     elixir
     elmPackages.elm
     elmPackages.elm-analyse
     elmPackages.elm-format
     elmPackages.elm-language-server
     elmPackages.elm-test
-    ghc # haskell compiler
     graphviz
     groff # used by awscli man pages
     hy
@@ -81,13 +80,13 @@ let
     nodejs
     perl
     plantuml # tool for 'writing' software diagrams
+    postgresql
     python3
     python37Packages.virtualenv
-    ripgrep # grep tool used by vim plugin vim-clap
     silver-searcher
     sqlite
-    stack # haskell package tool
     tig
+    yq # jq equivalent for yaml files
   ];
   miscPackages = with pkgs; [
     feh # set background wallpaper
@@ -98,7 +97,7 @@ let
     pciutils
     perl530Packages.ImageExifTool # 'exiftool' image metadata extraction cli tool
     picocom
-    poppler-utils # contains the tool pdfunite for appending pdf documents
+    poppler_utils # contains the tool pdfunite for appending pdf documents
     qiv
     qutebrowser # browser with vim bindings
     scrot # screenshot program

@@ -205,6 +205,6 @@ hide_edge_borders smart
 bindsym $mod+shift+u exec setxkbmap us
 bindsym $mod+shift+i exec setxkbmap dk
 
-bindsym XF86MonBrightnessUp exec brightnessctl set +10%
-bindsym XF86MonBrightnessDown exec brightnessctl set 10%-
+bindsym XF86MonBrightnessUp exec brightnessctl set +5%
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
 

@@ -59,5 +59,11 @@ $ git diff --staged
 # list commits on which have not yet been merged to another branch
 $ git log --no-merges release/5.0.0 ^develop
 
+# list commits from current branch that differ from other branch
+$ git log --no-merges HEAD ^develop
+
 # check if commit X is in the history log of commit Y
 $ git log Y --pretty=format:"%H" | grep X
+
+# checkout file from another branch
+$ git checkout other-branch -- my-file

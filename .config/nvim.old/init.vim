@@ -47,10 +47,15 @@ Plug 'purescript-contrib/purescript-vim'
 Plug 'mogelbrod/vim-jsonpath'
 
 
+Plug 'Yggdroot/indentLine'
+
+
+Plug 'elixir-editors/vim-elixir'
+
+
 " database IDE in vim
 Plug 'tpope/vim-dadbod'
 Plug 'kristijanhusak/vim-dadbod-ui'
-
 
 call plug#end()
 
@@ -69,15 +74,22 @@ let g:coc_global_extensions = ['coc-json', 'coc-vimlsp', 'coc-css', 'coc-html', 
 ""    colorscheme github
 ""endif
 
+let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+let g:indentLine_enabled = 0
+map <leader>i :IndentLinesToggle<CR>
+
+
+" automatic colorscheme changer based on sun hours
 let g:nd_themes = [
   \ ['sunrise+0', 'github', 'light' ],
   \ ['sunset+0', 'gruvbox', 'dark' ],
   \ ]
 let g:nd_latitude = '55'
 
-
 " Clojure
-""let g:clj_fmt_autosave = 1
+let g:clj_fmt_autosave = 1
+" save file without triggering autocommands (... and cljfmt)
+nnoremap <leader>w :noa w<CR>
 let g:clojure_align_multiline_strings = 1
 let g:clojure_align_subforms = 1
 
@@ -178,3 +190,5 @@ nnoremap va' v2i'
 nnoremap va" v2i"
 nnoremap va` v2i`
 
+" Disable triggering annoying 'Ex mode'
+nnoremap Q <nop>
