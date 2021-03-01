@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+nix-shell -p cookiecutter git --run 'cookiecutter gh:utdemir/hs-nix-template'

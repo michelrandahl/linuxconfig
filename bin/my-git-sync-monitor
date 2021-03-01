@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+watch -n 120 "git fetch --all; git log --format='%h %an' --merges origin/release/5.0.0 ^origin/develop"
