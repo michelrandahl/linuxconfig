@@ -12,7 +12,9 @@ NEW_RPATH="/run/current-system/sw/lib:$1lib"
 
 # NEW_LD_LINUX="/nix/store/xdsjx0gba4id3yyqxv66bxnm2sqixkjj-glibc-2.27/lib/ld-linux-x86-64.so.2"
 # NEW_LD_LINUX="/nix/store/xlxiw4rnxx2dksa91fizjzf7jb5nqghc-glibc-2.27/lib/ld-linux-x86-64.so.2"
-NEW_LD_LINUX="/nix/store/2wrfwfdpklhaqhjxgq6yd257cagdxgph-glibc-2.32/lib/ld-linux-x86-64.so.2"
+# NEW_LD_LINUX="/nix/store/2wrfwfdpklhaqhjxgq6yd257cagdxgph-glibc-2.32/lib/ld-linux-x86-64.so.2"
+NEW_LD_LINUX="/nix/store/9l06v7fc38c1x3r2iydl15ksgz0ysb82-glibc-2.32/lib/ld-linux-x86-64.so.2"
+
 
 # CPP_LIB_DIR="/nix/store/sf0wnp30savqz9ljn6fsrn8f63w5v0za-gcc-7.4.0-lib/lib/libstdc++.so.6"
 # CPP_LIB_DIR="/nix/store/hlnxw4k6931bachvg5sv0cyaissimswb-gcc-7.4.0-lib/lib/libstdc++.so.6"

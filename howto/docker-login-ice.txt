@@ -1,0 +1,2 @@
+$ aws ecr get-login-password --region eu-west-1 --profile ice-dev | sudo docker login --username AWS --password-stdin 608844984558.dkr.ecr.eu-west-1.amazonaws.com
+$ docker pull 608844984558.dkr.ecr.eu-west-1.amazonaws.com/lein-new-jenkins:latest

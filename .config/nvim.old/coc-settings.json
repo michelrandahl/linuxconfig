@@ -38,5 +38,5 @@
     }
   },
   "html.autoClosingTags": true,
-  "coc.preferences.formatOnSaveFiletypes": ["clojure"]
+  "coc.preferences.formatOnSaveFiletypes": []
 }

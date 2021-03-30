@@ -57,12 +57,11 @@ let
     vimPlugins.vim-clap
   ];
   developerPackages = with pkgs; [
-    awscli
+    awscli2
     clojure
     clojure-lsp
-    clojure-lsp 
     direnv # tool for automatically sourcing '.envrc' in directories
-    #dotnet-sdk
+    docker
     dotnet-sdk_3 
     elixir
     elmPackages.elm
@@ -191,6 +190,7 @@ in {
 
   virtualisation.virtualbox.host.enable = true;
   virtualisation.virtualbox.host.enableExtensionPack = true;
+  virtualisation.docker.enable = true;
 
   environment = {
     systemPackages =

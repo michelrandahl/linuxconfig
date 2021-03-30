@@ -19,6 +19,9 @@ Plug 'preservim/nerdtree'
 Plug 'liuchengxu/vim-clap'
 
 
+Plug 'idris-hackers/idris-vim'
+
+
 "Plug 'kien/rainbow_parentheses.vim' " better one might exists
 Plug 'rafi/awesome-vim-colorschemes'
 
@@ -51,6 +54,12 @@ Plug 'Yggdroot/indentLine'
 
 
 Plug 'elixir-editors/vim-elixir'
+
+
+Plug 'neovimhaskell/haskell-vim'
+
+
+Plug 'ruanyl/vim-gh-line'
 
 
 " database IDE in vim
@@ -86,10 +95,10 @@ let g:nd_themes = [
   \ ]
 let g:nd_latitude = '55'
 
-" Clojure
-let g:clj_fmt_autosave = 1
 " save file without triggering autocommands (... and cljfmt)
 nnoremap <leader>w :noa w<CR>
+
+" Clojure
 let g:clojure_align_multiline_strings = 1
 let g:clojure_align_subforms = 1
 
@@ -173,7 +182,6 @@ function! s:switch_colorscheme()
     execute 'colorscheme gruvbox'
   endif
 endfunction
-
 nnoremap <leader>c :call <SID>switch_colorscheme()<CR>
 
 " change split position defaults
@@ -192,3 +200,15 @@ nnoremap va` v2i`
 
 " Disable triggering annoying 'Ex mode'
 nnoremap Q <nop>
+
+function! s:reload_all_buffers()
+  set noconfirm
+  bufdo e
+  set confirm
+endfunction
+nnoremap <leader>rb :call <SID>reload_all_buffers()<CR>
+
+nnoremap <leader>rv :source $MYVIMRC<CR>
+
+" lock the height of a window
+nnoremap <leader>fh :set winfixheight<CR>
