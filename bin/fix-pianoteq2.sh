@@ -3,8 +3,8 @@
 # if something doesn't work 'locate' correct shared objects and replace
 # or use `ls /nix/store | grep something`
 
-PIANOTEQ="/home/michel/Pianoteq/Pianoteq 7/x86-64bit/Pianoteq 7"
-PIANOTEQ_SO="/home/michel/Pianoteq/Pianoteq 7/x86-64bit/Pianoteq 7.so"
+PIANOTEQ="/home/michel/Pianoteq/Pianoteq 7-new/Pianoteq 7/x86-64bit/Pianoteq 7"
+PIANOTEQ_SO="/home/michel/Pianoteq/Pianoteq 7-new/Pianoteq 7/x86-64bit/Pianoteq 7.so"
 echo "fixing: $PIANOTEQ"
 
 file "$PIANOTEQ"
@@ -16,7 +16,7 @@ NEW_INTERPRETER="/nix/store/a6rnjp15qgp8a699dlffqj94hzy1nldg-glibc-2.32/lib/ld-l
 LIB_ASOUND="/nix/store/f7k0y5zdifzpq3gcv98vm303kmby38p1-alsa-lib-1.2.4/lib/libasound.so.2"
 LIB_FREETYPE="/nix/store/h5bd4parl53gk0kq73r15fjdfsc6iclv-freetype-2.10.2/lib/libfreetype.so.6"
 LIB_X11="/nix/store/pk2m3xqjcmpdlqqrsbnasrsparyhb62i-libX11-1.7.0/lib/libX11.so.6"
-LIB_STD_CPP="/nix/store/sipmc4wnbcws4vahqlf5i06zz7xgnp23-gcc-10.2.0-lib/lib/libstdc++.so.6"
+LIB_STD_CPP="/nix/store/vran8acwir59772hj4vscr7zribvp7l5-gcc-9.3.0-lib/lib/libstdc++.so.6"
 
 # CPP_LIB_DIR="/nix/store/51hq0xxp9nng3xxfz7dpkhb9lzy7sz84-gcc-9.3.0-lib/lib/libstdc++.so.6"
 # 

@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+# dry-run example to view output
+# [ejendomme-og-grunde]$ my-upgrade-lib 'ejdvur\/soda-log' '"0.2.3333"'
+
+# example for updating all project files
+# [ejendomme-og-grunde]$ my-upgrade-lib 'ejdvur\/soda-log' '"0.2.3333"' :update-files
+
+sed_regex='s'/\
+'\['"$1"' "[^"]*"\n? *:exclusions \[[^]]*\]\]'\
+'|'\
+'\['"$1"'[^]]*\]'\
+'/'\
+'['"$1"' '"$2"']'/
+
+sed_replace_dry_run() {
+  sed -zr "${sed_regex}" $1
+}
+sed_replace() {
+  sed -zri "${sed_regex}" $1
+}
+# exporting function and var such that we can use them in 'bash -c'
+export sed_regex
+export -f sed_replace_dry_run
+export -f sed_replace
+
+if [[ $3 = ":update-files" ]]; then
+  find . -name project.clj -exec bash -c 'sed_replace "$0"' {} \;
+else
+  find . -name project.clj -exec bash -c 'sed_replace_dry_run "$0"' {} \;
+fi

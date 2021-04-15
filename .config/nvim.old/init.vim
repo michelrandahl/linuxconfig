@@ -212,3 +212,7 @@ nnoremap <leader>rv :source $MYVIMRC<CR>
 
 " lock the height of a window
 nnoremap <leader>fh :set winfixheight<CR>
+
+" more convinient matching parens navigation
+nnoremap <tab> %
+vnoremap <tab> %
