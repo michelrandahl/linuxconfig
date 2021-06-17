@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+find . -name dependency-check-report.json \
+ -exec jq '{"project": .projectInfo.name,
+            "summary": [.dependencies[]
+                        | {filePath,
+                           description,
+                           "severities": [.vulnerabilities[]? | {severity,name,description} ] | unique
+                          } | select(.severities | any(.severity == "HIGH"))
+                       ] | unique
+           } | select(.summary | length > 0)' {} \; \
+       | jq -s .

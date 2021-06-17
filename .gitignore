@@ -2,3 +2,4 @@
 .lsp/*
 .clj-kondo/*
 .config/nvim.old/plugged/*
+Session.vim

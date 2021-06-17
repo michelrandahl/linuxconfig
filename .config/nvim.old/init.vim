@@ -216,3 +216,11 @@ nnoremap <leader>fh :set winfixheight<CR>
 " more convinient matching parens navigation
 nnoremap <tab> %
 vnoremap <tab> %
+
+augroup MyColors
+    autocmd!
+    autocmd ColorScheme * highlight CocFloating ctermbg=lightgrey
+augroup END
+
+" yank current buffer
+:nnoremap <Leader>cb :let @+=expand('%:p')<CR>

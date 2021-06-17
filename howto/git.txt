@@ -67,3 +67,6 @@ $ git log Y --pretty=format:"%H" | grep X
 
 # checkout file from another branch
 $ git checkout other-branch -- my-file
+
+# list files that have changed on branch
+`$ git diff --name-only $(git merge-base HEAD origin/develop)`

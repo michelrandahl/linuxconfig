@@ -1,2 +1,17 @@
-# create new haskell project with nix
-$ nix-shell -p cookiecutter git --run 'cookiecutter gh:utdemir/hs-nix-template'
+# create new cookiecutter haskell project with nix
+`$ nix-shell -p cookiecutter git --run 'cookiecutter gh:utdemir/hs-nix-template'`
+
+# repl
+`$ cabal repl`
+
+# build and typecheck
+`$ cabal build`
+
+# enable warning for incomplete pattern matching
+`{-# OPTIONS_GHC -fwarn-incomplete-patterns #-}`
+
+# to use functions such as nameF in repl, first enable
+`:set -XOverloadedStrings`
+
+# import 'pipeline' operator
+`import Data.Function ((&)) -- imports (&) operator for pipelining`

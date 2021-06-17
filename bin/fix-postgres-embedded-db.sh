@@ -18,7 +18,7 @@ NEW_LD_LINUX="/nix/store/9l06v7fc38c1x3r2iydl15ksgz0ysb82-glibc-2.32/lib/ld-linu
 
 # CPP_LIB_DIR="/nix/store/sf0wnp30savqz9ljn6fsrn8f63w5v0za-gcc-7.4.0-lib/lib/libstdc++.so.6"
 # CPP_LIB_DIR="/nix/store/hlnxw4k6931bachvg5sv0cyaissimswb-gcc-7.4.0-lib/lib/libstdc++.so.6"
-CPP_LIB_DIR="/nix/store/51hq0xxp9nng3xxfz7dpkhb9lzy7sz84-gcc-9.3.0-lib/lib/libstdc++.so.6"
+CPP_LIB_DIR="/nix/store/sipmc4wnbcws4vahqlf5i06zz7xgnp23-gcc-10.2.0-lib/lib/libstdc++.so.6"
 
 echo "PROBLEMS:"
 file $1bin/*
@@ -40,6 +40,7 @@ patchelf --set-rpath $NEW_RPATH $1bin/initdb
 # rm $CPP_LIB_DIR $1lib/libstdc++.so.6 # remove file if it exists already
 rm $1lib/libstdc++.so.6 # remove file if it exists already
 ln -s $CPP_LIB_DIR $1lib/libstdc++.so.6
+# patchelf --add-needed $CPP_LIB_DIR "$1bin/postgres"
 
 echo ""
 echo ""

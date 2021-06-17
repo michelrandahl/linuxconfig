@@ -40,5 +40,11 @@ $ nvim -S Session.vim
 # source session from within vim
 `:source Session.vim`
 
-# delete all lines that do not contain word
-`:v/price/d`
+# delete all lines that do not contain word 'foobar'
+`:v/foobar/d`
+
+# highlight something specific, like for example tabs
+`:match Error /\t/`
+
+# replace \n with real newline
+`:%s/\\n/\r/g`

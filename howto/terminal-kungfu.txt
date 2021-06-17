@@ -15,3 +15,10 @@
 
 # grep disjunction
 `$ grep -E 'foo|bar' <some-file>`
+
+# advanced uses of find...
+# find all directories that have Makefile and list their subdirectories
+`$ find . -mindepth 2 -name Makefile -exec bash -c 'find $(dirname $0) -type d' {} \;`
+# rename inside files with find
+`$ find . -name Makefile -exec sh -c 'sed -i "s|temp/|cicd/|" {}' \;`
+
