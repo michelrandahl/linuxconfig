@@ -28,14 +28,20 @@
                       pp))
 
                (defn duplicate-imports [project-path]
-                 (let [has-duplicates (fn [file-object]
+                 (let [is-clj-file? (comp #{"clj" "cljc"}
+                                          last
+                                          #(clojure.string/split % #"\.")
+                                          str
+                                          #(.getFileName (.toPath %)))
+                       has-duplicates (fn [file-object]
                                         (let [file-path (.getAbsolutePath file-object)
                                               imports (->> file-path
                                                            slurp
                                                            read-string
                                                            (filter (every-pred seq? (comp #{:require} first)))
                                                            first
-                                                           (filter vector?))
+                                                           (filter vector?)
+                                                           (map first))
                                               set-count (count (set imports))
                                               list-count (count imports)]
                                           (when (< set-count list-count)
@@ -46,12 +52,7 @@
                    (->> project-path
                         clojure.java.io/file
                         file-seq
-                        (filter (every-pred #(.isFile %)
-                                            (comp #{"clj" "cljc"}
-                                                  last
-                                                  #(clojure.string/split % #"\.")
-                                                  str
-                                                  #(.getFileName (.toPath %)))))
+                        (filter (every-pred #(.isFile %) is-clj-file?))
                         (remove (comp #{"project.clj"} #(.getFileName (.toPath %))))
                         (keep has-duplicates))))]
   :aliases {"rebl" ["trampoline" "run" "-m" "rebel-readline.main"]}
@@ -74,18 +75,18 @@
                         '[clojure.java.io]
                         '[clojure.string])
 
-                     (def gen (comp gen/generate s/gen))
+               (def gen (comp gen/generate s/gen))
 
-                     (def rf-all clojure.tools.namespace.repl/refresh-all)
-                     (defn rf []
-                       (let [refresh-result (clojure.tools.namespace.repl/refresh)]
-                         (case refresh-result
-                           :ok (let [[number namespaces] ((juxt count (comp vec sort set (partial map namespace)))
-                                                          (orchestra-st/instrument))]
-                                 (println "Instrumented namespaces:")
-                                 (pp namespaces)
-                                 (println "Number of instrumented functions: " number))
-                           refresh-result)))]
+               (def rf-all clojure.tools.namespace.repl/refresh-all)
+               (defn rf []
+                 (let [refresh-result (clojure.tools.namespace.repl/refresh)]
+                   (case refresh-result
+                     :ok (let [[number namespaces] ((juxt count (comp vec sort set (partial map namespace)))
+                                                    (orchestra-st/instrument))]
+                           (println "Instrumented namespaces:")
+                           (pp namespaces)
+                           (println "Number of instrumented functions: " number))
+                     refresh-result)))]
   :aliases {"rebl" ["trampoline" "run" "-m" "rebel-readline.main"]}
   :pedantic? :warn}
  :ice [:base :system :user :provided :dev :test :kaocha :utility-functions-light :utility-functions-heavy] ;; merge profiles into one
