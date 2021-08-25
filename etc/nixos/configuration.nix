@@ -20,6 +20,7 @@ let
     htop
     killall
     man-pages
+    nix-prefetch-git
     openconnect # required to use vpn at work
     openssh
     openvpn
@@ -47,17 +48,20 @@ let
   audioTools = with pkgs; [
     audacity
     baudline # spectogram viewer
-    bitwig-studio
+    #bitwig-studio
   ];
   # unstable = import "/nix/var/nix/profiles/per-user/root/channels/nixos-unstable" {};
   editorPackages = with pkgs; [
     emacs
     neovim
     ripgrep # grep tool used by vim plugin vim-clap
+    vifm
     vimPlugins.vim-clap
   ];
   developerPackages = with pkgs; [
     awscli2
+    aws-adfs
+    cabal-install
     clojure
     clojure-lsp
     direnv # tool for automatically sourcing '.envrc' in directories
@@ -69,8 +73,9 @@ let
     elmPackages.elm-format
     elmPackages.elm-language-server
     elmPackages.elm-test
+    ghc
     graphviz
-    groff # used by awscli man pages
+    groff # used by awscli man pages?
     hy
     idris
     jq
@@ -101,6 +106,7 @@ let
     qutebrowser # browser with vim bindings
     scrot # screenshot program
     simplescreenrecorder
+    slack
     vlc
     xcalib
     xz # file compression tool
@@ -208,7 +214,7 @@ in {
   };
 
   fonts = {
-    enableFontDir = true;
+    fontDir.enable = true;
     enableGhostscriptFonts = true;
     fonts = with pkgs; [
       source-code-pro
@@ -293,7 +299,7 @@ in {
   users.users.michel = {
     home = "/home/michel";
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "audio" "realtime" "video" "docker" "vboxusers" "dialup" ];
+    extraGroups = [ "wheel" "networkmanager" "audio" "realtime" "video" "docker" "vboxusers" "dialup" "dialout" ];
   };
 
   # Open ports in the firewall.
