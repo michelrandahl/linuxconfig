@@ -5,8 +5,12 @@ find . -name dependency-check-report.json \
             "summary": [.dependencies[]
                         | {filePath,
                            description,
-                           "severities": [.vulnerabilities[]? | {severity,name,description} ] | unique
-                          } | select(.severities | any(.severity == "HIGH"))
+                           "severities": [.vulnerabilities[]?
+                                         | {severity,name,description
+                                           ,"score": .cvssv3.baseScore}
+                                           | select(.score >= 4.0)
+                                         ] | unique
+                          } | select(.severities | length > 0)
                        ] | unique
            } | select(.summary | length > 0)' {} \; \
        | jq -s .
