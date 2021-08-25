@@ -66,6 +66,8 @@ Plug 'ruanyl/vim-gh-line'
 Plug 'tpope/vim-dadbod'
 Plug 'kristijanhusak/vim-dadbod-ui'
 
+Plug 'rhysd/git-messenger.vim'
+
 call plug#end()
 
 let g:coc_global_extensions = ['coc-json', 'coc-vimlsp', 'coc-css', 'coc-html', 'coc-git']
@@ -219,8 +221,10 @@ vnoremap <tab> %
 
 augroup MyColors
     autocmd!
-    autocmd ColorScheme * highlight CocFloating ctermbg=lightgrey
+    autocmd ColorScheme * highlight CocFloating ctermbg=darkgrey
 augroup END
 
 " yank current buffer
 :nnoremap <Leader>cb :let @+=expand('%:p')<CR>
+
+:nnoremap <Leader>gm :GitMessenger<CR>
