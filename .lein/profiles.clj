@@ -89,6 +89,7 @@
                      refresh-result)))]
   :aliases {"rebl" ["trampoline" "run" "-m" "rebel-readline.main"]}
   :pedantic? :warn}
+ :mnie [:utility-functions-light :utility-functions-heavy]
  :ice [:base :system :user :provided :dev :test :kaocha :utility-functions-light :utility-functions-heavy] ;; merge profiles into one
  :thin-ice [:base :system :user :provided :dev :test :kaocha :utility-functions-light] ;; merge profiles into one
  :my-nvd {:plugins [[lein-nvd "1.4.1"]]
