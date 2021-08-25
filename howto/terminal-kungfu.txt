@@ -22,3 +22,6 @@
 # rename inside files with find
 `$ find . -name Makefile -exec sh -c 'sed -i "s|temp/|cicd/|" {}' \;`
 
+# search for a class file in a lot of jar files (grep works on content of jar files)
+`find . -name '*.jar' -exec grep -Hsli ClientConfiguration {} \;`
+

@@ -1,0 +1,2 @@
+# execute command over ssh
+ssh pi@192.168.8.106 'vncserver'

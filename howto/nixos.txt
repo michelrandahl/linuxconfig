@@ -49,3 +49,6 @@ $ nix-env -f . -iA libfoo
 
 # calculate hash/sha of package
 `$ nix-hash --type sha256 --base32 --flat <some-binary>`
+
+# search and install nodejs packages
+nix-env -qaPA nixos.nodePackages | grep purescript

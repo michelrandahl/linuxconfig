@@ -15,3 +15,7 @@ $ lsusb -t
 
 # install iso to USB
 $ dd if=/path/to/isofile of=/dev/sdX
+
+# bluetooth A2DP sink profile (unavailable)
+$ pulseaudio -k
+$ systemctl restart bluetooth.service
