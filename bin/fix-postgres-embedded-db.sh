@@ -20,6 +20,8 @@ NEW_LD_LINUX="/nix/store/9l06v7fc38c1x3r2iydl15ksgz0ysb82-glibc-2.32/lib/ld-linu
 # CPP_LIB_DIR="/nix/store/hlnxw4k6931bachvg5sv0cyaissimswb-gcc-7.4.0-lib/lib/libstdc++.so.6"
 CPP_LIB_DIR="/nix/store/sipmc4wnbcws4vahqlf5i06zz7xgnp23-gcc-10.2.0-lib/lib/libstdc++.so.6"
 
+LIBKEY_UTILS="/nix/store/2hk7nylygj4bm89lk7xlc6j8479rgp1s-keyutils-1.6.3-lib/lib/libkeyutils.so.1"
+
 echo "PROBLEMS:"
 file $1bin/*
 ldd $1bin/*
@@ -35,6 +37,9 @@ patchelf --set-interpreter $NEW_LD_LINUX $1bin/postgres
 patchelf --set-rpath $NEW_RPATH $1bin/postgres
 patchelf --set-rpath $NEW_RPATH $1bin/initdb
 
+
+patchelf --add-needed $LIBKEY_UTILS $1bin/postgres
+patchelf --add-needed $LIBKEY_UTILS $1bin/initdb
 
 # we can't add this one to the rpath for some reason, so we just make a link instead
 # rm $CPP_LIB_DIR $1lib/libstdc++.so.6 # remove file if it exists already

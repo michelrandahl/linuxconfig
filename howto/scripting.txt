@@ -1,0 +1,5 @@
+# generic shebang header for scripts
+`#!/usr/bin/env bash`
+
+# make sure that errors are propagates and not swallowed in unix pipelines
+`set -o pipefail`

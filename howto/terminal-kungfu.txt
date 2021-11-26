@@ -1,3 +1,6 @@
+# cat file without having to type the whole filename
+`$ cat *bar*`
+
 # remove first line of file
 `$ tail -n +2 my-file`
 
@@ -7,8 +10,14 @@
 # compare two sorted files
 `$ comm file1 file2`
 
+# sort and compare two files and supress diff for common lines and for the second file
+`$ comm <(sort foo.txt) <(sort foo2.txt) -23`
+
 # extract column 1,2,3 data from csv file
 `$ tail -n +2 my-file | cut -d ',' -f 1,2,3`
+
+# find first three files with specific file-type under current directory
+`$ find . -name "*.json" -type f | head -3`
 
 # find specific files and grep inside them
 `$ find . -name project.clj | xargs grep 'lein-nvd'`
@@ -23,5 +32,28 @@
 `$ find . -name Makefile -exec sh -c 'sed -i "s|temp/|cicd/|" {}' \;`
 
 # search for a class file in a lot of jar files (grep works on content of jar files)
-`find . -name '*.jar' -exec grep -Hsli ClientConfiguration {} \;`
+`$ find . -name '*.jar' -exec grep -Hsli ClientConfiguration {} \;`
 
+# find directories that contain a specific file and execute a program on the directory
+# example with invoking `lein nvd check` on all directories that contain project.clj files
+`$ find . -name project.clj -execdir lein nvd check {} ";"`
+
+# retain colour output in `less` (note that you can also press `-r` when already in less output)
+# example with `tree`
+`$ tree -C -L 2 | less -r`
+# example with `ls`
+`$ ls -lrth --color | less -r`
+# example with `jq`
+`$ nix search yq --json | jq -C . | less -r`
+
+# write to file inside unix pipeline
+`$ .... | tee my-file.txt | ...`
+
+# extract three entries from second column from csv-file with delimiter ';' using `cut`
+`$ cat file.csv | cut -d ';' -f2 | tail -n +2 | head -3`
+
+# show exit status of the last executed terminal command
+`$ echo $?`
+
+# 'grep' with a regex pattern inside lines using `sed`
+`$ cat /home/michel/.aws-credentials | sed -n 's|^aws.* = \(.*\)$|\1|p'`

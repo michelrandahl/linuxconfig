@@ -60,7 +60,7 @@
  :utility-functions-heavy
  {:dependencies [[com.bhauman/rebel-readline "0.1.4"]
                  [org.clojure/tools.namespace "1.1.0"
-                        ;; solving dependency conflicts for ICE projects
+                  ;; solving dependency conflicts for ICE projects
                   :exclusions [org.clojure/tools.reader]]
                  [org.clojure/tools.reader "1.3.2"]
                  [org.clojure/test.check "0.10.0"]

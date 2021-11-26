@@ -3,7 +3,7 @@ from os import listdir, system
 from os.path import isfile, join
 import random
 
-mypath = "/etc/openvpn/OpenVPN256/"
+mypath = "connections/"
 
 ovpnfiles = filter(lambda f: isfile(join(mypath, f)) and f.endswith(".ovpn"), listdir(mypath))
 

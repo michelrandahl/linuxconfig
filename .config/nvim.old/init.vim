@@ -62,6 +62,9 @@ Plug 'neovimhaskell/haskell-vim'
 Plug 'ruanyl/vim-gh-line'
 
 
+Plug 'adelarsq/neofsharp.vim'
+
+
 " database IDE in vim
 Plug 'tpope/vim-dadbod'
 Plug 'kristijanhusak/vim-dadbod-ui'
@@ -95,7 +98,7 @@ let g:nd_themes = [
   \ ['sunrise+0', 'github', 'light' ],
   \ ['sunset+0', 'gruvbox', 'dark' ],
   \ ]
-let g:nd_latitude = '55'
+let g:nd_latitude = 55
 
 " save file without triggering autocommands (... and cljfmt)
 nnoremap <leader>w :noa w<CR>

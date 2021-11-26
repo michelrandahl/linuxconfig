@@ -1,2 +1,9 @@
-# order jq output
-$ cat vurderingsforslag_samsoe.ndjson | jq -c '{"id":.vurderingsejendom_id_ice, "size": . | tostring | length}' | jq -s -c 'sort_by(.size)[]'
+# Note that there also exists programs for parsing and querying xml (`xq`) and yaml (`yq`)
+
+# sort jq output based on value of field
+`$ cat vurderingsforslag_samsoe.ndjson | jq -c '{"id":.vurderingsejendom_id_ice, "size": . | tostring | length}' | jq -s -c 'sort_by(.size)[]'`
+
+# conditionally parse output as json, query in it and clean it if it is json, but still output it if it is not json
+# ... `jq -r` simply removes the "" around the strings in the output, and `jq -R` makes sure that jq handles the raw input (without first parsing it)
+# ... `| del(.["foo", "bar"])` removes specified fields
+`jq -R -r '(. as $line | try (fromjson | {level,message,"attrs": .attrs | del(.["ejdvur.soda-log.log/file", "ejdvur.soda-log.log/line", "ejdvur.soda-log.log/column"])} | if .attrs == {} then del(.attrs) else . end) catch $line)'`

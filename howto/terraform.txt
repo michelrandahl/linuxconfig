@@ -1,0 +1,17 @@
+# need environment variables and fresh ~/.aws-credentials for correct role and account
+export AWS_ACCOUNT=...
+export AWS_PROFILE=...
+
+# need terraform tool installed with correct version
+nix-shell -p '(import <unstable> {}).terraform_0_15'
+
+# terraform latest version (currently 1.0.9)
+nix-shell -p '(import <unstable> {}).terraform-full'
+nix-shell -p '(import <unstable> {}).terraform_1_08'
+nix-shell -p '(import <unstable> {}).terraform_1_0'
+
+# in ./examples/some-module
+terraform init
+terraform plan -var-file=fixtures.eu-west-1.tfvars
+terraform apply -var-file=fixtures.eu-west-1.tfvars
+terraform destroy -var-file=fixtures.eu-west-1.tfvars

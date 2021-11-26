@@ -19,7 +19,7 @@ $ nmcli c delete <connect name>
 
 # enterprise wifi
 # https://askubuntu.com/questions/262491/connect-to-a-wpa2-enterprise-connection-via-cli-no-desktop
-$ nmcli con add type wifi ifname wlan0 con-name CONNECTION_NAME ssid SSID
+$ nmcli con add type wifi ifname wlp2s0 con-name CONNECTION_NAME ssid SSID
 $ nmcli con edit id CONNECTION_NAME
 nmcli> set ipv4.method auto
 nmcli> set 802-1x.eap peap

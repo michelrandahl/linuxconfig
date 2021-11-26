@@ -1,5 +1,27 @@
+# list docker image definitions in local repository
+`$ docker images`
+
+# run docker image as container with inherited environment variables
+`$ docker run -e FOOBAR --env STUFF="42" <some-docker-image-name>`
+
+# list running docker containers
+`$ docker ps`
+
+# send SIGTERM to running docker container, and if not terminated withing 30 seconds then send SIGKILL
+`$ docker stop <some-docker-id> -t 30`
+
 # build image based on file
-$ sudo docker build . -f Dockerfile.aws -t foo/r-integration
+`$ sudo docker build . -f Dockerfile.aws -t foo/r-integration`
 
 # login to docker image with bash
-$ docker exec -it image-name /bin/sh
+`$ docker exec -it image-name /bin/sh`
+
+# pull image definition from remote AWS repository into local repository
+# first make sure that docker can login on the AWS account repository
+`$ aws ecr get-login-password --region eu-west-1 --profile my-profile | docker login --username AWS --password-stdin xxxxxxxxxxxx.dkr.ecr.eu-west-1.amazonaws.com`
+# next pull the desired image definition
+`$ docker pull xxxxxxxxxxxx.dkr.ecr.eu-west-1.amazonaws.com/centos7-openjdk:latest`
+
+# in Dockerfile definition, make sure that the job/script is started with 'PID 1'
+# ... it is important that the process gets 'PID 1' if we want the process to react to  SIGTERM
+`CMD ["bash", "entrypoint.sh"]`

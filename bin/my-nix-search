@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+nix search $2 --json | jq -c 'to_entries[]' | grep $1

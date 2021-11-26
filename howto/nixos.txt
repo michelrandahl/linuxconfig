@@ -51,4 +51,15 @@ $ nix-env -f . -iA libfoo
 `$ nix-hash --type sha256 --base32 --flat <some-binary>`
 
 # search and install nodejs packages
-nix-env -qaPA nixos.nodePackages | grep purescript
+`$ nix-env -qaPA nixos.nodePackages | grep purescript`
+
+# list direct runtime dependencies for a package (example jq)
+$ nix-store -q --references `which jq`
+
+# list all dependencies recursively
+nix-store -qR `which jq`
+# OR
+nix-store -q --tree `which jq`
+
+# list dependents for a package (example jq)
+$ nix-store -q --referrers `which jq`

@@ -1,4 +1,4 @@
-with (import <unstable> {});
+with (import <nixpkgs> {});
 mkShell {
   buildInputs = [
     purescript

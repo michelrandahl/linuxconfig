@@ -40,7 +40,7 @@
     },
     "fsharp": {
       "command": "dotnet",
-      "args": ["/home/michel/Code/FsAutoComplete/bin/release_netcore/fsautocomplete.dll", "--background-service-enabled"],
+      "args": ["fsautocomplete", "--background-service-enabled"],
       "filetypes": ["fsharp"]
     }
   },
