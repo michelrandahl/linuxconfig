@@ -1,0 +1,2 @@
+# parse base64 encoded saml file, and use `xq` to parse and query the output to show list of roles
+`$ base64 -d $1 | xq '.["samlp:Response"].Assertion.AttributeStatement.Attribute[] | select(.["@Name"] == "https://aws.amazon.com/SAML/Attributes/Role") | .AttributeValue[]' | sort`

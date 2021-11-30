@@ -6,7 +6,6 @@
 
 let
   essentialPackages = with pkgs; [
-    # vnstat # track internet data usage
     _1password # cli tool for password manager
     acpilight
     baobab # tool for visualizing disk usage
@@ -28,7 +27,7 @@ let
     patchelf # useful tool patching binaries in NixOs when they don't point to correct libraries
     procps # pkill and kill command
     pwgen # password generator tool
-    termite
+    termite # truly mouse free terminal
     tree # view directory and file strucutes as tree in terminal
     unzip
     usbutils
@@ -50,47 +49,59 @@ let
     baudline # spectogram viewer
     #bitwig-studio
   ];
-  # unstable = import "/nix/var/nix/profiles/per-user/root/channels/nixos-unstable" {};
+  # sudo -i nix-channel --add https://nixos.org/channels/nixpkgs-unstable unstable
+  # sudo -i nix-channel --update unstable
+  unstable = import "/nix/var/nix/profiles/per-user/root/channels/unstable" {};
+  unstable_packages = with unstable; [
+    fennel # a lisp dialect for Lua
+    neovim # getting neovim from unstable so we can get version 0.5
+  ];
   editorPackages = with pkgs; [
     emacs
-    neovim
-    ripgrep # grep tool used by vim plugin vim-clap
-    vifm
-    vimPlugins.vim-clap
+    # neovim
+    # ripgrep # grep tool used by vim plugin vim-clap
+    # vimPlugins.vim-clap
   ];
   developerPackages = with pkgs; [
-    awscli2
+    # groff # used by awscli man pages?
     aws-adfs
+    awscli2
     cabal-install
     clojure
     clojure-lsp
     direnv # tool for automatically sourcing '.envrc' in directories
     docker
-    dotnet-sdk_3 
+    dotnet-netcore
+    dotnet-sdk_5
+    dotnetCorePackages.netcore_3_1
+    dotnetCorePackages.sdk_5_0
     elixir
     elmPackages.elm
     elmPackages.elm-analyse
     elmPackages.elm-format
     elmPackages.elm-language-server
     elmPackages.elm-test
-    ghc
+    ghc # haskell compiler
     graphviz
-    groff # used by awscli man pages?
-    hy
+    hy # lisp dialect of python
     idris
     jq
     leiningen
     lua
+    nodePackages.purescript-language-server
     nodejs
     perl
     plantuml # tool for 'writing' software diagrams
     postgresql
+    purescript
     python3
-    python37Packages.virtualenv
+    python39Packages.virtualenv
     silver-searcher
+    spago
     sqlite
     tig
-    yq # jq equivalent for yaml files
+    visualvm # java profiler
+    yq # jq equivalent for yaml files.. Also contains `xq`
   ];
   miscPackages = with pkgs; [
     feh # set background wallpaper
@@ -102,12 +113,12 @@ let
     perl530Packages.ImageExifTool # 'exiftool' image metadata extraction cli tool
     picocom
     poppler_utils # contains the tool pdfunite for appending pdf documents
-    qiv
+    qiv # image viewer
     qutebrowser # browser with vim bindings
     scrot # screenshot program
-    simplescreenrecorder
     slack
-    vlc
+    vifm
+    vlc # video player
     xcalib
     xz # file compression tool
     zathura # pdf reader
@@ -205,12 +216,12 @@ in {
       developerPackages ++
       audioPackages ++
       audioTools ++
-      miscPackages;
+      miscPackages ++
+      unstable_packages;
       variables = {
         EDITOR = "nvim";
       };
       homeBinInPath = true;
-      pathsToLink = [ "/libexec" ];
   };
 
   fonts = {
@@ -299,7 +310,18 @@ in {
   users.users.michel = {
     home = "/home/michel";
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "audio" "realtime" "video" "docker" "vboxusers" "dialup" "dialout" ];
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+      "audio"
+      "realtime"
+      "video"
+      "docker"
+      "vboxusers"
+      "dialup"
+      "dialout"
+      "postgres"
+    ];
   };
 
   # Open ports in the firewall.
