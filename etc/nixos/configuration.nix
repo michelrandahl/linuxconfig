@@ -59,7 +59,7 @@ let
   editorPackages = with pkgs; [
     emacs
     # neovim
-    # ripgrep # grep tool used by vim plugin vim-clap
+    ripgrep # `rg`, grep tool used neovim telescope plugin
     # vimPlugins.vim-clap
   ];
   developerPackages = with pkgs; [
@@ -71,16 +71,12 @@ let
     clojure-lsp
     direnv # tool for automatically sourcing '.envrc' in directories
     docker
-    dotnet-netcore
-    dotnet-sdk_5
-    dotnetCorePackages.netcore_3_1
-    dotnetCorePackages.sdk_5_0
     elixir
-    elmPackages.elm
-    elmPackages.elm-analyse
-    elmPackages.elm-format
-    elmPackages.elm-language-server
-    elmPackages.elm-test
+    # elmPackages.elm
+    # elmPackages.elm-analyse
+    # elmPackages.elm-format
+    # elmPackages.elm-language-server
+    # elmPackages.elm-test
     ghc # haskell compiler
     graphviz
     hy # lisp dialect of python
@@ -88,12 +84,11 @@ let
     jq
     leiningen
     lua
-    nodePackages.purescript-language-server
-    nodejs
-    perl
+    # nodePackages.purescript-language-server
+    # nodejs
     plantuml # tool for 'writing' software diagrams
     postgresql
-    purescript
+    # purescript
     python3
     python39Packages.virtualenv
     silver-searcher
@@ -110,7 +105,6 @@ let
     inkscape
     libreoffice
     pciutils
-    perl530Packages.ImageExifTool # 'exiftool' image metadata extraction cli tool
     picocom
     poppler_utils # contains the tool pdfunite for appending pdf documents
     qiv # image viewer
@@ -159,7 +153,7 @@ in {
   #        manner. Files are considered identical when they have the same NAR archive
   #        serialisation: that is, regular files must have the same contents and permission
   #        (executable or non-executable), and symlinks must have the same contents.
-  nix.autoOptimiseStore = true;
+  nix.autoOptimiseStore = true; # is this causing the nix slowness?
 
   # backup configuration file upon rebuild
   system.copySystemConfiguration = true;
@@ -180,7 +174,8 @@ in {
   };
 
   boot.initrd.luks.devices.root = {
-    device = "/dev/disk/by-uuid/c382c103-6eaa-4c68-9740-9129bb7f0068";
+    device = "/dev/disk/by-uuid/b230b1b4-1276-43a7-8608-8c120d0f8d70";
+                                
     preLVM = true;
     allowDiscards = true;
   };
@@ -188,12 +183,22 @@ in {
   # networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
+  # Set your time zone.
+  # time.timeZone = "Europe/Amsterdam";
+
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
   networking.useDHCP = false;
   networking.interfaces.enp0s31f6.useDHCP = true;
   networking.interfaces.wlp2s0.useDHCP = true;
+
+  # fixing issue with nix being crazy slow https://github.com/NixOS/nix/issues/5441
+  networking.hosts."127.0.0.1" = [ "this.pre-initializes.the.dns.resolvers.invalid." ];
+
+  # Configure network proxy if necessary
+  # networking.proxy.default = "http://user:password@proxy:port/";
+  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   networking = {
     hostName = "michel-x1";
@@ -256,6 +261,10 @@ in {
   # i18n.inputMethod.fcitx.engines = with pkgs.fcitx-engines; [ mozc ];
 
   services = {
+    clamav = {
+      daemon. enable = true;
+      updater.enable = true;
+    };
     # anti sleep?
     # logind.lidSwitch = "ignore";
     openssh.enable = true;
@@ -289,6 +298,7 @@ in {
   };
 
   hardware = {
+    keyboard.zsa.enable = true;
     pulseaudio = {
       enable = true;
       package = pkgs.pulseaudioFull;
@@ -321,8 +331,22 @@ in {
       "dialup"
       "dialout"
       "postgres"
+      "plugdev"
     ];
   };
+
+  # Some programs need SUID wrappers, can be configured further or are
+  # started in user sessions.
+  # programs.mtr.enable = true;
+  # programs.gnupg.agent = {
+  #   enable = true;
+  #   enableSSHSupport = true;
+  # };
+
+  # List services that you want to enable:
+
+  # Enable the OpenSSH daemon.
+  # services.openssh.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
@@ -336,7 +360,7 @@ in {
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "20.09"; # Did you read the comment?
+  system.stateVersion = "21.05"; # Did you read the comment?
 
 }
 
