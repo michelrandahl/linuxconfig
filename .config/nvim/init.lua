@@ -9,6 +9,21 @@ require'lspconfig'.fsautocomplete.setup{
 require'lspconfig'.purescriptls.setup{}
 require'lspconfig'.elmls.setup{}
 require'lspconfig'.ghcide.setup{}
+local cmp = require "cmp"
+cmp.setup {
+  mapping = {
+    ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+    ["<C-f>"] = cmp.mapping.scroll_docs(4),
+    ["<C-n>"] = cmp.mapping.select_next_item(),
+    ["<C-p>"] = cmp.mapping.select_prev_item()
+  },
+  sources = {
+    { name = "nvim_lsp", keyword_length = 1 },
+    { name = "buffer" },
+    { name = "path" },
+  }
+}
+--[[
 require'compe'.setup {
   enabled = true;
   autocomplete = true;
@@ -34,8 +49,10 @@ require'compe'.setup {
     treesitter = true;
   };
 }
+--]]
 
-require('telescope').setup{
+local telescope = require'telescope'
+telescope.setup{
   defaults = {
     -- pseudo transparency
     -- winblend = 20;
@@ -206,6 +223,12 @@ vim.cmd [[
   au FileType json noremap <buffer> <silent> <localleader>g :call jsonpath#goto()<CR>
 ]]
 
+--vim.cmd [[
+--  au FileType purescript setl indentexpr=""
+--]]
+-- purescript plugin has some annoying indentation rules
+let.purescript_disable_indent = 1
+
 -- keep terminal buffers open in background
 vim.cmd [[
   augroup custom_term
@@ -214,20 +237,23 @@ vim.cmd [[
   augroup END
 ]]
 
-let.nd_themes = { {"sunrise+1/3", "github", "light" }
+
+
+let.nd_themes = { {"sunrise+1/3", "gruvbox", "light" }
                 , {"sunset+0", "gruvbox", "dark" } }
 let.nd_latitude = 55
 
-vim.cmd([[colorscheme gruvbox]])
 set.background = "dark"
+vim.opt.termguicolors = true
+vim.cmd([[colorscheme  gruvbox]])
 
 _G.switch_colorscheme = function()
   if(set.background._value == "dark") then
     set.background = "light"
-    vim.cmd([[colorscheme github]])
+    --vim.cmd([[colorscheme github]])
   else
     set.background = "dark"
-    vim.cmd([[colorscheme gruvbox]])
+    --vim.cmd([[colorscheme gruvbox]])
   end
 end
 nnoremap('<leader>c', '<cmd>lua switch_colorscheme()<CR>')

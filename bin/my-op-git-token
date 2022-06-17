@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+eval $(op signin my)
+
+op get item "github token" --fields password | xclip -selection c

@@ -5,17 +5,23 @@
 `$ systemctl hibernate`
 
 # list harddrives
-$ lsblk
+`$ lsblk`
 
 # list USB devices
-$ lsusb
+`$ lsusb`
 
 # list USB devices tree
-$ lsusb -t
+`$ lsusb -t`
 
 # install iso to USB
-$ dd if=/path/to/isofile of=/dev/sdX
+`$ dd if=/path/to/isofile of=/dev/sdX`
 
 # bluetooth A2DP sink profile (unavailable)
 $ pulseaudio -k
-$ systemctl restart bluetooth.service
+`$ systemctl restart bluetooth.service`
+
+# cursor theme i3
+https://wiki.archlinux.org/title/Cursor_themes
+
+# troubleshoot program in linux using `strace`
+`$ strace nix --version`

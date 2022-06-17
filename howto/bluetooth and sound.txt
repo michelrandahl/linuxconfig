@@ -1,18 +1,20 @@
-use...
-$ bluetoothctl 
-...to discover, 'trust' and 'connect' to bluetooth device
+# use...
+`$ bluetoothctl `
+# ...to discover, 'trust' and 'connect' to bluetooth device
 
-if sound in bluetooth device sounds like a crappy telephone:
-$ sudo service bluetooth restart
-.. or perform following command to enable "High Fidelity Playback" (A2DP Sink)
-$ pacmd set-card-profile 2 a2dp_sink
-.. or set it to a2dp_sink in the pavucontrol gui
+# if sound in bluetooth device sounds like a crappy telephone:
+`$ sudo service bluetooth restart`
+# .. or
+`$ systemctl restart bluetooth.service`
+# .. or perform following command to enable "High Fidelity Playback" (A2DP Sink)
+`$ pacmd set-card-profile 2 a2dp_sink`
+# .. or set it to a2dp_sink in the pavucontrol gui
 
-..if it still sounds like a crappy telephone, then try:
-$ sudo vim /etc/bluetooth/audio.conf
-..and add the following under [General]:
-Disable=Headset
+# ..if it still sounds like a crappy telephone, then try:
+`$ sudo vim /etc/bluetooth/audio.conf`
+# ..and add the following under [General]:
+# Disable=Headset
 
-if pulseaudio doesn't show bluetooth device try:
-$ pulseaudio -k
+# if pulseaudio doesn't show bluetooth device try:
+`$ pulseaudio -k`
 

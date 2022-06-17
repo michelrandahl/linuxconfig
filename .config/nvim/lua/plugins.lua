@@ -19,12 +19,14 @@ return require('packer').startup(function()
     }
   }
 
-  -- modern colorschemes (they integrate with lsp, but I had some problems making them work properly, and the modern github theme was too harsh on the eyes, lets try again later....)
+  -- modern colorschemes (they integrate with lsp, but I had some problems making them work properly, and the modern github theme was too harsh on the eyes and behaves weird)
   --use 'projekt0n/github-nvim-theme'
-  --use {"ellisonleao/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}}
+  use {"ellisonleao/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}}
+  -- nightfox is too pale and thin...
+  -- use 'EdenEast/nightfox.nvim'
   
   -- oldschool colorschemes (lacks proper lsp integration...)
-  use 'morhetz/gruvbox'
+  --use 'morhetz/gruvbox'
   use 'endel/vim-github-colorscheme'
 
   -- alternative to the old vim-surround (old vim-surround does not behave well with Elm code...)
@@ -64,9 +66,10 @@ return require('packer').startup(function()
   use 'neovim/nvim-lspconfig'
   use { 'nvim-treesitter/nvim-treesitter'
       , run = ':TSUpdate' }
+  use 'nvim-treesitter/playground'
 
   -- automatic colour theme switcher based on the sun
-  use 'nightsense/night-and-day'
+  -- use 'nightsense/night-and-day'
 
   -- view commit message and git-blame for specific lines
   use 'rhysd/git-messenger.vim'
@@ -92,9 +95,13 @@ return require('packer').startup(function()
 
   -- intellisense/autocompletion
   -- TODO deprecated but functional, replace with 'hrsh7th/nvim-cmp' after some time
-  use 'hrsh7th/nvim-compe'
-  --use 'hrsh7th/nvim-cmp'
+  --use 'hrsh7th/nvim-compe'
+  use 'hrsh7th/nvim-cmp'
+  use 'hrsh7th/cmp-buffer'
+  use 'hrsh7th/cmp-path'
+  use 'hrsh7th/cmp-nvim-lua'
+  use 'hrsh7th/cmp-nvim-lsp'
 
   -- terraform syntax
-  use 'hashivim/vim-terraform'
+  -- use 'hashivim/vim-terraform'
 end)
