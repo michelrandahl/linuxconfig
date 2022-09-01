@@ -1,0 +1,5 @@
+# view definition of function
+`sp_helptext [function-name]`
+
+# execute query from terminal and exit
+sqlcmd.exe -S [server-name] -U [username] -P [pw] -d [db-name] -Q "select 1"

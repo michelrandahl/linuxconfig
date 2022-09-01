@@ -35,6 +35,10 @@ return require('packer').startup(function()
   -- easily send code from a buffer to neovim terminal (must have for REPL workflows)
   use 'mtikekar/nvim-send-to-term'
 
+  -- to arrange, visually select everything and run the command `:CSVArrangeColumn`
+  -- to delete a column run the command `:DeleteColumn`
+  use 'chrisbra/csv.vim'
+
   --[[
     Use vim as DB-IDE with 'tpope/vim-dadbod'.
     Create a vim file with db-connection strings and db-ui configuration.
@@ -65,8 +69,8 @@ return require('packer').startup(function()
   -- neovim Language Server Protocol, for better syntax highlightning etc...
   use 'neovim/nvim-lspconfig'
   use { 'nvim-treesitter/nvim-treesitter'
-      , run = ':TSUpdate' }
-  use 'nvim-treesitter/playground'
+      , run = ':TSUpdate'
+      , commit = '668de0951a36ef17016074f1120b6aacbe6c4515'}
 
   -- automatic colour theme switcher based on the sun
   -- use 'nightsense/night-and-day'
@@ -87,8 +91,9 @@ return require('packer').startup(function()
   use 'hylang/vim-hy'
 
   -- F# language support
-  use 'PhilT/vim-fsharp'
+  -- use 'PhilT/vim-fsharp'
   --use 'adelarsq/neofsharp.vim'
+  use 'ionide/Ionide-vim'
 
   -- Purescript language support
   use 'purescript-contrib/purescript-vim'
@@ -101,6 +106,8 @@ return require('packer').startup(function()
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-nvim-lua'
   use 'hrsh7th/cmp-nvim-lsp'
+
+  --use 'glepnir/lspsaga.nvim'
 
   -- terraform syntax
   -- use 'hashivim/vim-terraform'

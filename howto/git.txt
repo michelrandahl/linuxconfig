@@ -1,8 +1,17 @@
+# list git configuration details (both global and for current repository)
+`$ git config -l`
+
 # list non merged branches
 `$ git branch --no-merged`
 
 # filter commit logs by author
 `$ git log -p --author="michel nielsen"`
+
+# show only file names in git log
+`$ git log --name-only`
+
+# show only file names in git log, compact version
+`$ git log --name-only --oneline`
 
 # list untracked files to remove
 `$ git clean -n`

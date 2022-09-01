@@ -1,26 +1,83 @@
 require('plugins')
 
+local let = vim.g
+
+require'lspconfig'.tsserver.setup {}
 require'lspconfig'.clojure_lsp.setup{}
+-- require'lspconfig'.fsautocomplete.setup{
+--   -- TODO do these really work?... else remove them...
+--   ts=2;
+--   sw=2;
+-- }
+
+--require'lspconfig'.fsautocomplete.setup{
+--  settings = {
+--    FSharp = {
+--      RecordStubGeneration = true;
+--    };
+--  };
+--}
 require'lspconfig'.fsautocomplete.setup{
-  -- TODO do these really work?... else remove them...
-  ts=2;
-  sw=2;
+  "fsautocomplete", "--background-service-enabled"
 }
+require'ionide'.setup{
+  --fsautocomplete_command = {"fsautocomplete", "--background-service-enabled"}
+}
+vim.cmd [[
+  let g:fsharp#lsp_codelens = 0
+]]
+--vim.cmd [[
+--let g:fsharp#fsautocomplete_command =
+--    \ [ 'dotnet',
+--    \   'fsautocomplete',
+--    \   '--background-service-enabled'
+--    \ ]
+--]]
+
+--vim.cmd [[
+--  let g:fsharp#lsp_recommended_colorscheme = 0
+--  let g:fsharp#lsp_codelens = 0
+--  let g:fsharp#backend = "disable"
+--]]
+
+require'lspconfig'.omnisharp.setup {
+	cmd = { "omnisharp", "--languageserver" , "--hostPID", tostring(pid) },
+  enable_roslyn_analyzers = true,
+  enable_import_completion = true,
+  enable_ms_build_load_projects_on_demand = true,
+}
+-- let g:OmniSharp_popup_mappings = {
+-- \ 'sigNext': '<C-n>',
+-- \ 'sigPrev': '<C-p>',
+-- \ 'lineDown': ['<C-e>', 'j'],
+-- \ 'lineUp': ['<C-y>', 'k']
+-- \}
+-- vim.cmd [[
+--   let g:OmniSharp_popup_mappings = {
+--   \ 'sigNext': '<C-n>',
+--   \ 'sigPrev': '<C-p>',
+--   \ 'lineDown': ['<C-e>', 'j'],
+--   \ 'lineUp': ['<C-y>', 'k']
+--   \}
+-- ]]
+
 require'lspconfig'.purescriptls.setup{}
 require'lspconfig'.elmls.setup{}
 require'lspconfig'.ghcide.setup{}
-local cmp = require "cmp"
+local cmp = require'cmp'
 cmp.setup {
   mapping = {
     ["<C-d>"] = cmp.mapping.scroll_docs(-4),
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.confirm({ select = true }),
     ["<C-n>"] = cmp.mapping.select_next_item(),
     ["<C-p>"] = cmp.mapping.select_prev_item()
   },
   sources = {
-    { name = "nvim_lsp", keyword_length = 1 },
+    { name = "nvim_lsp", keyword_length = 1},
+    { name = "nvim_lsp_signature_help" },
     { name = "buffer" },
-    { name = "path" },
+    { name = "path" }
   }
 }
 --[[
@@ -50,6 +107,7 @@ require'compe'.setup {
   };
 }
 --]]
+--require('lspsaga').init_lsp_saga({})
 
 local telescope = require'telescope'
 telescope.setup{
@@ -93,13 +151,10 @@ require'nvim-treesitter.configs'.setup {
   textobjects = { enable = true },
   ensure_installed = { "bash"
                      , "c"
-                     , "c_sharp"
+                     --, "c_sharp"
                      , "clojure"
                      , "css"
                      , "dockerfile"
-                     , "elm"
-                     , "fennel"
-                     , "haskell"
                      , "html"
                      , "java"
                      , "javascript"
@@ -109,10 +164,10 @@ require'nvim-treesitter.configs'.setup {
                      , "nix"
                      , "python"
                      , "vim"
-                     , "yaml" }
+                     , "yaml"
+                   }
 }
 
-local let = vim.g
 let.mapleader = ' '
 let.maplocalleader = '\\'
 
@@ -132,7 +187,12 @@ set.syntax = 'on'
 set.cpoptions = set.cpoptions._value .. "M"
 
 -- enable copy paste from vim to the outside world
+-- clipboard acts weird with windows wsl?
 set.clipboard = 'unnamed,unnamedplus'
+-- following behaves wierd with copy paste between vim sessions
+--vim.cmd [[
+--  autocmd TextYankPost * call system('echo '.shellescape(join(v:event.regcontents, "\<CR>")).' |  clip.exe')
+--]]
 
 -- make it possible to load huge json files and still get folding...
 set.maxmempattern=2000000
@@ -146,6 +206,10 @@ end
 
 local vnoremap = function(keyseq, command)
   vim.api.nvim_set_keymap('v', keyseq, command, {noremap = true})
+end
+
+local xnoremap = function(keyseq, command)
+  vim.api.nvim_set_keymap('x', keyseq, command, {noremap = true})
 end
 
 local inoremap = function(keyseq, command)
@@ -167,6 +231,7 @@ nnoremap('<C-L>', '<C-W><C-L>')
 nnoremap('<C-H>', '<C-W><C-H>')
 
 nnoremap('<leader>h', ':set winfixheight<CR>')
+nnoremap('<leader>w', ':set winfixwidth<CR>')
 
 -- remap visual selection to not include leading whitespace when selecting strings...
 nnoremap("va'", "v2i'")
@@ -186,8 +251,17 @@ nnoremap('<leader>,', '<C-o>')
 nnoremap('<leader>.', '<C-i>')
 
 -- 'neovim/nvim-lspconfig'
+-- TODO: how to get the same docs as the one that comes with autocompletion?
 nnoremap('K', '<cmd>lua vim.lsp.buf.hover()<CR>')
+--keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>", { silent = true })
+--nnoremap('K', '<cmd>Lspsaga hover_doc<CR>')
+
+nnoremap('gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
+
 nnoremap('gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
+--keymap("n", "gd", "<cmd>Lspsaga preview_definition<CR>", { silent = true })
+--nnoremap('gd', '<cmd>Lspsaga preview_definition<CR>')
+
 nnoremap('<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
 nnoremap('gr', '<cmd>lua vim.lsp.buf.references()<CR>')
 nnoremap('<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
@@ -196,8 +270,15 @@ vnoremap('<localleader>f', '<cmd>lua vim.lsp.buf.range_formatting()<CR>')
 
 -- 'nvim-telescope/telescope.nvim'
 nnoremap('<leader>f', '<cmd>Telescope find_files<cr>')
-nnoremap('<leader>g', '<cmd>Telescope live_grep<cr>')
+nnoremap('<leader>gg', '<cmd>Telescope live_grep<cr>')
 nnoremap('<leader>b', '<cmd>Telescope buffers<cr>')
+
+-- yank to windows clip.exe
+vnoremap('<leader>y', ":'<,'>w !clip.exe<cr><cr>")
+xnoremap('<leader>y', ":'<,'>w !clip.exe<cr><cr>")
+
+-- yank current file path
+nnoremap('<leader>d', ':let @+ = expand("%")<cr>')
 
 -- 'hrsh7th/nvim-compe'
 --inoremap('<silent><expr> <C-Space>', 'compe#complete()')
@@ -237,20 +318,27 @@ vim.cmd [[
   augroup END
 ]]
 
+vim.cmd [[
+  augroup fsharp_filetypes
+    autocmd!
+    autocmd BufNewFile,BufRead .fs,.fsx,*.fsi set filetype=fsharp
+  augroup END
+  au FileType fsharp setl tabstop=4
+  au FileType fsharp setl shiftwidth=4
+]]
 
-
-let.nd_themes = { {"sunrise+1/3", "gruvbox", "light" }
-                , {"sunset+0", "gruvbox", "dark" } }
-let.nd_latitude = 55
+--let.nd_themes = { {"sunrise+1/3", "gruvbox", "light" }
+--                , {"sunset+0", "gruvbox", "dark" } }
+--let.nd_latitude = 55
 
 set.background = "dark"
 vim.opt.termguicolors = true
-vim.cmd([[colorscheme  gruvbox]])
+vim.cmd([[colorscheme gruvbox]])
 
 _G.switch_colorscheme = function()
   if(set.background._value == "dark") then
     set.background = "light"
-    --vim.cmd([[colorscheme github]])
+    vim.cmd([[colorscheme gruvbox]])
   else
     set.background = "dark"
     --vim.cmd([[colorscheme gruvbox]])

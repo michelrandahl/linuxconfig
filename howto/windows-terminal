@@ -1,0 +1,15 @@
+# open new tab
+CTRL-SHIFT-T
+
+# close tab
+CTRL-F4
+(default: CTRL-SHIFT-W)
+
+# switch tab
+CTRL-TAB
+
+# graphical settings
+CTRL-SHIFT-SPACE
+
+# more keybindings
+https://allthings.how/how-to-use-windows-terminal-keyboard-shortcuts/

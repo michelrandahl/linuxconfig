@@ -38,6 +38,9 @@
 # example with invoking `lein nvd check` on all directories that contain project.clj files
 `$ find . -name project.clj -execdir lein nvd check {} ";"`
 
+# find excluding specific directory
+`$ find -name "*.js" -not -path "./node_modules/*"`
+
 # retain colour output in `less` (note that you can also press `-r` when already in less output)
 # example with `tree`
 `$ tree -C -L 2 | less -r`
@@ -57,3 +60,6 @@
 
 # 'grep' with a regex pattern inside lines using `sed`
 `$ cat /home/michel/.aws-credentials | sed -n 's|^aws.* = \(.*\)$|\1|p'`
+
+# grep recursive and exclude directory
+`$ grep -R --exclude-dir=node_modules OldOverageProductId .`

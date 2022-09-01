@@ -1,0 +1,8 @@
+# use reflection to list fields on a record
+```
+open FSharp.Reflection
+
+FSharp.Reflection.FSharpType.GetRecordFields(typeof<OrderCreation.Input>)
+|> Seq.map (fun x -> x.PropertyType, x.Name)
+|> printfn "%A"
+```

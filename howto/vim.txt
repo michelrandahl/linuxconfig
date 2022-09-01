@@ -39,6 +39,11 @@ $ nvim -V[n]<my-log-file> foobar.txt
 $ nvim -S Session.vim
 # source session from within vim
 `:source Session.vim`
+or
+`:so Session.vim`
+
+# close all splits except for the one in focus
+`Ctrl+w, o`
 
 # delete all lines that do not contain word 'foobar'
 `:v/foobar/d`
@@ -48,3 +53,15 @@ $ nvim -S Session.vim
 
 # replace \n with real newline
 `:%s/\\n/\r/g`
+
+# delete all empty lines
+`:g/^\s*$/d`
+
+# change indentation level
+`:set sw=4 ts=4`
+
+# query for filetype
+`set ff?`
+
+# change filetype to unix
+`set ff=unix`

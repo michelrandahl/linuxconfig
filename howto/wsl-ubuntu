@@ -1,0 +1,2 @@
+# bash history search functions weird in WSL, -seems to act strange after pressing `TAB`
+# work-around: press `CTRL-e-x` instead of `TAB`

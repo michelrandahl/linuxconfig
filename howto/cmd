@@ -1,0 +1,11 @@
+# `ls` equivelant
+`$ dir`
+
+# `cat` equivelant
+`$ type <my-file>`
+
+# `cp` equivelant
+`$ copy <myfile> <my-new-file>`
+
+# `mv` equivelant
+`$ move <my-file> <my-file-new-name>`

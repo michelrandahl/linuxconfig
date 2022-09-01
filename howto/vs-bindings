@@ -1,0 +1,20 @@
+# fold/unfold
+CTRL-M-M
+
+# navigate back
+CTRL+-
+
+# navigate forward
+CTRL+Shift+-
+
+# comment selected code
+CTRL-K, CTRL-C
+
+# uncomment selected code
+CTRL-K, CTRL-U
+
+# format code
+CTRL-K, CTRL-D
+
+# show documentation popup
+CTRL-K, CTRL-I

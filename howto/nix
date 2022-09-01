@@ -1,0 +1,27 @@
+# NOTE for Nix version 2.4 and up, it seems best to use the new flakes system
+# see this blog for tutorial on flakes https://www.tweag.io/blog/2020-05-25-flakes/
+
+# search for a package
+`$ nix search nixpkgs tree`
+# or with regex
+`$ nix search nixpkgs "^tree$"`
+# or with a specific attribute
+`$ nix search nixpkgs#nodePackages "typescript"`
+
+# install package for current profile
+`$ nix profile install nixpkgs#tree`
+
+# list packages installed in profile
+`$ nix profile list`
+
+# remove package from profile (remove by index)
+`$ nix profile remove 3`
+
+# view history of package installation for profile
+`$ nix profile history`
+
+# run nix shell with a package
+`$ nix-shell -p nodejs-12_x`
+
+# upgrade nix profile
+`$ nix profile upgrade '.*' --impure`
