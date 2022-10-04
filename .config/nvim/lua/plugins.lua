@@ -107,6 +107,11 @@ return require('packer').startup(function()
   use 'hrsh7th/cmp-nvim-lua'
   use 'hrsh7th/cmp-nvim-lsp'
 
+  --use 'ThePrimeagen/git-worktree.nvim'
+  -- show git branch information in statusline
+  use 'itchyny/lightline.vim'
+  use 'tpope/vim-fugitive'
+
   --use 'glepnir/lspsaga.nvim'
 
   -- terraform syntax

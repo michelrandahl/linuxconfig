@@ -31,6 +31,9 @@
 # rename inside files with find
 `$ find . -name Makefile -exec sh -c 'sed -i "s|temp/|cicd/|" {}' \;`
 
+# find files and cat them together with a newline at the end of each file
+`$ find . -name status | xargs -I{} bash -c "cat {}; echo ''"`
+
 # search for a class file in a lot of jar files (grep works on content of jar files)
 `$ find . -name '*.jar' -exec grep -Hsli ClientConfiguration {} \;`
 

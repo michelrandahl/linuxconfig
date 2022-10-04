@@ -2,7 +2,12 @@ require('plugins')
 
 local let = vim.g
 
-require'lspconfig'.tsserver.setup {}
+require'lspconfig'.tsserver.setup {
+  
+    compilerOptions = { checkJs = false },
+    filetypes = { "typescript", "typescriptreact", "typescript.tsx" }
+  
+}
 require'lspconfig'.clojure_lsp.setup{}
 -- require'lspconfig'.fsautocomplete.setup{
 --   -- TODO do these really work?... else remove them...
@@ -41,10 +46,12 @@ vim.cmd [[
 --]]
 
 require'lspconfig'.omnisharp.setup {
-	cmd = { "omnisharp", "--languageserver" , "--hostPID", tostring(pid) },
-  enable_roslyn_analyzers = true,
-  enable_import_completion = true,
-  enable_ms_build_load_projects_on_demand = true,
+  cmd = { "dotnet", "/nix/store/yq3dh0g46g20d6z14z2fakhnl4pvpx0z-omnisharp-roslyn-1.39.1/lib/omnisharp-roslyn/OmniSharp.dll" }
+	--cmd = { "omnisharp", "--languageserver" , "--hostPID", tostring(pid) },
+	--cmd = { "OmniSharp", "--languageserver" , "--hostPID", tostring(pid) },
+  --enable_roslyn_analyzers = true,
+  --enable_import_completion = true,
+  --enable_ms_build_load_projects_on_demand = true,
 }
 -- let g:OmniSharp_popup_mappings = {
 -- \ 'sigNext': '<C-n>',
@@ -109,7 +116,7 @@ require'compe'.setup {
 --]]
 --require('lspsaga').init_lsp_saga({})
 
-local telescope = require'telescope'
+local telescope = require('telescope')
 telescope.setup{
   defaults = {
     -- pseudo transparency
@@ -126,6 +133,10 @@ telescope.setup{
     },
   }
 }
+--telescope.load_extension("git_worktree")
+--require("telescope").load_extension("git_worktree")
+
+require("git-worktree").setup({})
 
 require('gitsigns').setup {
   signs = {
@@ -167,6 +178,23 @@ require'nvim-treesitter.configs'.setup {
                      , "yaml"
                    }
 }
+
+-- show git branch name in statusline
+vim.cmd [[
+  let g:lightline = {
+    \ 'active': {
+    \   'left': [ [ 'mode', 'paste' ],
+    \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+    \ },
+    \ 'inactive': {
+    \   'left': [ [ 'mode', 'paste' ],
+    \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+    \ },
+    \ 'component_function': {
+    \   'gitbranch': 'FugitiveHead'
+    \ },
+    \ }
+]]
 
 let.mapleader = ' '
 let.maplocalleader = '\\'
@@ -272,6 +300,8 @@ vnoremap('<localleader>f', '<cmd>lua vim.lsp.buf.range_formatting()<CR>')
 nnoremap('<leader>f', '<cmd>Telescope find_files<cr>')
 nnoremap('<leader>gg', '<cmd>Telescope live_grep<cr>')
 nnoremap('<leader>b', '<cmd>Telescope buffers<cr>')
+
+nnoremap('<leader>gws', '<cmd>Telescope git_worktree git_worktrees<cr>')
 
 -- yank to windows clip.exe
 vnoremap('<leader>y', ":'<,'>w !clip.exe<cr><cr>")
