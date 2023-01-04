@@ -66,3 +66,6 @@
 
 # grep recursive and exclude directory
 `$ grep -R --exclude-dir=node_modules OldOverageProductId .`
+
+# list hidden files only
+`$ ls -d .*`

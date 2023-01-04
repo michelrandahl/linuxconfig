@@ -3,10 +3,8 @@ require('plugins')
 local let = vim.g
 
 require'lspconfig'.tsserver.setup {
-  
     compilerOptions = { checkJs = false },
     filetypes = { "typescript", "typescriptreact", "typescript.tsx" }
-  
 }
 require'lspconfig'.clojure_lsp.setup{}
 -- require'lspconfig'.fsautocomplete.setup{
@@ -22,15 +20,21 @@ require'lspconfig'.clojure_lsp.setup{}
 --    };
 --  };
 --}
+  --"fsautocomplete", "--background-service-enabled"
+  --"fsautocomplete", "--adaptive-lsp-server-enabled", "-v", " --log-file", "~/fsauto.log"
 require'lspconfig'.fsautocomplete.setup{
-  "fsautocomplete", "--background-service-enabled"
+  cmd = { "fsautocomplete", "--adaptive-lsp-server-enabled" }
 }
-require'ionide'.setup{
   --fsautocomplete_command = {"fsautocomplete", "--background-service-enabled"}
-}
-vim.cmd [[
-  let g:fsharp#lsp_codelens = 0
-]]
+--require'ionide'.setup{
+--  fsautocomplete_command = {"fsautocomplete", "--adaptive-lsp-server-enabled", "--debug"},
+--  cmd = { "fsautocomplete", "--adaptive-lsp-server-enabled" }
+--}
+--vim.cmd [[
+--  let g:fsharp#lsp_codelens = 0
+-- 
+--]]
+ --let g:fsharp#fsautocomplete_command = ['fsautocomplete', '--adaptive-lsp-server-enabled']
 --vim.cmd [[
 --let g:fsharp#fsautocomplete_command =
 --    \ [ 'dotnet',
@@ -136,7 +140,7 @@ telescope.setup{
 --telescope.load_extension("git_worktree")
 --require("telescope").load_extension("git_worktree")
 
-require("git-worktree").setup({})
+--require("git-worktree").setup({})
 
 require('gitsigns').setup {
   signs = {
@@ -166,18 +170,54 @@ require'nvim-treesitter.configs'.setup {
                      , "clojure"
                      , "css"
                      , "dockerfile"
+                     , "elixir"
+                     , "erlang"
+                     , "fennel"
+                     , "graphql"
                      , "html"
                      , "java"
                      , "javascript"
                      , "json"
                      , "jsonc"
                      , "lua"
+                     , "make"
                      , "nix"
+                     , "ocaml"
                      , "python"
+                     , "rust"
+                     , "typescript"
                      , "vim"
                      , "yaml"
                    }
 }
+
+require("nvim-tree").setup({
+  sort_by = "case_sensitive",
+  view = {
+    adaptive_size = true,
+    mappings = {
+      list = {
+        { key = "u", action = "dir_up" },
+      },
+    },
+  },
+  renderer = {
+    group_empty = true,
+    icons = {
+      show = {
+        file = false,
+        folder = false,
+        folder_arrow = false,
+      }
+    }
+  },
+  filters = {
+    dotfiles = true,
+  },
+  actions = {
+    change_dir = { enable = true }
+  }
+})
 
 -- show git branch name in statusline
 vim.cmd [[
@@ -211,7 +251,8 @@ set.expandtab = true
 set.cindent = false
 set.syntax = 'on'
 
--- make `vi(` and `%` ignore '\(', as in haskell style lambda (\(x,y) -> ...)
+-- make `vi(` and `%` treat '\(' as normal '(', as in haskell style lambda (\(x,y) -> ...)
+-- if this flag is not set, then vim will treat it as escaped '(' and ignore them
 set.cpoptions = set.cpoptions._value .. "M"
 
 -- enable copy paste from vim to the outside world
@@ -224,6 +265,7 @@ set.clipboard = 'unnamed,unnamedplus'
 
 -- make it possible to load huge json files and still get folding...
 set.maxmempattern=2000000
+set.conceallevel=0 --if not set, quotes will be hidden in json files
 
 set.splitbelow = true
 set.splitright = true
@@ -290,7 +332,8 @@ nnoremap('gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
 --keymap("n", "gd", "<cmd>Lspsaga preview_definition<CR>", { silent = true })
 --nnoremap('gd', '<cmd>Lspsaga preview_definition<CR>')
 
-nnoremap('<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
+--nnoremap('<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
+nnoremap('<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>')
 nnoremap('gr', '<cmd>lua vim.lsp.buf.references()<CR>')
 nnoremap('<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
 nnoremap('<localleader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>')
@@ -314,7 +357,8 @@ nnoremap('<leader>d', ':let @+ = expand("%")<cr>')
 --inoremap('<silent><expr> <C-Space>', 'compe#complete()')
 
 -- 'preservim/nerdtree'
-nnoremap('<C-n>', ':NERDTreeToggle<CR>')
+--nnoremap('<C-n>', ':NERDTreeToggle<CR>')
+nnoremap('<C-n>', ':NvimTreeToggle<CR>')
 
 -- 'rhysd/git-messenger.vim'
 nnoremap('<leader>m', ':GitMessenger<CR>')
@@ -375,3 +419,10 @@ _G.switch_colorscheme = function()
   end
 end
 nnoremap('<leader>c', '<cmd>lua switch_colorscheme()<CR>')
+
+
+vim.cmd [[
+let g:send_multiline = {
+\    'fsharp': {'begin':"", 'end':";;\n", 'newline':"\n"}
+\}
+]]

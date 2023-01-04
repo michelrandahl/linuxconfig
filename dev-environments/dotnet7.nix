@@ -17,7 +17,7 @@ mkShell {
     (with dotnetCorePackages; combinePackages [
       sdk_5_0
       sdk_6_0
-      #sdk_7_0
+      sdk_7_0
     ])
   ];
   # note if fsac complains about wrong libssl, then try to update fsac tool!
@@ -33,8 +33,8 @@ mkShell {
     dotnet tool install fake-cli --global
     dotnet tool install snowflaqe --global
 
-    export DOTNET_ROOT="${pkgs.dotnet-sdk_6}"
-    #export DOTNET_ROOT="${pkgs.dotnet-sdk_7}"
+    #export DOTNET_ROOT="${pkgs.dotnet-sdk_6}"
+    export DOTNET_ROOT="${pkgs.dotnet-sdk_7}"
     export PATH=$PATH:$TOOLS_PATH
     export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
     '';

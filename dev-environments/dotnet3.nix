@@ -15,27 +15,21 @@ mkShell {
   ];
   packages = [
     (with dotnetCorePackages; combinePackages [
-      sdk_5_0
-      sdk_6_0
-      #sdk_7_0
+      #sdk_5_0
+      #sdk_6_0
+      sdk_3_1
     ])
   ];
-  # note if fsac complains about wrong libssl, then try to update fsac tool!
-  # note that failures from running this nix-file could also be caused by a 'global.json' file, to solve such as issue simply rename the offending file to 'global.json.bak'
   shellHook = ''
     TOOLS_PATH=~/.dotnet/tools
     FSAC=fsautocomplete
 
     dotnet tool install $FSAC --global
-    dotnet tool update $FSAC --global
     dotnet tool install paket --global
     dotnet tool install dotnet-search --global
     dotnet tool install fake-cli --global
-    dotnet tool install snowflaqe --global
 
-    export DOTNET_ROOT="${pkgs.dotnet-sdk_6}"
-    #export DOTNET_ROOT="${pkgs.dotnet-sdk_7}"
+    export DOTNET_ROOT="${pkgs.dotnet-sdk_3}"
     export PATH=$PATH:$TOOLS_PATH
-    export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
     '';
 }

@@ -82,9 +82,15 @@
 `$ git diff --name-only $(git merge-base HEAD origin/develop)`
 
 # filter git history for a specific subfolder on a specific branch
-git filter-branch --prune-empty --subdirectory-filter deployable-b/ develop
+`$ git filter-branch --prune-empty --subdirectory-filter deployable-b/ develop`
 # ... OR with git filter-repo
-git filter-repo --subdirectory-filter deployable-b/ --refs develop
+`$ git filter-repo --subdirectory-filter deployable-b/ --refs develop`
 
 # list remotes
-git remote -v
+`$ git remote -v`
+
+# ignore specific file types in git diff
+`$ git diff '!*.html'`
+
+# show all whitespace in a diff
+`$ git diff --ws-error-highlight=all <file>`

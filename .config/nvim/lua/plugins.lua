@@ -3,7 +3,14 @@ return require('packer').startup(function()
   use 'wbthomason/packer.nvim'
 
   -- simple file tree viewer
-  use 'preservim/nerdtree'
+  --use 'preservim/nerdtree'
+  use {
+    'nvim-tree/nvim-tree.lua',
+    --requires = {
+    --  'nvim-tree/nvim-web-devicons', -- optional, for file icons
+    --},
+    tag = 'nightly' -- optional, updated every week. (see issue #1193)
+  }
 
   -- fuzzy finder for code, files and more...
   use {
@@ -68,9 +75,13 @@ return require('packer').startup(function()
 
   -- neovim Language Server Protocol, for better syntax highlightning etc...
   use 'neovim/nvim-lspconfig'
+  --use { 'nvim-treesitter/nvim-treesitter'
+  --    , run = ':TSUpdate'
+  --    , commit = '668de0951a36ef17016074f1120b6aacbe6c4515'}
   use { 'nvim-treesitter/nvim-treesitter'
-      , run = ':TSUpdate'
-      , commit = '668de0951a36ef17016074f1120b6aacbe6c4515'}
+      --, run = ':TSUpdate'
+      --, commit = '668de0951a36ef17016074f1120b6aacbe6c4515'
+    }
 
   -- automatic colour theme switcher based on the sun
   -- use 'nightsense/night-and-day'
@@ -91,9 +102,10 @@ return require('packer').startup(function()
   use 'hylang/vim-hy'
 
   -- F# language support
-  -- use 'PhilT/vim-fsharp'
+  use 'PhilT/vim-fsharp'
   --use 'adelarsq/neofsharp.vim'
-  use 'ionide/Ionide-vim'
+  --Ionide basically just provide syntax highlightning
+  --use 'ionide/Ionide-vim'
 
   -- Purescript language support
   use 'purescript-contrib/purescript-vim'
@@ -111,6 +123,8 @@ return require('packer').startup(function()
   -- show git branch information in statusline
   use 'itchyny/lightline.vim'
   use 'tpope/vim-fugitive'
+
+  use 'carlsmedstad/vim-bicep'
 
   --use 'glepnir/lspsaga.nvim'
 
