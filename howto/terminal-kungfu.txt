@@ -22,7 +22,7 @@
 # find specific files and grep inside them
 `$ find . -name project.clj | xargs grep 'lein-nvd'`
 
-# grep disjunction
+# grep disjunction (`-E` is for extended regex)
 `$ grep -E 'foo|bar' <some-file>`
 
 # advanced uses of find...
@@ -69,3 +69,9 @@
 
 # list hidden files only
 `$ ls -d .*`
+
+# grep inside a line
+`$ grep -o "=null"`
+
+# inverse the returned `status code` returned by grep (the `!` inverses the status code)
+`$ echo $stuff | (! grep -oE "[^ ]+=null|[^ ]+= |[^ ]+=$" )`

@@ -1,0 +1,15 @@
+# Note that windows/dotnet doesn't seem to like very long paths so we might want to move the worktrees directory further up
+
+# to list branches, `cd` into one of the branch directories
+git worktree list
+
+# to checkout existing remote branch (note: might need to perform a git fetch first)
+git worktree add ../some-existing-branch some-existing-branch
+# (NOTE: you can also checkout an old commit, just replace `some-existing-branch` with the commit-sha)
+
+# to create and add a new branch
+git worktree add -b new-branch ../new-branch
+
+# to remove a branch (note: there should be no trailing '/')
+git worktree remove ../new-branch
+# as opposed to just `rm -rf` this will also remove the branch from local repository

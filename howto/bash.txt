@@ -1,0 +1,5 @@
+# cross environment compatible she-bang header
+`#!/usr/bin/env bash`
+
+# exit script if anything in the script returns error status code
+`set -e`

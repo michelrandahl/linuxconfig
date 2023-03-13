@@ -1,0 +1,2 @@
+# start leiningen rebl
+`lein with-profile mnie rebl`

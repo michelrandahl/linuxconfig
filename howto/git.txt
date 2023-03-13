@@ -19,6 +19,9 @@
 # remove untracked files and directories
 `$ git clean -f -d`
 
+# get rid of local commit, but keep the changes from the commit
+`$ git reset HEAD~1`
+
 # hard reset to head of branch
 `$ git reset --hard ORIG_HEAD`
 

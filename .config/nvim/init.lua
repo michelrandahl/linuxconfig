@@ -50,7 +50,7 @@ require'lspconfig'.fsautocomplete.setup{
 --]]
 
 require'lspconfig'.omnisharp.setup {
-  cmd = { "dotnet", "/nix/store/yq3dh0g46g20d6z14z2fakhnl4pvpx0z-omnisharp-roslyn-1.39.1/lib/omnisharp-roslyn/OmniSharp.dll" }
+  cmd = { "dotnet", "/nix/store/jn0dqn562xxxh0v4c6k6c5g9xr0b6zp5-omnisharp-roslyn-1.39.4/lib/omnisharp-roslyn/OmniSharp.dll" }
 	--cmd = { "omnisharp", "--languageserver" , "--hostPID", tostring(pid) },
 	--cmd = { "OmniSharp", "--languageserver" , "--hostPID", tostring(pid) },
   --enable_roslyn_analyzers = true,
@@ -120,9 +120,23 @@ require'compe'.setup {
 --]]
 --require('lspsaga').init_lsp_saga({})
 
+
+
 local telescope = require('telescope')
+local telescopeConfig = require("telescope.config")
+--
+-- Clone the default Telescope configuration
+local vimgrep_arguments = { unpack(telescopeConfig.values.vimgrep_arguments) }
+
+-- I want to search in hidden/dot files.
+table.insert(vimgrep_arguments, "--hidden")
+-- I don't want to search in the `.git` directory.
+table.insert(vimgrep_arguments, "--glob")
+table.insert(vimgrep_arguments, "!**/.git/*")
+
 telescope.setup{
   defaults = {
+    vimgrep_arguments = vimgrep_arguments,
     -- pseudo transparency
     -- winblend = 20;
     -- borderchars = {
@@ -135,6 +149,11 @@ telescope.setup{
     layout_config = {
       vertical = { mirror = true },
     },
+  },
+  pickers = {
+    find_files = {
+      find_command = {'rg', '--files', '--hidden', '--glob', '!**/.git/*'}
+    }
   }
 }
 --telescope.load_extension("git_worktree")
@@ -195,6 +214,7 @@ require("nvim-tree").setup({
   sort_by = "case_sensitive",
   view = {
     adaptive_size = true,
+    float = { enable = true },
     mappings = {
       list = {
         { key = "u", action = "dir_up" },
@@ -343,6 +363,9 @@ vnoremap('<localleader>f', '<cmd>lua vim.lsp.buf.range_formatting()<CR>')
 nnoremap('<leader>f', '<cmd>Telescope find_files<cr>')
 nnoremap('<leader>gg', '<cmd>Telescope live_grep<cr>')
 nnoremap('<leader>b', '<cmd>Telescope buffers<cr>')
+nnoremap('<leader>r', "<cmd>lua require'telescope.builtin'.lsp_references{}<CR>")
+--nnoremap('<leader>ri', "<cmd>lua require'telescope.builtin'.lsp_incoming_calls{}<CR>")
+--nnoremap('<leader>ro', "<cmd>lua require'telescope.builtin'.lsp_outgoing_calls{}<CR>")
 
 nnoremap('<leader>gws', '<cmd>Telescope git_worktree git_worktrees<cr>')
 
