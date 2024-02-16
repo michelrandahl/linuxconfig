@@ -111,6 +111,7 @@ let
     libreoffice
     pciutils
     picocom
+    picom # window compositor for transparency
     poppler_utils # contains the tool pdfunite for appending pdf documents
     qiv # image viewer
     qutebrowser # browser with vim bindings

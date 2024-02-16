@@ -51,4 +51,12 @@ vim.api.nvim_set_keymap('v', '<leader>j', ':lua align_text(vim.fn.input("Align b
 
 vim.keymap.set("n", '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>')
 
-vim.keymap.set("n", '<leader>zz', '<cmd>ToggleAutoCenter<CR>')
+vim.keymap.set("n", '<leader>z', '<cmd>ToggleAutoCenter<CR>')
+
+
+vim.cmd [[
+  hi Normal guibg=NONE ctermbg=NONE
+  hi NonText guibg=NONE ctermbg=NONE
+]]
+
+vim.cmd [[highlight link FloatBorder NormalFloat]]

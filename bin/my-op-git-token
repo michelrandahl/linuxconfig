@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
-eval $(op signin my)
+eval $(op signin --account my.1password.com)
 
-op get item "github token" --fields password | xclip -selection c
+op item get "personal-gh-token" --fields password | xclip -selection c
