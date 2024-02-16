@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-git for-each-ref --format='{"author_name": "%(authorname)", "authordate": "%(authordate)", "refname": "%(refname)"}' --sort=authordate | jq -c 'select(.author_name != "Jenkins" and .refname != "refs/heads/master" and .refname != "refs/remotes/origin/HEAD" and .refname != "refs/remotes/origin/master" and .refname != "refs/heads/release-1.1.0-develop" and .refname != "refs/remotes/origin/release-1.1.0-develop" and .refname != "refs/stash")'

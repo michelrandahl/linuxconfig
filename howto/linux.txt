@@ -25,3 +25,6 @@ https://wiki.archlinux.org/title/Cursor_themes
 
 # troubleshoot program in linux using `strace`
 `$ strace nix --version`
+
+# list ports in use
+`$ ss -tulpn`

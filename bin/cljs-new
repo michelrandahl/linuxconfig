@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-npx create-cljs-project $1

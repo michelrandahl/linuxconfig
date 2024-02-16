@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+sudo nix-store --repair --verify --check-contents
+echo "still having problems? try deleting ~/.cache/nix"

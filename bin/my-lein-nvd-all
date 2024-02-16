@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-time find . -name project.clj -execdir lein with-profile my-nvd nvd check {} ";"

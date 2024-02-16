@@ -1,0 +1,2 @@
+# adjust dual page offset
+`:set first-page-column 0:1`

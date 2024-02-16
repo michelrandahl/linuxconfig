@@ -97,3 +97,6 @@
 
 # show all whitespace in a diff
 `$ git diff --ws-error-highlight=all <file>`
+
+# disable annoying GUI credential prompt and use terminal prompt instead
+`$ git config --global core.askPass ""`

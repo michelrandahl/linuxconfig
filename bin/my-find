@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Split the first argument by comma to get directories
+IFS=',' read -ra DIRS <<< "$1"
+
+# The search pattern is the second argument
+PATTERN="$2"
+
+# Loop through the directories and use find
+for DIR in "${DIRS[@]}"; do
+    find "$DIR" -type f -name "$PATTERN"
+done

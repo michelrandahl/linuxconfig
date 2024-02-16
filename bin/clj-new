@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-clojure -X:project/new :template app :name $1

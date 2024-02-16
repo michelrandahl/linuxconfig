@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-find -regextype posix-extended -regex '.*\.(clj|cljc)' | entr -cprs "lein mono install-all ../ && find . -name project.clj -execdir sh -c 'pwd | xargs echo ++++++++++++++++++++ && lein check && lein test' \; && echo 'DONE'; date"

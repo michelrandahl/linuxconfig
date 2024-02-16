@@ -1,2 +1,4 @@
 set font "monospace normal 30"
-map normal d PageDown
+set selection-clipboard clipboard
+set sandbox none
+

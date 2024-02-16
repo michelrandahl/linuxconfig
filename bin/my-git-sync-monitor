@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-watch -n 600 "git fetch --all; git log --format='%h %x09 %an | %x09 %ad | %x09 %s' --merges origin/release/5.0.0 ^origin/develop | grep 'Merge pull request' | tac | cat -n"
