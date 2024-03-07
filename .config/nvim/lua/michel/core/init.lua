@@ -42,3 +42,4 @@ vim.opt.conceallevel = 0 --if not set, quotes will be hidden in json files
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 
+

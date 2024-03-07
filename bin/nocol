@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# nocol - a script to remove ANSI color codes from piped command output
+
+# Read from standard input and remove ANSI color codes
+sed 's/\x1b\[[0-9;]*m//g'

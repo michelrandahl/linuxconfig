@@ -15,6 +15,7 @@ local function init()
       \ 'component_function': {
       \   'gitbranch': 'FugitiveHead'
       \ },
+      \ 'colorscheme': 'powerlineish'
       \ }
   ]]
 end

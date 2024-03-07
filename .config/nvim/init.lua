@@ -29,10 +29,10 @@ vim.keymap.set("n", '<leader>w', ':set winfixwidth!<CR>')
 -- keep the yank buffer intact while pasting over existing content
 vim.keymap.set("x", '<leader>p', '\"_dP')
 
--- copy file path to copy-paste buffer
-vim.keymap.set("n", '<leader>a', ":let @+=expand('%:p')<cr>", {})
 -- print file path
-vim.keymap.set("n", '<leader>aa', ":echo expand('%:p')<cr>", {})
+vim.keymap.set("n", '<leader>y', ":echo expand('%:p')<cr>", {})
+-- copy file path to copy-paste buffer
+vim.keymap.set("n", '<leader>yy', ":let @+=expand('%:p')<cr>", {})
 
 -- terminate a line with ';' (useful when working with C-syntax derivative languages such as Rust)
 vim.keymap.set("n", '<leader>;', "A;<esc>")
@@ -47,16 +47,8 @@ vim.api.nvim_set_keymap('v', '<leader>j', ':lua align_text(vim.fn.input("Align b
 -- With some keyboards (for example my laptop keyboard), shift acts a bit sluggish at times
 -- which accidentially can result in triggering this functionality.
 -- Note that the old behavior of `Q` was to enter something called `Ex mode`
--- vim.keymap.set("n", 'Q','<nop>')
+vim.keymap.set("n", 'Q','<nop>')
 
 vim.keymap.set("n", '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>')
 
 vim.keymap.set("n", '<leader>z', '<cmd>ToggleAutoCenter<CR>')
-
-
-vim.cmd [[
-  hi Normal guibg=NONE ctermbg=NONE
-  hi NonText guibg=NONE ctermbg=NONE
-]]
-
-vim.cmd [[highlight link FloatBorder NormalFloat]]

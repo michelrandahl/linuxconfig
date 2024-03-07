@@ -22,7 +22,6 @@ let
     git
     gnumake # default linux 'make' program
     htop
-    killall
     man-pages
     nix-prefetch-git
     openssh
@@ -30,7 +29,6 @@ let
     openvpn
     p7zip
     patchelf # useful tool patching binaries in NixOs when they don't point to correct libraries
-    # procps # pkill and kill command
     pwgen # password generator tool
     tree # view directory and file strucutes as tree in terminal
     unzip
@@ -70,37 +68,24 @@ let
   # sudo -i nix-channel --update unstable
   unstable = import "/nix/var/nix/profiles/per-user/root/channels/unstable" {};
   unstable_packages = with unstable; [
-    # fennel # a lisp dialect for Lua
     xclip
   ];
   neovimParsers = pkgs.tree-sitter.withPlugins (_: pkgs.tree-sitter.allGrammars);
   editorPackages = with pkgs; [
     neovimParsers
     neovim
-    #neovim-qt
     ripgrep # `rg`, grep tool used neovim telescope plugin
   ];
   developerPackages = with pkgs; [
-    # groff # used by awscli man pages?
-    # aws-adfs
-    # awscli2
-    clojure
-    clojure-lsp
     direnv # tool for automatically sourcing '.envrc' in directories
     docker
     graphviz
     jq
-    leiningen
     lua
-    # plantuml # tool for 'writing' software diagrams
-    # postgresql
     python3
-    python39Packages.virtualenv
+    ruplacer # tool for easy search and replace in code `ruplacer <word> <word-replacement>`
     silver-searcher
-    # sqlite
-    # tig
-    # visualvm # java profiler
-    yq # jq equivalent for yaml files.. Also contains `xq`
+    yq # jq equivalent for yaml files.. Also contains `xq` for xml
   ];
   miscPackages = with pkgs; [
     brave
@@ -127,7 +112,7 @@ in {
       ./hardware-configuration.nix
 
       # https://github.com/thiagokokada/nix-alien
-      ./nix-alien.nix
+      # ./nix-alien.nix
 
       # sudo -i nix-channel --add https://github.com/musnix/musnix/archive/master.tar.gz musnix
       # sudo -i nix-channel --update musnix
@@ -174,7 +159,7 @@ in {
   time.timeZone = "Europe/Copenhagen";
 
   programs.java.enable = true;
-  programs.nix-ld.enable = true;
+  # programs.nix-ld.enable = true;
 
   # this oracle Virtualbox takes ages to install, lets find another way to use it?
   # virtualisation.virtualbox.host.enable = true;
@@ -228,11 +213,8 @@ in {
       # Keymapp Flashing rules for the Voyager
       SUBSYSTEMS=="usb", ATTRS{idVendor}=="3297", MODE:="0666", SYMLINK+="ignition_dfu"
     '';
-    # anti sleep?
-    # logind.lidSwitch = "ignore";
     openssh.enable = true;
     acpid.enable = true; # power management utility
-    # vnstat.enable = true; # track datausage
 
     xserver = {
       autorun = true;
@@ -240,10 +222,6 @@ in {
       layout = "us";
       displayManager = {
         lightdm.enable = true;
-        # disable pesky middle-click paste
-        # setupCommands = ''
-        #   echo -n | xsel -n -i; pkill xbindkeys; xdotool click 2; xbindkeys
-        # '';
       };
       windowManager.i3 = {
         enable = true;
@@ -310,7 +288,7 @@ in {
       unstable_packages;
       variables = {
         EDITOR = "nvim";
-        BROWSER = "qutebrowser";
+        BROWSER = "brave";
       };
       homeBinInPath = true;
   };

@@ -17,7 +17,6 @@ function ToggleAutoCenter()
         augroup AutoCenter
             autocmd! * <buffer>
             autocmd CursorMoved <buffer> normal zz
-            autocmd CursorMovedI <buffer> normal zz
         augroup END
         ]], false)
         -- Set the buffer-local variable to true to indicate auto-centering is enabled

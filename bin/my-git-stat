@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+echo ">>>>>>>>>>>>>>>>>>>> STAGED <<<<<<<<<<<<<<<<<<<<"
+git -c color.diff=always diff --cached --stat
+
+echo ""
+echo ">>>>>>>>>>>>>>>>>>>> UNSTAGED <<<<<<<<<<<<<<<<<<<<"
+git -c color.diff=always diff --stat
+
+echo ""
+echo ">>>>>>>>>>>>>>>>>>>> UNTRACKED <<<<<<<<<<<<<<<<<<<<"
+git -c color.diff=always ls-files --others --exclude-standard | head
+
+echo ""
+echo ">>>>>>>>>>>>>>>>>>>> LOCAL COMMITS <<<<<<<<<<<<<<<<<<<<"
+git -c color.diff=always log origin/main..HEAD --stat
