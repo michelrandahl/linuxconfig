@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+if [ -f ".envrc" ]; then
+  echo "Error: .envrc already exists in this directory."
+  exit 1
+fi
+
+echo "nix_direnv_manual_reload" >> .envrc \
+  && echo "use flake" >> .envrc \
+  && echo "source_up" >> .envrc \
+  && direnv allow

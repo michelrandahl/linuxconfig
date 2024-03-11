@@ -1,0 +1,4 @@
+# make sure that dependencies used by the flake are not garbage collected by nix
+# using nix-direnv https://github.com/nix-community/nix-direnv?tab=readme-ov-file
+# execute the following command in the directory where the flake.nix resides
+echo "use flake" >> .envrc && direnv allow

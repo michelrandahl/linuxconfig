@@ -1,0 +1,9 @@
+# nifty tool for refactoring code
+# supports regexes
+# note that regexes must be in single quote, not double quote
+
+# example for previewing replacement
+ruplacer 'selectData([, \)])' 'eagerFetchToArray$1'
+
+# example for performing replacement
+ruplacer 'selectData([, \)])' 'eagerFetchToArray$1' --go

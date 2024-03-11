@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
+nix-channel --update
 NIXPKGS_ALLOW_UNFREE=1 nix profile upgrade '.*' --impure

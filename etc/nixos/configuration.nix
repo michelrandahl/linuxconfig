@@ -158,6 +158,7 @@ in {
   # Set your time zone.
   time.timeZone = "Europe/Copenhagen";
 
+  programs.direnv.enable = true;
   programs.java.enable = true;
   # programs.nix-ld.enable = true;
 
