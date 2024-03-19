@@ -17,7 +17,7 @@ local function config()
 
   vim.keymap.set("n", '<leader>d', telescope_builtin.lsp_document_symbols, {})
   vim.keymap.set("n", '<leader>q', telescope_builtin.lsp_dynamic_workspace_symbols, {})
-  vim.keymap.set("n", '<leader>l', telescope_builtin.git_commits, {})
+  vim.keymap.set("n", '<leader>g', telescope_builtin.git_commits, {})
 end
 
 return {
