@@ -13,7 +13,7 @@ local on_attach = function(client, bufnr)
   vim.keymap.set("n", '<leader>rn', function() vim.lsp.buf.rename() end, opts)
   vim.keymap.set("n", '<localleader>f', function() vim.lsp.buf.formatting() end, opts)
   vim.keymap.set("v", '<localleader>f', function() vim.lsp.buf.range_formatting() end, opts)
-  vim.keymap.set("n", '<leader>a', vim.lsp.buf.code_action, keymap_opts)
+  vim.keymap.set("n", '<localleader>a', vim.lsp.buf.code_action, keymap_opts)
 end
 
 local function config()

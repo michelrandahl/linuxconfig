@@ -1,0 +1,20 @@
+# how to setup custom cursor
+# based on: https://wiki.archlinux.org/title/Cursor_themes
+# using volantes as example
+
+# step 1
+# download tar file from https://www.pling.com/p/1356095/
+# extract file to specific directory
+tar xvf foobar-cursor-theme.tar.gz -C ~/.local/share/icons
+
+# step 2
+# create index.theme file
+mkdir ~/.icons/default
+touch ~/.icons/default/index.theme
+
+# step 3
+# add the following text to the index.theme file
+```
+[Icon Theme]
+Inherits=volantes_cursors
+```

@@ -22,6 +22,7 @@ let
     git
     gnumake # default linux 'make' program
     htop
+    killall
     man-pages
     nix-prefetch-git
     openssh
@@ -153,6 +154,10 @@ in {
     hostName = "michel-x1";
     enableIPv6 = true;
     networkmanager.enable = true;
+    # google DNS
+    #nameservers = [ "8.8.8.8" "8.8.4.4" ];
+    # cloudflare DNS
+    #nameservers = [ "1.1.1.1" "1.0.0.1" ];
   };
 
   # Set your time zone.
