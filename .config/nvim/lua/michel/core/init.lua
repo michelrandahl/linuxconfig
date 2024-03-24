@@ -1,5 +1,6 @@
-require("michel.core.align")
-require("michel.core.autocenter")
+require("michel.custom.align")
+require("michel.custom.autocenter")
+require("michel.custom.hover_handling")
 
 -- Set Neovim's shell to use the Bash shell provided by NixOS at a stable path.
 -- This ensures consistent behavior and compatibility when running commands or
