@@ -1,6 +1,15 @@
 local function config()
 end
 
+local function filepath_with_parent()
+  local path = vim.fn.expand('%:p')   -- Get the full path of the current file
+  if path == '' then
+    return '[No Name]'                -- Return '[No Name]' if no file is opened
+  end
+  local modified_path = vim.fn.fnamemodify(path, ':h:t') .. '/' .. vim.fn.expand('%:t')  -- Extract the parent directory and the file name
+  return modified_path                -- Return the modified path
+end
+
 local function init()
   vim.cmd [[
     let g:lightline = {
@@ -13,7 +22,8 @@ local function init()
       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
       \ },
       \ 'component_function': {
-      \   'gitbranch': 'FugitiveHead'
+      \   'gitbranch': 'FugitiveHead',
+      \   'filename': 'v:lua.filepath_with_parent'
       \ },
       \ 'colorscheme': 'powerlineish'
       \ }

@@ -33,26 +33,27 @@ return {
 --      --vim.api.nvim_set_hl(0, "FloatBorder", { bg = darker_bg })
 --    end,
 --  },
---  {
---    "ellisonleao/gruvbox.nvim",
---    --priority = 1000,
---    dependencies = { "rktjmp/lush.nvim" },
---    config = function()
---      --vim.cmd([[colorscheme gruvbox]])
---
---      _G.switch_colorscheme = function()
---        if(vim.opt.background._value == "dark") then
---          vim.opt.background = "light"
---          vim.cmd([[colorscheme gruvbox]])
---        else
---          vim.opt.background = "dark"
---          --vim.cmd([[colorscheme gruvbox]])
---        end
---      end
---      vim.keymap.set("n", '<leader>c', switch_colorscheme, {})
---
---    end,
---  },
+
+  {
+    "ellisonleao/gruvbox.nvim",
+    dependencies = { "rktjmp/lush.nvim" },
+    --config = function()
+    --  --vim.cmd([[colorscheme gruvbox]])
+
+    --  --_G.switch_colorscheme = function()
+    --  --  if(vim.opt.background._value == "dark") then
+    --  --    vim.opt.background = "light"
+    --  --    vim.cmd([[colorscheme gruvbox]])
+    --  --  else
+    --  --    vim.opt.background = "dark"
+    --  --    --vim.cmd([[colorscheme gruvbox]])
+    --  --  end
+    --  --end
+    --  vim.keymap.set("n", '<leader>c', switch_colorscheme, {})
+
+    --end,
+  },
+
   --{
   --  "tanvirtin/monokai.nvim",
   --  --config = function()

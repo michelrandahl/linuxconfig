@@ -3,14 +3,17 @@ local function format_purs_declaration(s)
   local charCount = #s:gsub("⇒", "."):gsub("→", "."):gsub("∀", ".")
   -- we only unfold the type signature if it takes up more than 100 chars in width
   if charCount > 100 then
-    return s
+    -- spreading out the args by inserting newline before each arrow
+    local spread_out = s
       :gsub("::", "\n ::", 1)
       :gsub("%.", "\n  .", 1)
       :gsub("⇒",  "\n  ⇒")
       :gsub("→",  "\n  →")
-      -- fix situations where the previous step has added a newline inside a function signature
-      -- for example `(a →\n    b)` which we correct to `(a → b)`
-      :gsub("%(([^%)]-)\n[ ]+", "(%1")
+    -- Fix situations where the unfolding added a newline inside function signatures
+    spread_out = spread_out:gsub("%b()", function(block)
+      return block:gsub("\n%s+", "")
+    end)
+    return spread_out
   else
     return s
   end

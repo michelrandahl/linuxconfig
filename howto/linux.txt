@@ -28,3 +28,6 @@ https://wiki.archlinux.org/title/Cursor_themes
 
 # list ports in use
 `$ ss -tulpn`
+
+# `watch` with colors
+watch --color -n 60 "purs-nix test"

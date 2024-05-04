@@ -23,8 +23,8 @@ vim.keymap.set("i", '{', '{}<esc>i')
 vim.keymap.set("i", '`', '``<esc>i')
 
 -- locking window sizes
-vim.keymap.set("n", '<leader>h', ':set winfixheight!<CR>')
-vim.keymap.set("n", '<leader>w', ':set winfixwidth!<CR>')
+--vim.keymap.set("n", '<leader>h', ':set winfixheight!<CR>')
+--vim.keymap.set("n", '<leader>w', ':set winfixwidth!<CR>')
 
 -- keep the yank buffer intact while pasting over existing content
 -- Keymap command: '\"_dP' breaks down as follows:
@@ -64,6 +64,9 @@ vim.keymap.set("n", '<s-tab>', ":tabprev<cr>")
 vim.keymap.set("n", '<localleader>te', ":tabedit %<cr>")
 vim.keymap.set("n", '<localleader>tc', ":tabclose<cr>")
 vim.keymap.set("n", '<localleader>tn', ":tabnew<cr>")
+
+-- Stay at the original word when highlighting with *
+vim.keymap.set("n", '<leader>w', "#N", { silent = true })
 
 -- saving current session
 vim.keymap.set("n", '<leader>s', ":mksession!<cr>")
