@@ -31,3 +31,12 @@ https://wiki.archlinux.org/title/Cursor_themes
 
 # `watch` with colors
 watch --color -n 60 "purs-nix test"
+
+# `watch` git commands with colors
+watch --color -n 30 "git diff HEAD --stat --color=always"
+
+# Recover from crashed i3/x11 after hibernation
+# - first switch to non-x11 terminal with: `ctrl + Alt + F2`
+# - then log in and execute the following command
+display=:0 i3-msg restart
+# - then switch back to i3/x11 with: `ctrl + Alt + F7`
