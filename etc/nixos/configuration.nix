@@ -6,7 +6,7 @@
 # by following the symlinks under this directory `ls -l /nix/var/nix/gcroots/auto/`
 # the old builds are called something like `/nix/var/nix/profiles/system-xx-link/`
 
-{ config, pkgs, lib, ... }:
+{ config, pkgs, ... }:
 let
   essentialPackages = with pkgs; [
     _1password # cli tool for password manager
@@ -134,49 +134,15 @@ in {
     allowUnfree = true;
   };
 
-  #nix.gc = {
-  #  automatic = true;
-  #  dates = "weekly";
-  #  options = "--delete-older-than 100d";
-  #};
-
-  # Define a systemd service for nix-collect-garbage
-  systemd.services.nix-gc = {
-    description = lib.mkForce "Garbage collect the Nix store";
-    serviceConfig = {
-      ExecStart = lib.mkForce "${pkgs.nix}/bin/nix-collect-garbage --delete-older-than 100d";
-      Type = "oneshot";
-    };
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 100d";
   };
 
-  # Timer for nix-gc
-  systemd.timers.nix-gc = {
-    description = lib.mkForce "Weekly Nix store garbage collection";
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnCalendar = "Mon *-*-* 03:00:00";
-      Persistent = true;
-    };
-  };
-
-  # Define a systemd service for nix-store --optimise
-  systemd.services.nix-store-optimise = {
-    description = "Optimise the Nix store";
-    serviceConfig = {
-      ExecStartPre = "${pkgs.systemd}/bin/systemctl is-active nix-gc.service || ${pkgs.systemd}/bin/systemctl start nix-gc.service";
-      ExecStart = "${pkgs.nix}/bin/nix-store --optimise";
-      Type = "oneshot";
-    };
-  };
-
-  # Define a systemd timer to trigger the nix-store-optimise service weekly
-  systemd.timers.nix-store-optimise = {
-    description = "Weekly Nix store optimisation";
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnCalendar = "Tue *-*-* 03:00:00";
-      Persistent = true;
-    };
+  nix.optimise = {
+    automatic = true;
+    dates = ["weekly"];
   };
 
   # Use the systemd-boot EFI boot loader.
