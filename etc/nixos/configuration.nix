@@ -212,7 +212,7 @@ in {
     udev.extraRules = ''
       # CMSIS-DAP for microbit
       SUBSYSTEM=="usb", ATTR{idVendor}=="0d28", ATTR{idProduct}=="0204", MODE:="666"
-      # STM32 NUCLEO-L073RZ development
+      # STM32 NUCLEO-L073RZ development and STM32 NUCLEO-F303ZE development
       SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="374b", MODE:="666"
 
       # zsa keyboards

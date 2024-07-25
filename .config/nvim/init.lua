@@ -80,3 +80,23 @@ local function copy_messages_to_clipboard()
   print("Messages copied to clipboard.")
 end
 vim.keymap.set("n", '<leader>x', copy_messages_to_clipboard)
+
+-- Define a keybinding to paste over the current word while preserving the default copy buffer
+vim.api.nvim_set_keymap('n', '<leader>p', 'ciw<c-r>0<esc>', { noremap = true, silent = true })
+
+vim.keymap.set('n', '<localleader>fc', function()
+    -- Get the relative path
+    local path = vim.fn.fnamemodify(vim.fn.expand('%'), ':.')
+    
+    -- Get the current filetype
+    local filetype = vim.bo.filetype
+    
+    -- Determine the comment string based on filetype
+    local comment_string = vim.bo.commentstring or '# %s'
+    
+    -- Format the comment
+    local comment = string.format(comment_string, 'File: ' .. path)
+    
+    -- Insert the comment at the top of the file
+    vim.api.nvim_buf_set_lines(0, 0, 0, false, {comment, ''})
+end, { noremap = true, silent = true })

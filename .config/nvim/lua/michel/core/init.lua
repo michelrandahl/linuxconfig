@@ -17,6 +17,12 @@ vim.cmd [[
   augroup END
 ]]
 
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    vim.o.conceallevel = 0
+  end,
+})
+
 vim.g.mapleader = " "
 vim.g.maplocalleader = ";"
 
