@@ -28,6 +28,7 @@ let
     openssh
     openssl
     openvpn
+    openresolv
     p7zip
     patchelf # useful tool patching binaries in NixOs when they don't point to correct libraries
     pwgen # password generator tool
@@ -38,6 +39,7 @@ let
     xterm
     zip
     zoxide
+    wireguard-tools
   ];
   pwManager = with pkgs; [
     # `pass`: A password manager that uses GPG for encryption and Git for version control.
@@ -154,11 +156,15 @@ in {
     preLVM = true;
     allowDiscards = true;
   };
+  boot.kernelModules = [ "wireguard" ];
 
   networking = {
     hostName = "michel-x1";
-    enableIPv6 = true;
-    networkmanager.enable = true;
+    #enableIPv6 = true;
+    networkmanager = {
+      enable = true;
+    };
+    wireguard.enable = true;
     # google DNS
     #nameservers = [ "8.8.8.8" "8.8.4.4" ];
     # cloudflare DNS
@@ -230,7 +236,7 @@ in {
     xserver = {
       autorun = true;
       enable = true;
-      layout = "us";
+      xkb.layout = "us";
       displayManager = {
         lightdm.enable = true;
       };
@@ -245,8 +251,9 @@ in {
           sysstat
         ];
       };
-      libinput.enable = true; # touchpad
+      # libinput.enable = true; # touchpad
     };
+    libinput.enable = true; # touchpad
   };
 
   hardware = {
