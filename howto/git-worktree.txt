@@ -1,15 +1,22 @@
-# Note that windows/dotnet doesn't seem to like very long paths so we might want to move the worktrees directory further up
+# Note that windows/dotnet doesn't seem to like very long paths
+# so when on windows/wsl we might want to move the worktrees directory further up
 
 # to list branches, `cd` into one of the branch directories
-git worktree list
+`git worktree list`
 
 # to checkout existing remote branch (note: might need to perform a git fetch first)
-git worktree add ../some-existing-branch some-existing-branch
+`git worktree add ../some-existing-branch some-existing-branch`
 # (NOTE: you can also checkout an old commit, just replace `some-existing-branch` with the commit-sha)
 
 # to create and add a new branch
-git worktree add -b new-branch ../new-branch
+`git worktree add -b new-branch ../new-branch`
 
 # to remove a branch (note: there should be no trailing '/')
-git worktree remove ../new-branch
+`git worktree remove ../new-branch`
 # as opposed to just `rm -rf` this will also remove the branch from local repository
+
+# move all untracked and uncommitted changes to a new branch
+# (say for example if you have been working on main with some experiment that you now want to create a branch with)
+`git stash push --include-untracked`
+# then create a new branch as normally with git worktree and in the new branch dir:
+`git stash pop`
