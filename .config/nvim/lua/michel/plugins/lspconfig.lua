@@ -34,7 +34,7 @@ local function config()
     --}
   }
 
-  config.tsserver.setup { on_attach = on_attach, compilerOptions = { checkJs = true }, filetypes = { "typescript", "typescriptreact", "typescript.tsx", "javascript" } }
+  --config.tsserver.setup { on_attach = on_attach, compilerOptions = { checkJs = true }, filetypes = { "typescript", "typescriptreact", "typescript.tsx", "javascript" } }
 
   config.rust_analyzer.setup{ on_attach = on_attach }
 end
