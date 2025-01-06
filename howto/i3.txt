@@ -1,0 +1,2 @@
+# when an application accidentially is moved to a workspace outside the keypad numbers
+$ i3-msg '[workspace="11"] move workspace current'

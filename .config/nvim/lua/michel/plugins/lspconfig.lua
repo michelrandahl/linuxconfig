@@ -27,16 +27,27 @@ local function config()
 
   config.purescriptls.setup{
     on_attach = on_attach,
-    --settings = {
-    --  purescript = {
-    --    autocompleteAddImport = false,
-    --  }
-    --}
   }
 
   --config.tsserver.setup { on_attach = on_attach, compilerOptions = { checkJs = true }, filetypes = { "typescript", "typescriptreact", "typescript.tsx", "javascript" } }
 
   config.rust_analyzer.setup{ on_attach = on_attach }
+
+  -- Python LSP configuration
+  -- config.pyright.setup{}
+  config.pyright.setup{
+    on_attach = on_attach,
+    settings = {
+      python = {
+        analysis = {
+          autoSearchPaths = true,
+          useLibraryCodeForTypes = true,
+          diagnosticMode = "workspace",
+        },
+        pythonPath = ".venv/bin/python",
+      },
+    },
+  }
 end
 
 return {

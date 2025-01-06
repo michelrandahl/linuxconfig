@@ -48,6 +48,10 @@ vim.keymap.set("i", '<M-/>', "<esc>A?;<esc>")
 
 vim.api.nvim_set_keymap('v', '<localleader>a', ':lua align_text(vim.fn.input("Align by character: "))<CR>', { noremap = true, silent = true })
 
+vim.api.nvim_set_keymap('n', '<leader><TAB>', '<cmd>CenterMain<CR>',  { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader><CR>', '<cmd>FocusMain<CR>',    { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader><BS>', '<cmd>UnfocusMain<CR>', { noremap = true, silent = true })
+
 -- `Q` in neovim repeats the last macro.
 -- With some keyboards (for example my laptop keyboard), shift acts a bit sluggish at times
 -- which accidentially can result in triggering this functionality.
@@ -100,3 +104,6 @@ vim.keymap.set('n', '<localleader>fc', function()
     -- Insert the comment at the top of the file
     vim.api.nvim_buf_set_lines(0, 0, 0, false, {comment, ''})
 end, { noremap = true, silent = true })
+
+
+--vim.lsp.buf_request_all = 30000  -- 30 second timeout

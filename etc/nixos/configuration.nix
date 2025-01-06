@@ -221,6 +221,9 @@ in {
       # STM32 NUCLEO-L073RZ development and STM32 NUCLEO-F303ZE development
       SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="374b", MODE:="666"
 
+      # olimex programmer
+      SUBSYSTEM=="usb", ATTR{idVendor}=="15ba", ATTR{idProduct}=="002b", MODE:="666"
+
       # zsa keyboards
       KERNEL=="hidraw*", ATTRS{idVendor}=="3297", MODE="0664", GROUP="plugdev"
       # Rule for all ZSA keyboards
@@ -229,6 +232,9 @@ in {
       SUBSYSTEM=="usb", ATTR{idVendor}=="3297", ATTR{idProduct}=="1977", GROUP="plugdev"
       # Keymapp Flashing rules for the Voyager
       SUBSYSTEMS=="usb", ATTRS{idVendor}=="3297", MODE:="0666", SYMLINK+="ignition_dfu"
+
+      # PicoScope 2000 series
+      SUBSYSTEM=="usb", ATTR{idVendor}=="0ce9", ATTR{idProduct}=="1007", MODE="0666", GROUP="plugdev"
     '';
     openssh.enable = true;
     acpid.enable = true; # power management utility
@@ -257,6 +263,8 @@ in {
   };
 
   hardware = {
+    #pipewire.enable = false;
+
     keyboard.zsa.enable = true;
     pulseaudio = {
       enable = true;
@@ -266,6 +274,8 @@ in {
     enableAllFirmware = true;
     opengl.enable = true;
   };
+  # temporarely disabling pipewire so I can continue to use pulseaudio for a while
+  services.pipewire.enable = false;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.michel = {

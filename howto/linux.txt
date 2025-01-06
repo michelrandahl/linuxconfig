@@ -40,3 +40,6 @@ watch --color -n 30 "git diff HEAD --stat --color=always"
 # - then log in and execute the following command
 display=:0 i3-msg restart
 # - then switch back to i3/x11 with: `ctrl + Alt + F7`
+
+# list files with their full directory path prefixed
+ls -d $PWD
