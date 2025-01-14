@@ -18,6 +18,7 @@ magenta= "#a00095"
 cyan=    "#2e852a"
 white=   "#bbbbbb"
 
+
 [colors.primary]
 background = "#f8f8f8"
 foreground = "#2a2b33"

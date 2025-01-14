@@ -6,8 +6,8 @@ vim.cmd [[
 ]]
 
 local current_time = os.date("*t")
-local eight_am = { hour = 8, min = 0, sec = 0 }
-local six_pm = { hour = 18, min = 0, sec = 0 }
+local morning = { hour = 8, min = 30, sec = 0 }
+local evening = { hour = 15, min = 0, sec = 0 }
 
 -- Function to compare two times
 local function is_after(time1, time2)
@@ -28,7 +28,7 @@ local function is_between(time, start_time, end_time)
   return is_after(time, start_time) and not is_after(time, end_time)
 end
 
-if is_between(current_time, eight_am, six_pm) then
+if is_between(current_time, morning, evening) then
   vim.opt.background = "light"
   vim.cmd('colorscheme daylight')
 else
