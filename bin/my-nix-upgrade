@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
 
+# Pull the latest changes from the remote nixpkgs repository
+echo "Updating local nixpkgs repository..."
+pushd /home/michel/Code/nixpkgs
+git pull
+popd
+echo "Local nixpkgs repository updated."
+
 nix-channel --update
-NIXPKGS_ALLOW_UNFREE=1 nix profile upgrade '.*' --impure
+NIXPKGS_ALLOW_UNFREE=1 nix profile upgrade --all --impure
