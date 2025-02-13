@@ -235,6 +235,9 @@ in {
 
       # PicoScope 2000 series
       SUBSYSTEM=="usb", ATTR{idVendor}=="0ce9", ATTR{idProduct}=="1007", MODE="0666", GROUP="plugdev"
+
+      # ASUS BT500 Bluetooth adapter
+      SUBSYSTEM=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="190e", MODE="0666", GROUP="plugdev"
     '';
     openssh.enable = true;
     acpid.enable = true; # power management utility

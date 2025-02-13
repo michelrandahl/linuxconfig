@@ -77,6 +77,10 @@ vim.keymap.set("n", '<leader>s', ":mksession!<cr>")
 -- loading current session
 vim.keymap.set("n", '<leader>l', ":so Session.vim<cr>")
 
+
+vim.keymap.set("n", '<C-,>', "<C-o>")
+vim.keymap.set("n", '<C-.>', "<C-i>")
+
 -- utility function, especially useful when working on nvim plugins or config
 local function copy_messages_to_clipboard()
   local messages = vim.api.nvim_exec("messages", true)
