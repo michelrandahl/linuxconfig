@@ -3,4 +3,4 @@
 eval $(op signin --account my.1password.com)
 
 #op item get "personal-gh-token" --fields password | xclip -selection c
-op item get "github-token" --fields credential --reveal | xclip -selection c
+op item get "Codeberg" --fields password --reveal | xclip -selection c

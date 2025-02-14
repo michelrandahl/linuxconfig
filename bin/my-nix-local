@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+nix-shell -I nixpkgs=/home/michel/Code/nixpkgs -p $1

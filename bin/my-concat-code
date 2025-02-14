@@ -1,13 +1,31 @@
 #!/usr/bin/env bash
 
-# Check if an argument is provided
-if [ $# -eq 0 ]; then
-    echo "Usage: $0 <file_extension>"
+# Check if correct number of arguments is provided
+if [ "$#" -ne 2 ]; then
+    echo "Usage: $0 <directory> <file_extension>"
+    echo "Example: $0 ./src .rs"
     exit 1
 fi
 
-# Assign the first argument to a variable
-file_extension="$1"
+DIRECTORY=$1
+EXTENSION=$2
 
-# Use the variable in the find command
-find . -type f -name "*.$file_extension" ! -path '*/target/*' -print0 | xargs -0 -I {} sh -c 'echo "// {}" >> output.file; cat {} >> output.file'
+# Remove leading dot from extension if present
+EXTENSION=${EXTENSION#.}
+
+# Check if directory exists
+if [ ! -d "$DIRECTORY" ]; then
+    echo "Error: Directory '$DIRECTORY' does not exist"
+    exit 1
+fi
+
+# Find all files with given extension recursively under the specified directory
+find "$DIRECTORY" -name "*.$EXTENSION" -type f | while read -r file; do
+    # Print the filename as a comment
+    echo "// File: $file"
+    echo
+    # Print the contents of the file
+    cat "$file"
+    echo
+    echo
+done

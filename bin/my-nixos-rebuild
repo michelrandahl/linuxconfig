@@ -12,4 +12,4 @@ if [ "$CURRENT_HOSTNAME" != "$EXPECTED_HOSTNAME" ]; then
     exit 1
 fi
 
-sudo nixos-rebuild switch --upgrade -I nixos-config=/home/michel/Code/linuxconfig/etc/nixos/configuration.nix
+sudo nixos-rebuild switch -I nixos-config=/home/michel/Code/linuxconfig/etc/nixos/configuration.nix
