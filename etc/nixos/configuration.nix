@@ -9,7 +9,8 @@
 { config, pkgs, ... }:
 let
   essentialPackages = with pkgs; [
-    _1password # cli tool for password manager
+    # _1password # cli tool for password manager
+    _1password-cli # cli tool for password manager
     acpilight
     alacritty # terminal with vim bindings
     baobab # tool for visualizing disk usage
@@ -27,7 +28,7 @@ let
     nix-prefetch-git
     openssh
     openssl
-    openvpn
+    #openvpn
     openresolv
     p7zip
     patchelf # useful tool patching binaries in NixOs when they don't point to correct libraries
@@ -39,7 +40,9 @@ let
     xterm
     zip
     zoxide
-    wireguard-tools
+    #wireguard-tools
+    xorg.xmodmap # used to repurpose caps-lock key to be used as super key
+    tldr # brief man-pages
   ];
   pwManager = with pkgs; [
     # `pass`: A password manager that uses GPG for encryption and Git for version control.
@@ -55,10 +58,11 @@ let
     pinentry
   ];
   audioPackages = with pkgs; [
-    jack2
-    pavucontrol
-    qjackctl
+    #jack2
+    #pavucontrol
+    #qjackctl
     spotify
+    ncpamixer # TUI for handling audio
   ];
   audioTools = with pkgs; [
     audacity
@@ -81,17 +85,17 @@ let
   ];
   developerPackages = with pkgs; [
     direnv # tool for automatically sourcing '.envrc' in directories
-    docker
+    #docker
     graphviz
     jq
     lua
     python3
     ruplacer # tool for easy search and replace in code `ruplacer <word> <word-replacement>`
-    silver-searcher
+    silver-searcher # use `ag` to grep through code bases
     yq # jq equivalent for yaml files.. Also contains `xq` for xml
   ];
   miscPackages = with pkgs; [
-    brave
+    brave # browser
     feh # set background wallpaper
     gimp
     google-chrome
@@ -102,7 +106,7 @@ let
     picom # window compositor for transparency
     poppler_utils # contains the tool pdfunite for appending pdf documents
     qiv # image viewer
-    qutebrowser # browser with vim bindings
+    #qutebrowser # browser with vim bindings
     scrot # screenshot program
     vlc # video player
     xcalib
@@ -160,7 +164,6 @@ in {
 
   networking = {
     hostName = "michel-x1";
-    #enableIPv6 = true;
     networkmanager = {
       enable = true;
     };
@@ -176,12 +179,12 @@ in {
 
   programs.direnv.enable = true;
   programs.java.enable = true;
+  programs.bash = {
+    shellAliases = {
+      audio = "ncpamixer";
+    };
+  };
   # programs.nix-ld.enable = true;
-
-  # this oracle Virtualbox takes ages to install, lets find another way to use it?
-  # virtualisation.virtualbox.host.enable = true;
-  # virtualisation.virtualbox.host.enableExtensionPack = true;
-  # virtualisation.docker.enable = true;
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -269,16 +272,27 @@ in {
     #pipewire.enable = false;
 
     keyboard.zsa.enable = true;
-    pulseaudio = {
-      enable = true;
-      package = pkgs.pulseaudioFull;
-    };
+    #pulseaudio = {
+    #  enable = true;
+    #  package = pkgs.pulseaudioFull;
+    #};
     bluetooth.enable = true;
     enableAllFirmware = true;
-    opengl.enable = true;
+    # opengl.enable = true;
+    graphics.enable = true; # replacement for `opengl.enable = true;`
+
+    pulseaudio.enable = false; # experimenting with using pipewire instead of pulseaudio
   };
   # temporarely disabling pipewire so I can continue to use pulseaudio for a while
-  services.pipewire.enable = false;
+  #services.pipewire.enable = false;
+  services.pipewire = {
+    enable = true;
+    # enabling compatibility layers
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    jack.enable = true;
+  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.michel = {
@@ -299,6 +313,7 @@ in {
     ]; 
   };
 
+  security.rtkit.enable = true; # give privileges to audio processing to avoid lag
   security.sudo = {
     enable = true;
     configFile = ''
