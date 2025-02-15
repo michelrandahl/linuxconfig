@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+source ~/.btconfig
+
+bluetoothctl <<EOF
+select $BT_CONTROLLER_MAC
+power on
+connect $BT_HEADPHONES_MAC
+EOF

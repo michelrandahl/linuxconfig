@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+source ~/.btconfig
+
+bluetoothctl <<EOF
+select $BT_CONTROLLER_MAC
+disconnect $BT_HEADPHONES_MAC
+EOF
