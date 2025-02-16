@@ -1,0 +1,11 @@
+# extract public key
+```
+$ gpg --armor --export michelrandahl@proton.me
+```
+
+# setup gpg and pinentry to use terminal prompt
+```
+[michel@michel-x1:~/.gnupg]$ cat gpg-agent.conf 
+pinentry-program /run/current-system/sw/bin/pinentry-tty
+pinentry-mode loopback
+```

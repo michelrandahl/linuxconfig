@@ -9,7 +9,6 @@
 { config, pkgs, ... }:
 let
   essentialPackages = with pkgs; [
-    # _1password # cli tool for password manager
     _1password-cli # cli tool for password manager
     acpilight
     alacritty # terminal with vim bindings
@@ -26,43 +25,26 @@ let
     killall
     man-pages
     nix-prefetch-git
+    openresolv
     openssh
     openssl
-    #openvpn
-    openresolv
     p7zip
     patchelf # useful tool patching binaries in NixOs when they don't point to correct libraries
+    pinentry-tty # used in conjunction with gnupg (gpg) for signing git commits
     pwgen # password generator tool
+    tldr # brief man-pages
     tree # view directory and file strucutes as tree in terminal
     unzip
     usbutils
     wget
+    xorg.xmodmap # used to repurpose caps-lock key to be used as super key
     xterm
     zip
-    zoxide
-    #wireguard-tools
-    xorg.xmodmap # used to repurpose caps-lock key to be used as super key
-    tldr # brief man-pages
-  ];
-  pwManager = with pkgs; [
-    # `pass`: A password manager that uses GPG for encryption and Git for version control.
-    # It's the core utility for managing passwords in this setup.
-    pass
-
-    # `gnupg`: GNU Privacy Guard, a complete implementation of the OpenPGP standard.
-    # Required for the encryption and decryption of passwords stored by `pass`.
-    gnupg
-
-    # `pinentry`: A collection of simple PIN or passphrase entry dialogs which GnuPG uses for passphrase entry.
-    # Required to securely enter passphrases for GPG keys used by `pass`.
-    pinentry
+    zoxide # a change-directory (cd) alternative with the command `z`
   ];
   audioPackages = with pkgs; [
-    #jack2
-    #pavucontrol
-    #qjackctl
-    spotify
     ncpamixer # TUI for handling audio
+    spotify
   ];
   audioTools = with pkgs; [
     audacity
@@ -85,8 +67,6 @@ let
   ];
   developerPackages = with pkgs; [
     direnv # tool for automatically sourcing '.envrc' in directories
-    #docker
-    graphviz
     jq
     lua
     python3
@@ -102,11 +82,10 @@ let
     inkscape
     libreoffice
     pciutils
-    picocom
+    picocom # communicate with external embedded stuff
     picom # window compositor for transparency
     poppler_utils # contains the tool pdfunite for appending pdf documents
     qiv # image viewer
-    #qutebrowser # browser with vim bindings
     scrot # screenshot program
     vlc # video player
     xcalib
@@ -184,7 +163,11 @@ in {
       audio = "ncpamixer";
     };
   };
-  # programs.nix-ld.enable = true;
+  programs.gnupg.agent = {
+    enable = true;
+    pinentryPackage = pkgs.pinentry-tty;
+  };
+  programs.ssh.startAgent = true;
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -193,7 +176,6 @@ in {
   fonts = {
     fontDir.enable = true;
     enableGhostscriptFonts = true;
-    # fonts = with pkgs; [
     packages = with pkgs; [
       source-code-pro
       dejavu_fonts
@@ -263,28 +245,18 @@ in {
           sysstat
         ];
       };
-      # libinput.enable = true; # touchpad
     };
     libinput.enable = true; # touchpad
   };
 
   hardware = {
-    #pipewire.enable = false;
-
     keyboard.zsa.enable = true;
-    #pulseaudio = {
-    #  enable = true;
-    #  package = pkgs.pulseaudioFull;
-    #};
     bluetooth.enable = true;
     enableAllFirmware = true;
-    # opengl.enable = true;
     graphics.enable = true; # replacement for `opengl.enable = true;`
 
     pulseaudio.enable = false; # experimenting with using pipewire instead of pulseaudio
   };
-  # temporarely disabling pipewire so I can continue to use pulseaudio for a while
-  #services.pipewire.enable = false;
   services.pipewire = {
     enable = true;
     # enabling compatibility layers
