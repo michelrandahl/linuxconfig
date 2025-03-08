@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+source ~/.btconfig
+
+INIT_SCRIPT=$(mktemp)
+cat <<EOF > "$INIT_SCRIPT"
+select $BT_CONTROLLER_MAC
+power on
+EOF
+
+# Start bluetoothctl with the init script
+bluetoothctl --init-script "$INIT_SCRIPT"
