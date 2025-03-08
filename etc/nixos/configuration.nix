@@ -9,14 +9,10 @@
 { config, pkgs, ... }:
 let
   essentialPackages = with pkgs; [
-    _1password-cli # cli tool for password manager
     acpilight
     alacritty # terminal with vim bindings
-    baobab # tool for visualizing disk usage
     brightnessctl
-    csvkit # handy terminal tools such as `csvlook`
     curl
-    entr # program that can perform actions on file changes
     file # cli tool for reading file metadata
     gcc
     git
@@ -28,11 +24,7 @@ let
     openresolv
     openssh
     openssl
-    p7zip
     patchelf # useful tool patching binaries in NixOs when they don't point to correct libraries
-    pinentry-tty # used in conjunction with gnupg (gpg) for signing git commits
-    pwgen # password generator tool
-    tldr # brief man-pages
     tree # view directory and file strucutes as tree in terminal
     unzip
     usbutils
@@ -40,12 +32,13 @@ let
     xorg.xmodmap # used to repurpose caps-lock key to be used as super key
     xterm
     zip
-    zoxide # a change-directory (cd) alternative with the command `z`
   ];
+
   audioPackages = with pkgs; [
-    ncpamixer # TUI for handling audio
+    ncpamixer # TUI for handling audio volumes, used with the new pipewire setup
     spotify
   ];
+
   audioTools = with pkgs; [
     audacity
     #baudline # spectogram viewer
@@ -53,45 +46,68 @@ let
     ffmpeg
     #vcv-rack
   ];
+
   # sudo -i nix-channel --add https://nixos.org/channels/nixpkgs-unstable unstable
   # sudo -i nix-channel --update unstable
+
   unstable = import "/nix/var/nix/profiles/per-user/root/channels/unstable" {};
+
   unstable_packages = with unstable; [
     xclip
   ];
+
   neovimParsers = pkgs.tree-sitter.withPlugins (_: pkgs.tree-sitter.allGrammars);
+
   editorPackages = with pkgs; [
     neovimParsers
     neovim
     ripgrep # `rg`, grep tool used neovim telescope plugin
   ];
-  developerPackages = with pkgs; [
-    direnv # tool for automatically sourcing '.envrc' in directories
-    jq
+
+  programmingLanguages = with pkgs; [
     lua
     python3
+  ];
+
+  terminalTools = with pkgs; [
+    csvkit # handy terminal tools such as `csvlook`
+    direnv # tool for automatically sourcing '.envrc' in directories
+    entr # program that can perform actions on file changes
+    jq
+    picocom # communicate with external embedded stuff
+    pwgen # password generator tool
+    ranger # a TUI filemanager
     ruplacer # tool for easy search and replace in code `ruplacer <word> <word-replacement>`
     silver-searcher # use `ag` to grep through code bases
+    tldr # brief man-pages
     yq # jq equivalent for yaml files.. Also contains `xq` for xml
+    zoxide # a change-directory (cd) alternative with the command `z`
   ];
-  miscPackages = with pkgs; [
+
+  guiPrograms = with pkgs; [
+    baobab # tool for visualizing disk usage
     brave # browser
-    feh # set background wallpaper
     gimp
-    google-chrome
     inkscape
     libreoffice
-    pciutils
-    picocom # communicate with external embedded stuff
-    picom # window compositor for transparency
-    poppler_utils # contains the tool pdfunite for appending pdf documents
     qiv # image viewer
-    scrot # screenshot program
     vlc # video player
-    xcalib
-    xz # file compression tool
     zathura # pdf reader
   ];
+
+  miscPackages = with pkgs; [
+    _1password-cli # cli tool for password manager
+    feh # set background wallpaper
+    p7zip
+    pciutils
+    picom # window compositor for transparency
+    pinentry-tty # used in conjunction with gnupg (gpg) for signing git commits
+    poppler_utils # contains the tool pdfunite for appending pdf documents
+    scrot # screenshot program
+    xcalib
+    xz # file compression tool
+  ];
+
 in {
   imports =
     [ # Include the results of the hardware scan.
@@ -139,18 +155,19 @@ in {
     preLVM = true;
     allowDiscards = true;
   };
-  boot.kernelModules = [ "wireguard" ];
+  # boot.kernelModules = [ "wireguard" ];
 
   networking = {
     hostName = "michel-x1";
     networkmanager = {
       enable = true;
+      dns = "default";
     };
-    wireguard.enable = true;
-    # google DNS
-    #nameservers = [ "8.8.8.8" "8.8.4.4" ];
-    # cloudflare DNS
-    #nameservers = [ "1.1.1.1" "1.0.0.1" ];
+    #enableIPv6 = false;
+    # DNS 9.9.9.9 from Quad9 which is a Swiss-based non-profit organization
+    # DNS 91.239.100.100 from UncensoredDNS based in Denmark
+    # DNS 1.1.1.1 is cloudflare
+    nameservers = [ "91.239.100.100" "9.9.9.9" "1.1.1.1" ];
   };
 
   # Set your time zone.
@@ -239,7 +256,7 @@ in {
         extraPackages = with pkgs; [
           dmenu
           i3blocks
-          i3lock
+          i3lock-color
           i3status
           acpi
           sysstat
@@ -299,7 +316,9 @@ in {
     systemPackages =
       essentialPackages ++
       editorPackages ++
-      developerPackages ++
+      programmingLanguages ++
+      guiPrograms ++
+      terminalTools ++
       audioPackages ++
       audioTools ++
       miscPackages ++
