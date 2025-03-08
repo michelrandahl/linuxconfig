@@ -24,8 +24,13 @@ font pango:monospace 14
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
-bindsym $mod+shift+x exec --no-startup-id sleep 1 && xset dpms force suspend
+#exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+
+# Simply turn off the screen
+# bindsym $mod+shift+x exec --no-startup-id sleep 1 && xset dpms force suspend
+
+# Lock screen and turn off screen
+bindsym $mod+shift+x exec --no-startup-id sh -c 'setxkbmap us && i3lock-color --blur 10 --clock --radius 300 --ring-width 28.0 --ignore-empty-password --show-failed-attempts && sleep 15 && xset dpms force suspend'
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
@@ -212,5 +217,7 @@ bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
 exec --no-startup-id setxkbmap -option 'caps:hyper'
 exec --no-startup-id xmodmap -e "remove mod3 = Hyper_L" -e "add mod4 = Hyper_L"
 
-exec --no-startup-id picom --backend glx -b
+# to get transparent terminal windows
+exec --no-startup-id picom --backend xrender -b
+
 exec --no-startup-id feh --bg-center /home/michel/wallpapers/Shark_Kennedy_4176-rotated.jpg
