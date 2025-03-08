@@ -7,5 +7,4 @@ $ gpg --armor --export michelrandahl@proton.me
 ```
 [michel@michel-x1:~/.gnupg]$ cat gpg-agent.conf 
 pinentry-program /run/current-system/sw/bin/pinentry-tty
-pinentry-mode loopback
 ```

@@ -1,0 +1,4 @@
+# after experimenting with VPN, nothing works
+- check if /etc/resolv.conf looks okay.
+- try pinging nameserver `ping 8.8.8.8`
+- check `nmcli connection show` and if it contains any vpn stuff then `nmcli connection delete pvpn-ipv6leak-protection`
