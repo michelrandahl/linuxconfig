@@ -10,6 +10,8 @@ require("michel.custom.layout_mgmt")
 -- potentially resolving issues related to command execution or terminal rendering.
 vim.o.shell = "/run/current-system/sw/bin/bash"
 
+vim.o.winborder = 'rounded'
+
 -- keep terminal buffers open in background
 vim.cmd [[
   augroup custom_term

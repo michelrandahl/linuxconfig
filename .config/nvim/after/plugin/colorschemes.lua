@@ -6,8 +6,8 @@ vim.cmd [[
 ]]
 
 local current_time = os.date("*t")
-local morning = { hour = 7, min = 0, sec = 0 }
-local evening = { hour = 18, min = 0, sec = 0 }
+local morning = { hour = 6, min = 0, sec = 0 }
+local evening = { hour = 17, min = 30, sec = 0 }
 
 -- Function to compare two times
 local function is_after(time1, time2)
