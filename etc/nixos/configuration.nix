@@ -40,11 +40,13 @@ let
   ];
 
   audioTools = with pkgs; [
-    audacity
-    #baudline # spectogram viewer
     #bitwig-studio
-    ffmpeg
     #vcv-rack
+    alsa-utils # provides the `aplay` tool
+    audacity
+    ffmpeg
+    mediainfo
+    sonic-visualiser
   ];
 
   # sudo -i nix-channel --add https://nixos.org/channels/nixpkgs-unstable unstable
@@ -100,6 +102,7 @@ let
     feh # set background wallpaper
     p7zip
     pciutils
+    pcmanfm # light-weight GUI filemanager for the rare occasion when its needed
     picom # window compositor for transparency
     pinentry-tty # used in conjunction with gnupg (gpg) for signing git commits
     poppler_utils # contains the tool pdfunite for appending pdf documents
@@ -198,7 +201,7 @@ in {
       dejavu_fonts
       ipafont
       corefonts
-      (nerdfonts.override { fonts = [ "Hack" ]; })
+      (nerdfonts.override { fonts = [ "Hack" "SourceCodePro" ]; })
     ];
     fontconfig.defaultFonts = {
       monospace = [
