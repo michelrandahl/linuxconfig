@@ -108,6 +108,3 @@ vim.keymap.set('n', '<localleader>fc', function()
     -- Insert the comment at the top of the file
     vim.api.nvim_buf_set_lines(0, 0, 0, false, {comment, ''})
 end, { noremap = true, silent = true })
-
-
---vim.lsp.buf_request_all = 30000  -- 30 second timeout

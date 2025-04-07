@@ -54,3 +54,13 @@ vim.opt.splitright = true
 
 -- don't show inline warning and error messages
 vim.diagnostic.config({virtual_text = false})
+
+-- Automatically create directories when saving a file in a directory that does not exist yet.
+-- (especially useful when working with Neorg)
+vim.api.nvim_create_autocmd("BufWritePre", {
+  group = vim.api.nvim_create_augroup("auto_create_dir", { clear = true }),
+  callback = function(event)
+    local file = vim.loop.fs_realpath(event.match) or event.match
+    vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
+  end
+})
