@@ -141,7 +141,7 @@ in {
   nix.gc = {
     automatic = true;
     dates = "weekly";
-    options = "--delete-older-than 100d";
+    options = "--delete-older-than 60d";
   };
 
   nix.optimise = {
@@ -271,7 +271,14 @@ in {
 
   hardware = {
     keyboard.zsa.enable = true;
-    bluetooth.enable = true;
+    bluetooth = {
+      enable = true;
+      settings = {
+        General = {
+          Enable = "Source,Sink,Media,Socket";
+        };
+      };
+    };
     enableAllFirmware = true;
     graphics.enable = true; # replacement for `opengl.enable = true;`
 
@@ -281,9 +288,10 @@ in {
     enable = true;
     # enabling compatibility layers
     alsa.enable = true;
-    alsa.support32Bit = true;
+    alsa.support32Bit = true; # TODO needed?
     pulse.enable = true;
     jack.enable = true;
+    wireplumber.enable = true;
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -356,4 +364,3 @@ in {
   system.stateVersion = "22.05"; # Did you read the comment?
 
 }
-
