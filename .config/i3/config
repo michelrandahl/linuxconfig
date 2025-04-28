@@ -30,7 +30,9 @@ font pango:monospace 14
 # bindsym $mod+shift+x exec --no-startup-id sleep 1 && xset dpms force suspend
 
 # Lock screen and turn off screen
-bindsym $mod+shift+x exec --no-startup-id sh -c 'setxkbmap us && my-caps-super && i3lock-color --blur 10 --clock --radius 300 --ring-width 28.0 --ignore-empty-password --show-failed-attempts && sleep 15 && xset dpms force suspend'
+# bindsym $mod+shift+x exec --no-startup-id sh -c 'setxkbmap us && my-caps-super && i3lock-color --blur 10 --clock --radius 300 --ring-width 28.0 --ignore-empty-password --show-failed-attempts && sleep 15 && xset dpms force suspend'
+# Note the version above uses `my-caps-super` and runs more slowly, the version below uses `-option`
+bindsym $mod+shift+x exec --no-startup-id sh -c 'setxkbmap us -option "caps:super" && i3lock-color --blur 10 --clock --radius 300 --ring-width 28.0 --ignore-empty-password --show-failed-attempts && sleep 15 && xset dpms force suspend'
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
@@ -207,8 +209,12 @@ new_window 1pixel
 for_window [class="^.*"] border pixel 7
 hide_edge_borders smart
 
-bindsym $mod+shift+u exec setxkbmap us
-bindsym $mod+shift+i exec setxkbmap dk
+# bindsym $mod+shift+u exec setxkbmap us
+# bindsym $mod+shift+i exec setxkbmap dk
+# bindsym $mod+shift+u exec --no-startup-id sh -c 'setxkbmap us && my-caps-super'
+# bindsym $mod+shift+i exec --no-startup-id sh -c 'setxkbmap dk && my-caps-super'
+bindsym $mod+shift+u exec --no-startup-id setxkbmap us -option "caps:super"
+bindsym $mod+shift+i exec --no-startup-id setxkbmap dk -option "caps:super"
 
 bindsym XF86MonBrightnessUp exec brightnessctl set +5%
 bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
