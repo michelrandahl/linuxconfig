@@ -1,8 +1,14 @@
 local function config()
-  vim.keymap.set("n", '<leader>i', ':IndentLinesToggle<CR>')
+  require("ibl").setup {
+    exclude = {
+      -- Exclude Neorg files
+      filetypes = { "norg" }
+    }
+  }
 end
 
 return {
-  'Yggdroot/indentLine',
-  config = config
+    "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
+    config = config
 }

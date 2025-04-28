@@ -20,5 +20,9 @@ require("lazy").setup({
   'chrisbra/csv.vim',
 
   'michelrandahl/simple-vim-surround',
-
+}, {
+  change_detection = {
+    enabled = false, -- or false if you want to fully disable watching
+    notify = false, -- this disables the annoying popups
+  }
 })

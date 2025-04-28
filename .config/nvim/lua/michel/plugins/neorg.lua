@@ -1,7 +1,30 @@
 local function config()
+
   require("neorg").setup({
       load = {
         ["core.defaults"] = {},
+
+        ["core.journal"] = {
+          config = {
+            workspace      = "journal",
+            journal_folder = "",
+            strategy       = "nested",
+            template_name  = "template.norg",
+            use_template   = true,
+          }
+        },
+
+        ["core.dirman"] = {
+          config = {
+            workspaces = {
+                notes   = "~/neorg/notes",
+                journal = "~/neorg/journal",
+                neorg   = "~/neorg"
+            },
+            default_workspace = "neorg",
+          },
+        },
+
         ["core.concealer"] = {
           config = {
             icon_preset = "diamond",
@@ -14,14 +37,23 @@ local function config()
             },
           }
         },
-        ["core.dirman"] = {
+
+        ["core.tempus"] = {},
+        ["core.esupports.metagen"] = {
           config = {
-              workspaces = {
-                  notes = "~/notes",
-              },
+            type = "auto",  -- Generate metadata if not present
+            update_date = true,  -- Update the "updated" field on save
+
+            template = {
+              --{ "title" },
+              { "description" },
+              { "created", function() return os.date("%Y-%m-%d %H:%M") end },
+              { "updated", function() return os.date("%Y-%m-%d %H:%M") end },
+            },
+
           },
-          default_workspace = "~/notes",
         },
+
       }
   })
 

@@ -16,6 +16,7 @@ local function config()
       , "lua"
       , "make"
       , "nix"
+      , "norg"
       , "purescript"
       , "python"
       , "rust"
@@ -43,6 +44,23 @@ local function config()
       -- Instead of true it can also be a list of languages
       additional_vim_regex_highlighting = false,
     },
+
+    fold = {
+      enable = true
+    },
+
+    textobjects = {
+      select = {
+        enable = true,
+        lookahead = true,
+        keymaps = {
+          ["af"] = "@function.outer",
+          ["if"] = "@function.inner",
+          ["ab"] = "@block.outer",
+          ["ib"] = "@block.inner",
+        },
+      },
+    },
   }
 end
 
@@ -53,7 +71,11 @@ local function init()
 end
 
 return {
-  'nvim-treesitter/nvim-treesitter',
-  config = config,
-  init = init
+  { 'nvim-treesitter/nvim-treesitter',
+    config = config,
+    init = init
+  },
+  { 'nvim-treesitter/nvim-treesitter-textobjects',
+    dependencies = {'nvim-treesitter/nvim-treesitter'}
+  }
 }

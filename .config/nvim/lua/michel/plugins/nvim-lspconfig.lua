@@ -1,5 +1,3 @@
--- File: lua/michel/plugins/nvim-lspconfig.lua
-
 local on_attach = function(client, bufnr)
   local telescope_builtin = require('telescope.builtin')
   
@@ -18,26 +16,6 @@ local on_attach = function(client, bufnr)
   vim.keymap.set("n", '<localleader>f', function() vim.lsp.buf.format() end, { buffer = bufnr })
   vim.keymap.set("v", '<localleader>f', function() vim.lsp.buf.range_formatting() end, opts)
   vim.keymap.set("n", '<localleader>a', vim.lsp.buf.code_action, keymap_opts)
-
-  
-  -- Enable built-in autocompletion
-  if client:supports_method('textDocument/completion') then
-    vim.lsp.completion.enable(true, client.id, bufnr, { 
-      autotrigger = true,
-    })
-    -- Simpler keybinding for omnifunc completion
-    --vim.keymap.set("i", "<C-Space>", "<C-x><C-o>", { buffer = bufnr })
-    --vim.keymap.set("i", "<C-j>", "<C-x><C-o>", { buffer = bufnr })
-
-    vim.keymap.set("i", "<C-j>", function()
-      if vim.fn.pumvisible() == 1 then
-        return "<C-n>"  -- Navigate to next item if completion menu is visible
-      else
-        return "<C-x><C-o>"  -- Trigger completion if menu isn't visible
-      end
-    end, { buffer = bufnr, expr = true })
-
-  end
 end
 
 -- Define capabilities - START WITH DEFAULT CAPABILITIES
@@ -48,7 +26,7 @@ capabilities.textDocument.completion.completionItem.snippetSupport = false
 local function config()
   -- Configure diagnostics
   vim.diagnostic.config({
-    virtual_lines = true,
+    virtual_lines = false,
     virtual_text = false,
     signs = true,
     underline = true,
@@ -57,7 +35,7 @@ local function config()
   })
 
   -- Set the border for floating windows
-  vim.o.winborder = 'rounded'
+  --vim.o.winborder = 'rounded'
 
   -- Make sure neoconf loads BEFORE lspconfig
   require("neoconf").setup({

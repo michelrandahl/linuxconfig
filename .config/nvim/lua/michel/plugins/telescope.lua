@@ -7,6 +7,7 @@ local function config()
       layout_config = {
         vertical = { mirror = true },
       },
+      border = false,
     }
   }
 

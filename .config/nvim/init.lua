@@ -48,6 +48,10 @@ vim.keymap.set("i", '<M-/>', "<esc>A?;<esc>")
 
 vim.api.nvim_set_keymap('v', '<localleader>a', ':lua align_text(vim.fn.input("Align by character: "))<CR>', { noremap = true, silent = true })
 
+-- NOTE `conceallevel` means hiding of characters or transforming characters to fancy unicode characters
+vim.api.nvim_set_keymap('n', '<leader>i', ':lua cycle_conceallevel()<CR>', { noremap = true, silent = true })
+vim.opt.conceallevel = 3
+
 vim.api.nvim_set_keymap('n', '<leader><TAB>', '<cmd>CenterMain<CR>',  { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader><CR>', '<cmd>FocusMain<CR>',    { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader><BS>', '<cmd>UnfocusMain<CR>', { noremap = true, silent = true })
@@ -77,7 +81,8 @@ vim.keymap.set("n", '<leader>s', ":mksession!<cr>")
 -- loading current session
 vim.keymap.set("n", '<leader>l', ":so Session.vim<cr>")
 
-
+-- history cursor navigation with , and . instead of o and i
+-- (<C-i> maps to Tab, which we are using for chaning tabs in neovim)
 vim.keymap.set("n", '<C-,>', "<C-o>")
 vim.keymap.set("n", '<C-.>', "<C-i>")
 
@@ -92,19 +97,33 @@ vim.keymap.set("n", '<leader>x', copy_messages_to_clipboard)
 -- Define a keybinding to paste over the current word while preserving the default copy buffer
 vim.api.nvim_set_keymap('n', '<leader>p', 'ciw<c-r>0<esc>', { noremap = true, silent = true })
 
-vim.keymap.set('n', '<localleader>fc', function()
-    -- Get the relative path
-    local path = vim.fn.fnamemodify(vim.fn.expand('%'), ':.')
-    
-    -- Get the current filetype
-    local filetype = vim.bo.filetype
-    
-    -- Determine the comment string based on filetype
-    local comment_string = vim.bo.commentstring or '# %s'
-    
-    -- Format the comment
-    local comment = string.format(comment_string, 'File: ' .. path)
-    
-    -- Insert the comment at the top of the file
-    vim.api.nvim_buf_set_lines(0, 0, 0, false, {comment, ''})
-end, { noremap = true, silent = true })
+-- remapping original word completion to alt-n (because blink-cmp gets in the way)
+vim.keymap.set('i', '<M-n>', '<C-n>', { noremap = true })
+vim.keymap.set('i', '<M-p>', '<C-p>', { noremap = true })
+
+-- Don't save folding information in sessions (they cause issues with treesitter when trying to reload a saved session)
+vim.opt.sessionoptions:remove("folds")
+
+-- This autocommand will run after a session is loaded and:
+-- 1. Make sure treesitter is enabled for syntax highlighting (which often initializes the parsers)
+-- 2. Loop through all valid, non-special buffers
+-- 3. Reset the fold method and fold expression
+-- 4. Force recomputation of folds with zx
+vim.api.nvim_create_autocmd("SessionLoadPost", {
+  callback = function()
+    vim.cmd("TSBufEnable highlight")
+
+    -- Add a delay to give treesitter time to initialize
+    vim.defer_fn(function()
+      for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+        if vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buftype == "" then
+          vim.api.nvim_buf_call(buf, function()
+            vim.wo.foldmethod = "expr"
+            vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
+            vim.cmd("normal! zx")
+          end)
+        end
+      end
+    end, 3000) -- 3seconds delay
+  end
+})
