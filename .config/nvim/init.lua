@@ -83,8 +83,9 @@ vim.keymap.set("n", '<leader>l', ":so Session.vim<cr>")
 
 -- history cursor navigation with , and . instead of o and i
 -- (<C-i> maps to Tab, which we are using for chaning tabs in neovim)
-vim.keymap.set("n", '<C-,>', "<C-o>")
-vim.keymap.set("n", '<C-.>', "<C-i>")
+-- also re-center the screen to the historical navigation
+vim.keymap.set("n", '<C-,>', "<C-o>zz")
+vim.keymap.set("n", '<C-.>', "<C-i>zz")
 
 -- utility function, especially useful when working on nvim plugins or config
 local function copy_messages_to_clipboard()
