@@ -102,24 +102,6 @@ vim.api.nvim_set_keymap('n', '<leader>p', 'ciw<c-r>0<esc>', { noremap = true, si
 vim.keymap.set('i', '<M-n>', '<C-n>', { noremap = true })
 vim.keymap.set('i', '<M-p>', '<C-p>', { noremap = true })
 
--- Remap } in visual line mode to go to the last line of the paragraph
-vim.keymap.set('v', '}', function()
-    if vim.fn.mode() == 'V' then
-        return '}k'
-    else
-        return '}'
-    end
-end, { expr = true })
-
--- Remap { in visual line mode to go to the last line of the paragraph
-vim.keymap.set('v', '{', function()
-    if vim.fn.mode() == 'V' then
-        return '{j'
-    else
-        return '}'
-    end
-end, { expr = true })
-
 -- Don't save folding information in sessions (they cause issues with treesitter when trying to reload a saved session)
 vim.opt.sessionoptions:remove("folds")
 
