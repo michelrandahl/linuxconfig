@@ -24,6 +24,7 @@ let
     openresolv
     openssh
     openssl
+    openvpn
     patchelf # useful tool patching binaries in NixOs when they don't point to correct libraries
     tree # view directory and file strucutes as tree in terminal
     unzip
@@ -109,6 +110,7 @@ let
     scrot # screenshot program
     xcalib
     xz # file compression tool
+    picoscope
   ];
 
 in {
@@ -158,15 +160,22 @@ in {
     preLVM = true;
     allowDiscards = true;
   };
+  boot.kernelModules = [ "usbtmc" ]; # needed by picoscope
   # boot.kernelModules = [ "wireguard" ];
 
   networking = {
+    # enableIPv6 = false; # to get vpn working
+    # Also disable IPv6 on all interfaces
+    # interfaces = {
+    #   wlp2s0.ipv6.addresses = [];
+    # };
+
     hostName = "michel-x1";
     networkmanager = {
       enable = true;
       dns = "default";
     };
-    #enableIPv6 = false;
+
     # DNS 9.9.9.9 from Quad9 which is a Swiss-based non-profit organization
     # DNS 91.239.100.100 from UncensoredDNS based in Denmark
     # DNS 1.1.1.1 is cloudflare
@@ -189,6 +198,19 @@ in {
   };
   programs.ssh.startAgent = true;
 
+  programs.steam = {
+    enable = true;
+    # remotePlay.openFirewall = true; # Optional: allows streaming to other devices
+    # dedicatedServer.openFirewall = true; # Optional: for hosting multiplayer games
+  };
+
+  # Steam requires these for full functionality
+  # hardware.opengl = {
+  #   enable = true;
+  #   # driSupport = true;
+  #   driSupport32Bit = true; # Needed for Steam's 32-bit games
+  # };
+
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
@@ -201,7 +223,9 @@ in {
       dejavu_fonts
       ipafont
       corefonts
-      (nerdfonts.override { fonts = [ "Hack" "SourceCodePro" ]; })
+      nerd-fonts.hack
+      nerd-fonts.sauce-code-pro
+      # (nerdfonts.override { fonts = [ "Hack" "SourceCodePro" ]; })
     ];
     fontconfig.defaultFonts = {
       monospace = [
@@ -243,6 +267,14 @@ in {
 
       # ASUS BT500 Bluetooth adapter
       SUBSYSTEM=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="190e", MODE="0666", GROUP="plugdev"
+
+      # BetaFPV Air65 / STM32 Flight Controllers
+      SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="5740", MODE="0666", GROUP="plugdev"
+      # Also cover the DFU mode (bootloader mode for flashing)
+      SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="df11", MODE="0666", GROUP="plugdev"
+
+      # Radiomaster Pocket Joystick
+      SUBSYSTEM=="usb", ATTR{idVendor}=="1209", ATTR{idProduct}=="4f54", MODE="0666", GROUP="plugdev"
     '';
     openssh.enable = true;
     acpid.enable = true; # power management utility
@@ -280,10 +312,15 @@ in {
       };
     };
     enableAllFirmware = true;
-    graphics.enable = true; # replacement for `opengl.enable = true;`
+    #graphics.enable = true; # replacement for `opengl.enable = true;`
+    graphics = {
+      enable = true;
+      enable32Bit = true;
+    };
 
-    pulseaudio.enable = false; # experimenting with using pipewire instead of pulseaudio
+    # pulseaudio.enable = false; # experimenting with using pipewire instead of pulseaudio
   };
+  services.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;
     # enabling compatibility layers
