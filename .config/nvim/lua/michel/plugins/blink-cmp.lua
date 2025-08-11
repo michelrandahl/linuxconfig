@@ -1,3 +1,5 @@
+-- plugin for handling intellisense
+
 return {
   'saghen/blink.cmp',
   -- optional: provides snippets for the snippet source

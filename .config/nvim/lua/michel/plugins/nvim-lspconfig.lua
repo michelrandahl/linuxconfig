@@ -14,7 +14,17 @@ local on_attach = function(client, bufnr)
     
   -- Use the new format() function for formatting
   vim.keymap.set("n", '<localleader>f', function() vim.lsp.buf.format() end, { buffer = bufnr })
-  vim.keymap.set("v", '<localleader>f', function() vim.lsp.buf.range_formatting() end, opts)
+  -- vim.keymap.set("v", '<localleader>f', function() vim.lsp.buf.range_formatting() end, opts)
+
+  vim.keymap.set("v", '<localleader>f', function()
+    vim.lsp.buf.format({
+      range = {
+        start = vim.fn.getpos("'<"),
+        ["end"] = vim.fn.getpos("'>"),
+      },
+    })
+  end, opts)
+
   vim.keymap.set("n", '<localleader>a', vim.lsp.buf.code_action, keymap_opts)
 end
 
@@ -36,6 +46,11 @@ local function config()
 
   -- Set the border for floating windows
   --vim.o.winborder = 'rounded'
+
+  -- Create LspLog command
+  vim.api.nvim_create_user_command('LspLog', function()
+    vim.cmd('tabnew ' .. vim.lsp.get_log_path())
+  end, {})
 
   -- Make sure neoconf loads BEFORE lspconfig
   require("neoconf").setup({
